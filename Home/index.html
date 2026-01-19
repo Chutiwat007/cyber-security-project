@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ศูนย์การเรียนรู้ความปลอดภัยไซเบอร์ - Cyber Security Awareness</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="main-header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo glitch-effect">
+         Cyber<span>Secure</span>
+</a>
+            <div class="hamburger" id="hamburger-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="index.html" class="nav-item active">หน้าหลัก</a></li>
+                    
+                    <li class="dropdown">
+                        <a href="#curriculum" class="nav-item dropdown-toggle">
+                            บทเรียน <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../ความรู้เกี่ยวกับภัยไซเบอร์และวิธีป้องกัน/intro.html">1. ความรู้เกี่ยวกับภัยไซเบอร์และวิธีป้องกัน</a></li>
+                            <li><a href="../การตั้งรหัสผ่านอย่างปลอดภัย/index.html">2. การตั้งรหัสผ่านอย่างปลอดภัย</a></li>
+                            <li><a href="../การรู้เท่ากันอีเมลและเว็บไซต์ปลอม/index.html">3. การรู้เท่ากันอีเมลและเว็บไซต์ปลอม</a></li>
+                            <li><a href="../การใช้อินเทอร์เน็ตและสื่อสังคมอย่างปลอดภัย/index.html">4. การใช้อินเทอร์เน็ตและสื่อสังคมอย่างปลอดภัย</a></li>
+                            <li><a href="../การป้องกันไวรัสและมัลแวร์/index.html">5. การป้องกันไวรัสและมัลแวร์</a></li>
+                            <li class="divider"></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="../ติดต่อเรา/index.html" class="btn-contact">ติดต่อเรา</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content container">
+            <h1>สร้างภูมิคุ้มกันทาง <span>ดิจิทัล</span></h1>
+            <p>หลักสูตรความปลอดภัยไซเบอร์ฉบับสมบูรณ์ (5 Modules)<br>เรียนรู้ตั้งแต่วิธีป้องกันรหัสผ่าน ไปจนถึงการกำจัดมัลแวร์ระดับสูง</p>
+            <a href="#curriculum" class="btn-primary">เข้าสู่บทเรียน <i class="fas fa-arrow-down"></i></a>
+        </div>
+    </section>
+
+    <section id="curriculum" class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>หลักสูตร 5 บทเรียนหลัก</h2>
+                <p>ครอบคลุมทุกทักษะที่จำเป็นสำหรับการเอาตัวรอดในโลกดิจิทัล</p>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="ค้นหาบทเรียน (เช่น รหัสผ่าน, ไวรัส)...">
+                </div>
+            </div>
+
+            <div class="grid-container">
+                
+                <a href="../ความรู้เกี่ยวกับภัยไซเบอร์และวิธีป้องกัน/intro.html" class="course-card" data-title="ความรู้พื้นฐาน CIA Triad">
+                    <div class="card-image">
+                        <img src="1.jpg" alt="Cyber Security Basics">
+                        <span class="card-badge">บทที่ 1</span>
+                    </div>
+                    <div class="card-info">
+                        <h4>ความรู้เกี่ยวกับภัยไซเบอร์และวิธีป้องกัน</h4>
+                        <p>ปูพื้นฐาน CIA Triad และความสำคัญของความมั่นคงปลอดภัยไซเบอร์</p>
+                        <div class="card-footer">
+                            <span>เริ่มเรียน</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="../การตั้งรหัสผ่านอย่างปลอดภัย/index.html" class="course-card" data-title="รหัสผ่าน Password 2FA">
+                    <div class="card-image">
+                        <img src="2.jpg" alt="Password Security"> <span class="card-badge">บทที่ 2</span>
+                    </div>
+                    <div class="card-info">
+                        <h4>การตั้งรหัสผ่านอย่างปลอดภัย</h4>
+                        <p>รวมเทคนิคตั้งรหัสผ่าน, Password Manager และระบบ 2FA ไว้ในที่เดียว</p>
+                        <div class="card-footer">
+                            <span>เริ่มเรียน</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="../การรู้เท่ากันอีเมลและเว็บไซต์ปลอม/index.html" class="course-card" data-title="Phishing Email Fake Website">
+                    <div class="card-image">
+                        <img src="3.jpg" alt="Phishing">
+                        <span class="card-badge">บทที่ 3</span>
+                    </div>
+                    <div class="card-info">
+                        <h4>การรู้เท่าทันอีเมลและเว็บไซต์ปลอม</h4>
+                        <p>วิธีจับผิด Phishing, ตรวจสอบ URL และป้องกันการหลอกลวงออนไลน์</p>
+                        <div class="card-footer">
+                            <span>เริ่มเรียน</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="../การใช้อินเทอร์เน็ตและสื่อสังคมอย่างปลอดภัย/index.html" class="course-card" data-title="Internet Social Media Safety">
+                    <div class="card-image">
+                        <img src="4.jpg" alt="Internet Safety">
+                        <span class="card-badge">บทที่ 4</span>
+                    </div>
+                    <div class="card-info">
+                        <h4>การใช้อินเทอร์เน็ตและสื่อสังคมอย่างปลอดภัย</h4>
+                        <p>ภัยจาก Wi-Fi สาธารณะ, Digital Footprint และความปลอดภัยบน Social Media</p>
+                        <div class="card-footer">
+                            <span>เริ่มเรียน</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="../การป้องกันไวรัสและมัลแวร์/index.html" class="course-card" data-title="Malware Virus Ransomware">
+                    <div class="card-image">
+                        <img src="5.jpg" alt="Malware Defense">
+                        <span class="card-badge">บทที่ 5</span>
+                    </div>
+                    <div class="card-info">
+                        <h4>การป้องกันไวรัสและมัลแวร์</h4>
+                        <p>เจาะลึกประเภทมัลแวร์, Ransomware และวิธีป้องกันเครื่องคอมพิวเตอร์</p>
+                        <div class="card-footer">
+                            <span>เริ่มเรียน</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+   <footer>
+        <div class="container footer-content">
+            
+            <div class="footer-left">
+                <div class="footer-logo">
+                    <i class="fas fa-shield-alt"></i> Cyber<span>Secure</span>
+                </div>
+                <p class="project-name">โครงการเพื่อการศึกษา</p>
+                 <p class="project-name">วิทยาลัยเทคนิคพิจิตร</p>
+                <p class="project-name">แผนกเทคโนโลยีธุรกิจดิจิทัล</p>
+            </div>
+
+            <div class="footer-center">
+                <h4>แหล่งข้อมูลอ้างอิง</h4>
+                <ul class="footer-links">
+                    <li><a href="https://www.thaicert.or.th/" target="_blank"><i class="fas fa-external-link-alt"></i> ThaiCERT (ไทยเซิร์ต)</a></li>
+                    <li><a href="https://www.thaipoliceonline.go.th/" target="_blank"><i class="fas fa-user-shield"></i> ตำรวจไซเบอร์ (PCT)</a></li>
+                    <li><a href="https://www.virustotal.com/" target="_blank"><i class="fas fa-virus"></i> VirusTotal Scan</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-right">
+                <p class="dev-name">พัฒนาโดย: นายชุติวัตร์ ลอประเสริฐ<br>แผนกเทคโนโลยีธุรกิจดิจิทัล<br>วิทยาลัยเทคนิคพิจิตร</p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/chutiwat.i.408598?locale=th_TH" target="_blank" class="f-icon fb">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/chutiwat_7/" target="_blank" class="f-icon ig">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://line.me/ti/p/38q3GaZZKs" target="_blank" class="f-icon line">
+                        <i class="fab fa-line"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="copyright-bar">
+            <p>&copy; 2025 Cyber Security Awareness Project. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
