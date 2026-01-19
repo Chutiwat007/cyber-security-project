@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 3: การวิเคราะห์และป้องกัน Phishing ขั้นสูง - CyberPedia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700;800&family=Orbitron:wght@500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <a href="../หน้าแรก/index.html" class="back-home-bar">
+        <i class="fas fa-chevron-left"></i> กลับหน้าหลัก
+    </a>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">Cyber<span>Secure</span></a>
+            <div class="hamburger" id="hamburger-btn"><i class="fas fa-bars"></i></div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="../การรู้เท่ากันอีเมลและเว็บไซต์ปลอม/index.html" class="nav-link">หน้าหลัก</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">บทเรียน <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                       <li><a href="../ความรู้เกี่ยวกับภัยไซเบอร์และวิธีป้องกัน/intro.html">1. ความรู้เกี่ยวกับภัยไซเบอร์และวิธีป้องกัน</a></li>
+                            <li><a href="../การตั้งรหัสผ่านอย่างปลอดภัย/index.html">2. การตั้งรหัสผ่านอย่างปลอดภัย</a></li>
+                            <li><a href="../การรู้เท่ากันอีเมลและเว็บไซต์ปลอม/index.html">3. การรู้เท่ากันอีเมลและเว็บไซต์ปลอม</a></li>
+                            <li><a href="../การใช้อินเทอร์เน็ตและสื่อสังคมอย่างปลอดภัย/index.html">4. การใช้อินเทอร์เน็ตและสื่อสังคมอย่างปลอดภัย</a></li>
+                            <li><a href="../การป้องกันไวรัสและมัลแวร์/index.html">5. การป้องกันไวรัสและมัลแวร์</a></li>
+                            <li class="divider"></li>
+                        </ul>
+                    </li>
+                <li><a href="../ติดต่อเรา/index.html" class="nav-link btn-nav-contact">ติดต่อเรา</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="lesson-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="badge-category">Module 3 : Threat Intelligence</span>
+            <h1>การรู้เท่ากันอีเมลและเว็บไซต์ปลอม <br><span class="subtitle">(Advanced Phishing Analysis & Defense Strategies)</span></h1>
+            <div class="meta-info">
+                <span><i class="fas fa-book-open"></i> บทที่ 3</span>
+                <span><i class="fas fa-clock"></i> เวลาอ่าน: 50 นาที</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="container main-layout">
+        
+        <aside class="sidebar-toc">
+            <div class="toc-inner">
+                <h3><i class="fas fa-list-ul"></i> หัวข้อการเรียนรู้</h3>
+                <ul id="toc-list">
+                    <li><a href="#sec1" class="active">1. Phishing คืออะไร?</a></li>
+                    <li><a href="#sec2">2. จิตวิทยาการหลอกลวง</a></li>
+                    <li><a href="#sec3">3. ประเภทการโจมตี</a></li>
+                    <li><a href="#sec4">4. วิเคราะห์ URL (เจาะลึก)</a></li>
+                    <li><a href="#lab1" class="highlight-toc">LAB 1: ตรวจสอบ URL</a></li>
+                    <li><a href="#sec5">5. เทคนิคขั้นสูง (HTTPS/Homograph)</a></li>
+                    <li><a href="#sec6">6. นิติเวชอีเมล (Email Header)</a></li>
+                    <li><a href="#lab2" class="highlight-toc">LAB 2: จับผิดอีเมล</a></li>
+                    <li><a href="#sec7">7. สรุปและเครื่องมือ</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <article class="content-area">
+            
+            <section id="sec1" class="chapter">
+                <h2><span class="chapter-number">1</span> Phishing คืออะไร? (The Digital Deception)</h2>
+                <p><strong>Phishing (ฟิชชิ่ง)</strong> คืออาชญากรรมไซเบอร์ที่ใช้ "ศิลปะการหลอกลวง" (Social Engineering) เพื่อชักจูงให้เหยื่อเปิดเผยข้อมูลลับ ดาวน์โหลดมัลแวร์ หรือโอนเงิน โดยแอบอ้างเป็นบุคคลหรือองค์กรที่น่าเชื่อถือ</p>
+                
+                <figure class="img-block large">
+                    
+                    <img src="1.jpg" alt="วงจรชีวิตการโจมตี Phishing">
+                    <figcaption>[ภาพประกอบ 1: วงจรการโจมตี (Attack Lifecycle) ตั้งแต่เริ่มวางแผนจนถึงการขโมยข้อมูลสำเร็จ]</figcaption>
+                </figure>
+
+                <div class="alert-box">
+                    <strong><i class="fas fa-skull-crossbones"></i> ความจริงที่โหดร้าย:</strong> 96% ของการโจมตีทางไซเบอร์ที่สำเร็จ เริ่มต้นจากอีเมล Phishing เพียงฉบับเดียว เพราะการหลอก "คน" ง่ายกว่าการเจาะ "ระบบ"
+                </div>
+                <div class="video-section">
+                    <h3><i class="fas fa-play-circle"></i> วิดีโอประกอบ: Phishing คืออะไร? (อธิบายใน 2 นาที)</h3>
+                   <div class="video-wrapper">
+        <iframe 
+           src="https://drive.google.com/file/d/1aP5Yxw7hMzZK_alaAQGJxub5sqDizgEU/preview"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+            width="100%" 
+            height="100%">
+        </iframe>
+    </div>
+                    <p class="video-caption">ขอบคุณสื่อการสอนจาก: ชัวร์ก่อนแชร์ สำนักข่าวไทย</p>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec2" class="chapter">
+                <h2><span class="chapter-number">2</span> จิตวิทยาเบื้องหลังการหลอกลวง (The Psychology)</h2>
+                <p>ทำไมคนฉลาดถึงยังตกเป็นเหยื่อ? เพราะแฮกเกอร์ใช้หลักจิตวิทยา 4 ข้อนี้กระตุ้นสมองส่วนอารมณ์ (Amygdala) ให้ทำงานก่อนสมองส่วนเหตุผล:</p>
+                
+                <figure class="img-block medium">
+                    
+                    <img src="2.jpg" alt="ตัวอย่างอีเมลที่ใช้ความเร่งด่วน">
+                    <figcaption>[ภาพประกอบ 2: ตัวอย่างอีเมลที่ใช้ "ความเร่งด่วน" และ "ความกลัว" กดดันเหยื่อ]</figcaption>
+                </figure>
+
+                <div class="grid-2">
+                    <div class="attack-card">
+                        <h3><i class="fas fa-exclamation-circle"></i> Urgency (ความเร่งด่วน)</h3>
+                        <p>"บัญชีของคุณจะถูกระงับใน 24 ชม." - สร้างความตื่นตระหนกให้รีบกดโดยไม่ทันคิด</p>
+                    </div>
+                    <div class="attack-card">
+                        <h3><i class="fas fa-skull"></i> Fear (ความกลัว)</h3>
+                        <p>"คุณมีหมายศาลค้างชำระ" - ใช้ความกลัวต่อกฎหมายหรือบทลงโทษมาข่มขู่</p>
+                    </div>
+                    <div class="attack-card">
+                        <h3><i class="fas fa-gift"></i> Greed (ความโลภ)</h3>
+                        <p>"ยินดีด้วย! คุณได้รับ iPhone 15 ฟรี" - ล่อลวงด้วยของรางวัลที่มีมูลค่าสูงเกินจริง</p>
+                    </div>
+                    <div class="attack-card">
+                        <h3><i class="fas fa-heart"></i> Curiosity (ความอยากรู้อยากเห็น)</h3>
+                        <p>"ภาพหลุดดารา..." หรือ "เอกสารเงินเดือนพนักงาน" - กระตุ้นต่อมเผือกให้กดดู</p>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec3" class="chapter">
+                <h2><span class="chapter-number">3</span> เจาะลึกประเภทการโจมตี (Types of Phishing)</h2>
+                <p>Phishing มีหลายระดับความซับซ้อน ตั้งแต่การหว่านแหไปจนถึงการล็อกเป้าสังหาร:</p>
+
+                <figure class="img-block large">
+                    
+                    <img src="3.jpg" alt="เปรียบเทียบการโจมตีแบบหว่านแห vs เจาะจง">
+                    <figcaption>[ภาพประกอบ 3: ความแตกต่างระหว่าง Bulk Phishing (หว่านแห) กับ Spear Phishing (ฉมวกปลา)]</figcaption>
+                </figure>
+
+                <ul class="detailed-list">
+                    <li><strong>Bulk Phishing (หว่านแห):</strong> ส่งอีเมลเนื้อหาเดียวกันเป็นล้านฉบับหวังให้มีคนหลงเชื่อสัก 1%</li>
+                    <li><strong>Spear Phishing (ฉมวกปลา):</strong> โจมตีแบบเจาะจงบุคคล มีการทำการบ้านมาก่อน ระบุชื่อจริง ตำแหน่งงาน หรืออ้างถึงเพื่อนร่วมงานได้ถูกต้อง</li>
+                    <li><strong>Whaling (ล่าวาฬ):</strong> เป้าหมายคือผู้บริหารระดับสูง (CEO/CFO) เพื่อหลอกให้โอนเงินบริษัทจำนวนมหาศาล</li>
+                </ul>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec4" class="chapter">
+                <h2><span class="chapter-number">4</span> กายวิภาคของ URL (URL Anatomy & Deception)</h2>
+                <p>ทักษะที่สำคัญที่สุดคือการแยกแยะ <strong>"Domain จริง"</strong> ออกจากส่วนประกอบอื่นๆ แฮกเกอร์มักใช้เทคนิคเหล่านี้หลอกตา:</p>
+
+                <figure class="img-block medium">
+                    
+
+[Image of URL Breakdown Structure]
+
+                    <img src="4.jpg" alt="ส่วนประกอบของ URL">
+                    <figcaption>[ภาพประกอบ 4: การแยกส่วนประกอบ Protocol, Subdomain, Domain, TLD]</figcaption>
+                </figure>
+
+                <div class="tech-box">
+                    <h4>ตัวอย่าง: <code>https://secure.paypal.com.verification-update.net/login</code></h4>
+                    <ul class="detail-list">
+                        <li><strong>Protocol:</strong> <code>https://</code> (ปลอดภัยแค่การส่งข้อมูล แต่ไม่ได้ยืนยันว่าเว็บปลอดภัย)</li>
+                        <li><strong>Subdomain (หลอก):</strong> <code>secure.paypal.com</code> (ส่วนนี้แฮกเกอร์ตั้งชื่ออะไรก็ได้)</li>
+                        <li><strong>Domain (จริง):</strong> <code>verification-update</code> (นี่คือชื่อเว็บที่แท้จริง)</li>
+                        <li><strong>TLD:</strong> <code>.net</code></li>
+                    </ul>
+                    <p class="note"><em>*กฎทอง: อ่านจากขวาไปซ้าย หาเครื่องหมาย / ตัวแรก แล้วมองย้อนกลับมาที่จุด (.) 2 จุดแรก นั่นคือ Domain จริง</em></p>
+                </div>
+                <div class="video-section">
+                    <h3><i class="fas fa-play-circle"></i> วิดีโอประกอบ: วิธีเช็ก URL ให้ปลอดภัย ไม่โดน Hack</h3>
+                   <div class="video-wrapper">
+        <iframe 
+           src="https://drive.google.com/file/d/1s-Ukhuef7_rId4nJs3mcU8Py7vqO_ODB/preview"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+            width="100%" 
+            height="100%">
+        </iframe>
+    </div>
+                    <p class="video-caption">ขอบคุณสื่อการสอนจาก: Mahidol Channel</p>
+                </div>
+            </section>
+
+            <section id="lab1" class="chapter">
+                <h2><i class="fas fa-search"></i> LAB 1: URL Inspector (เครื่องมือวิเคราะห์ลิงก์)</h2>
+                <p>ลองพิมพ์ลิงก์ที่น่าสงสัยลงไป ระบบจะช่วยวิเคราะห์โครงสร้างและหาจุดผิดสังเกตให้ (Simulation)</p>
+
+                <div class="url-inspector">
+                    <div class="input-group">
+                        <input type="text" id="urlInput" placeholder="ตัวอย่าง: http://facebook-verify.com/login" autocomplete="off">
+                        <button id="analyzeBtn"><i class="fas fa-search"></i> ตรวจสอบ</button>
+                    </div>
+                    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.2); font-size: 0.85rem; color: #ccc; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <span>
+                            <i class="fas fa-shield-virus"></i> เทียบเคียงฐานข้อมูล: <strong>Google Safe Browsing</strong>
+                        </span>
+                        <a href="https://transparencyreport.google.com/safe-browsing/search" target="_blank" style="color: #fcd34d; text-decoration: none; border: 1px solid #fcd34d; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; transition: 0.3s;">
+                            ตรวจสอบลิงก์กับ Google <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <div id="urlResult" class="result-box hidden">
+                        <div class="status-icon"><i class="fas fa-question"></i></div>
+                        <h4 id="statusTitle">ผลการวิเคราะห์</h4>
+                        <p id="statusDesc">...</p>
+                        <div class="breakdown-grid">
+                            <div class="bd-item"><strong>Protocol:</strong> <span id="resProto">-</span></div>
+                            <div class="bd-item"><strong>Domain หลัก:</strong> <span id="resDomain" class="highlight">-</span></div>
+                            <div class="bd-item"><strong>Subdomain:</strong> <span id="resSub">-</span></div>
+                            <div class="bd-item"><strong>Path:</strong> <span id="resPath">-</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec5" class="chapter">
+                <h2><span class="chapter-number">5</span> เทคนิคหลอกลวงขั้นสูง (Advanced Evasion)</h2>
+                <p>แฮกเกอร์มีเครื่องมือที่ทำให้เว็บปลอมดูเหมือนจริงจนแยกไม่ออกด้วยตาเปล่า:</p>
+
+                <figure class="img-block medium">
+                    
+                    <img src="5.jpg" alt="ตัวอย่าง Homograph Attack">
+                    <figcaption>[ภาพประกอบ 5: การใช้อักษรภาษารัสเซีย (Cyrillic) ที่หน้าตาเหมือนภาษาอังกฤษมาจดโดเมน]</figcaption>
+                </figure>
+
+                <h3>5.1 Homograph Attack (Punycode)</h3>
+                <p>การใช้อักขระจากภาษาอื่น (เช่น Cyrillic, Greek) ที่หน้าตาเหมือนภาษาอังกฤษเป๊ะๆ มาจดโดเมน</p>
+                <div class="nist-compare">
+                    <div class="nist-col new">
+                        <h4>เว็บจริง (ASCII)</h4>
+                        <h2 class="safe-text">apple.com</h2>
+                        <p>ตัว 'a' ภาษาอังกฤษ (U+0061)</p>
+                    </div>
+                    <div class="nist-col old">
+                        <h4>เว็บปลอม (Cyrillic)</h4>
+                        <h2 class="danger-text">аpple.com</h2>
+                        <p>ตัว 'a' ภาษารัสเซีย (U+0430) เบราว์เซอร์จะเห็นเป็น <code>xn--pple-43d.com</code></p>
+                    </div>
+                </div>
+
+                <h3>5.2 HTTPS Phishing</h3>
+                <p>ความเชื่อที่ว่า "มีแม่กุญแจสีเขียว = ปลอดภัย" นั้น <strong>ผิดมหันต์!</strong> ปัจจุบัน 80% ของเว็บ Phishing ใช้ HTTPS (ขอใบรับรองฟรีจาก Let's Encrypt) เพื่อหลอกให้เหยื่อตายใจ</p>
+                
+                <figure class="img-block small">
+                    
+                    <img src="6.jpg" alt="เว็บปลอมที่มีแม่กุญแจ HTTPS">
+                    <figcaption>[ภาพประกอบ 6: เว็บปลอมก็มี HTTPS ได้ อย่าเชื่อแม่กุญแจเพียงอย่างเดียว]</figcaption>
+                </figure>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec6" class="chapter">
+                <h2><span class="chapter-number">6</span> นิติเวชอีเมล (Email Forensics)</h2>
+                <p>การตรวจสอบอีเมลขั้นสูงต้องดูที่ <strong>Email Header</strong> (ส่วนหัวของอีเมล) ซึ่งซ่อนอยู่:</p>
+
+                <figure class="img-block large">
+                    
+                    <img src="7.jpg" alt="การวิเคราะห์ Email Header">
+                    <figcaption>[ภาพประกอบ 7: การแกะรอย Email Header เพื่อหา Return-Path และ IP ต้นทาง]</figcaption>
+                </figure>
+
+                <div class="tech-box">
+                    <h4>จุดที่ต้องเช็คใน Header:</h4>
+                    <ul class="detail-list">
+                        <li><strong>Return-Path:</strong> ที่อยู่อีเมลจริงที่เซิร์ฟเวอร์จะส่งค่าตีกลับ (Bounce) ไปหา มักเป็นอีเมลจริงของแฮกเกอร์</li>
+                        <li><strong>Received:</strong> เส้นทาง IP Address ที่อีเมลเดินทางผ่านมา (ใช้เช็คต้นทางประเทศ)</li>
+                        <li><strong>SPF / DKIM / DMARC:</strong> ค่าผลลัพธ์การตรวจสอบความปลอดภัยว่าผู้ส่งได้รับอนุญาตจริงหรือไม่</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="lab2" class="chapter">
+                <h2><i class="fas fa-gamepad"></i> LAB 2: จับผิดอีเมล (Phishing Spotter)</h2>
+                <p>บททดสอบสายตา: ลองพิจารณาอีเมลฉบับนี้ แล้วตัดสินใจว่า "ปลอดภัย" หรือ "อันตราย"</p>
+
+                <div class="email-quiz-container">
+                    <div class="email-mockup">
+                        <div class="email-header-ui">
+                            <div class="row"><strong>From:</strong> "Netflix Support Team" &lt;support-netflix@account-update.com&gt;</div>
+                            <div class="row"><strong>To:</strong> you@example.com</div>
+                            <div class="row"><strong>Subject:</strong> ⚠️ แจ้งเตือน: การชำระเงินของคุณถูกปฏิเสธ</div>
+                        </div>
+                        <div class="email-body-ui">
+                            <p>เรียน ลูกค้าผู้มีอุปการคุณ,</p>
+                            <p>เราไม่สามารถดำเนินการตัดบัตรเครดิตรอบล่าสุดของคุณได้ เพื่อป้องกันการระงับบริการ กรุณาอัปเดตข้อมูลการชำระเงินภายใน 24 ชั่วโมง</p>
+                            <div class="fake-btn">ยืนยันข้อมูลการชำระเงิน</div>
+                            <p>หากเพิกเฉย บัญชีของคุณจะถูกปิดถาวร</p>
+                            <p class="footer-text">Netflix Inc. | 100 Winchester Circle, Los Gatos, CA</p>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-controls">
+                        <button class="quiz-btn real" onclick="checkQuiz(true)">✅ ของจริง</button>
+                        <button class="quiz-btn fake" onclick="checkQuiz(false)">❌ ของปลอม</button>
+                    </div>
+                    <div id="quizFeedback" class="feedback hidden"></div>
+                </div>
+                <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #cbd5e1; font-size: 0.85rem; color: #64748b; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <span>
+                            <i class="fas fa-graduation-cap"></i> แรงบันดาลใจจาก: <strong>Google Phishing Quiz (Jigsaw)</strong>
+                        </span>
+                        <a href="https://phishingquiz.withgoogle.com/" target="_blank" style="color: var(--primary); text-decoration: none; border: 1px solid var(--primary); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; transition: 0.3s;">
+                            ลองทำแบบทดสอบต้นฉบับ <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec7" class="chapter">
+                <h2><span class="chapter-number">7</span> บทสรุปและเครื่องมือป้องกัน</h2>
+                <p>ไม่มีระบบใดกัน Phishing ได้ 100% สติและความรู้คือเกราะป้องกันที่ดีที่สุด</p>
+                
+                <figure class="img-block medium">
+                    
+                    <img src="8.jpg" alt="เครื่องมือป้องกัน Phishing">
+                    <figcaption>[ภาพประกอบ 8: Browser Extension และเครื่องมือสแกนไวรัสที่ควรมีติดเครื่อง]</figcaption>
+                </figure>
+                
+                <h3>เครื่องมือที่ควรมี (Must-Have Tools)</h3>
+                <div class="grid-3">
+                    <div class="tool-card">
+                        <i class="fas fa-shield-virus"></i>
+                        <h4>Browser Guard</h4>
+                        <p>ส่วนขยายเบราว์เซอร์ (เช่น Malwarebytes) ช่วยบล็อกเว็บปลอมและโฆษณาอันตราย</p>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-search-location"></i>
+                        <h4>VirusTotal</h4>
+                        <p>เว็บไซต์สำหรับสแกน URL และไฟล์ที่น่าสงสัย ด้วย Antivirus กว่า 70 ตัว</p>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-user-secret"></i>
+                        <h4>Have I Been Pwned</h4>
+                        <p>เช็คว่าอีเมลของคุณเคยหลุดไปอยู่ในฐานข้อมูลแฮกเกอร์หรือไม่</p>
+                    </div>
+                </div>
+
+                <div class="next-chapter-box">
+                    <h3><i class="fas fa-arrow-circle-right"></i> บทเรียนถัดไป</h3>
+                    <p>เมื่อเราปลอดภัยจาก Phishing แล้ว มาดูภัยคุกคามจากการใช้งาน "อินเทอร์เน็ตสาธารณะ" กันบ้าง</p>
+                    <a href="../การใช้อินเทอร์เน็ตและสื่อสังคมอย่างปลอดภัย/index.html" class="btn-next">บทที่ 4: การใช้อินเทอร์เน็ตและสื่อสังคมอย่างปลอดภัย <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </section>
+
+        </article>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            
+            <div class="footer-left">
+                <div class="footer-logo">
+                    <i class="fas fa-shield-alt"></i> Cyber<span>Secure</span>
+                </div>
+                <p class="project-name">โครงการเพื่อการศึกษา</p>
+                 <p class="project-name">วิทยาลัยเทคนิคพิจิตร</p>
+                <p class="project-name">แผนกเทคโนโลยีธุรกิจดิจิทัล</p>
+            </div>
+
+            <div class="footer-center">
+                <h4>แหล่งข้อมูลอ้างอิง</h4>
+               <ul class="footer-links">
+        <li>
+            <a href="https://www.thaicert.or.th/" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-shield-virus"></i> ThaiCERT (ไทยเซิร์ต)
+            </a>
+        </li>
+
+        <li>
+            <a href="https://pctpr.police.go.th/" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-user-secret"></i> ศูนย์ปราบปรามอาชญากรรมฯ (PCT)
+            </a>
+        </li>
+
+        <li>
+            <a href="https://www.bot.or.th/th/satang-story/financial-fraud.html" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-university"></i> ธปท. (เตือนภัยทางการเงิน)
+            </a>
+        </li>
+
+        <li>
+            <a href="https://sure.mcot.net/" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-check-double"></i> ชัวร์ก่อนแชร์ (Fact Check)
+            </a>
+        </li>
+
+        <li>
+            <a href="https://transparencyreport.google.com/safe-browsing/search" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-google"></i> Google Safe Browsing
+            </a>
+        </li>
+    </ul>
+            </div>
+
+            <div class="footer-right">
+                <p class="dev-name">พัฒนาโดย: นายชุติวัตร์ ลอประเสริฐ<br>แผนกเทคโนโลยีธุรกิจดิจิทัล<br>วิทยาลัยเทคนิคพิจิตร</p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/chutiwat.i.408598?locale=th_TH" target="_blank" class="f-icon fb">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/chutiwat_7/" target="_blank" class="f-icon ig">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://line.me/ti/p/38q3GaZZKs" target="_blank" class="f-icon line">
+                        <i class="fab fa-line"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="copyright-bar">
+            <p>&copy; 2025 Cyber Security Awareness Project. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

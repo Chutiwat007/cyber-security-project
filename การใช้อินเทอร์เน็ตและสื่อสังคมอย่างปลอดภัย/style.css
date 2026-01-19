@@ -1,0 +1,1030 @@
+/* =========================================
+   0. GLOBAL SETTINGS (แก้ไขใหม่: ให้ Sidebar เลื่อนตามได้)
+   ========================================= */
+html {
+    scroll-behavior: smooth;
+    overflow-x: visible; /* เปิดให้ Sticky ทำงาน */
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden; /* ย้ายคำสั่งกันจอเลื่อนมาไว้ที่นี่แทน */
+    position: relative;
+    touch-action: pan-y;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+/* =========================================
+   THEME: Chapter 4 (Internet & Social Safety)
+   Color: Indigo / Purple (#4f46e5)
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700;800&family=Orbitron:wght@500;700&family=Courier+Prime:wght@400;700&display=swap');
+
+:root {
+    --primary: #1e1b4b;       /* Dark Indigo */
+    --accent: #4f46e5;        /* Indigo Purple */
+    --accent-hover: #4338ca;
+    --accent-light: #eef2ff;
+    --text-main: #334155;
+    --text-muted: #64748b;
+    --bg-body: #f5f3ff;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.95);
+    --shadow: 0 4px 20px rgba(79, 70, 229, 0.15);
+    --danger: #ef4444;
+    --success: #10b981;
+    --warning: #f59e0b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Sarabun', sans-serif; }
+body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+/* Navbar (Standard) */
+.navbar { position: sticky; top: 0; width: 100%; background: var(--glass); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 70px; display: flex; align-items: center; }
+.nav-container { max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+.logo span { color: var(--accent); }
+.nav-menu { display: flex; gap: 30px; list-style: none; align-items: center; }
+.nav-link { color: var(--primary); font-weight: 500; }
+.nav-link:hover { color: var(--accent); }
+.btn-nav-contact { background: var(--accent); color: white !important; padding: 8px 20px; border-radius: 50px; }
+.hamburger { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); }
+
+/* Dropdown */
+.dropdown { position: relative; }
+.dropdown-menu { position: absolute; top: 100%; left: -20px; background: white; box-shadow: var(--shadow); border-radius: 10px; width: 280px; display: none; flex-direction: column; padding: 10px 0; z-index: 1000; }
+.dropdown:hover .dropdown-menu { display: flex; }
+.dropdown-menu li { list-style: none; margin: 0; padding: 0; }
+.dropdown-menu li a { padding: 10px 20px; display: block; color: var(--text-main); font-size: 0.9rem; border-left: 3px solid transparent; }
+.dropdown-menu li a:hover { background: var(--accent-light); color: var(--accent); border-left: 3px solid var(--accent); }
+.divider { height: 1px; background: #e2e8f0; margin: 5px 0; }
+
+/* Hero */
+.lesson-hero { background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%); padding: 80px 20px; text-align: center; color: white; border-bottom: 5px solid var(--accent); position: relative; }
+.badge-category { background: rgba(79, 70, 229, 0.2); color: #a5b4fc; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; border: 1px solid var(--accent); }
+.lesson-hero h1 { font-size: 2.2rem; margin: 20px 0; }
+.meta-info { display: flex; justify-content: center; gap: 20px; margin-top: 20px; color: #c7d2fe; }
+.meta-info i { color: var(--accent); margin-right: 5px; }
+
+/* Layout */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.main-layout { display: grid; grid-template-columns: 280px 1fr; gap: 40px; margin-top: 50px; margin-bottom: 80px; }
+
+/* =========================================
+   SIDEBAR TOC (แก้ไขใหม่: สวย + เลื่อนตาม + ธีมม่วง)
+   ========================================= */
+.sidebar-toc {
+    height: 100%; /* สำคัญ: ต้องสูงเต็มพื้นที่เพื่อให้เมนูมีที่วิ่ง */
+    min-height: 100vh;
+}
+
+.toc-inner {
+    /* --- ส่วนฟังก์ชัน (ห้ามแก้) --- */
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 90px; /* ระยะห่างจากด้านบน */
+    z-index: 10;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+
+    /* --- ส่วนความสวยงาม (Theme: Indigo/Chapter 4) --- */
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    /* เงาสีม่วงจางๆ */
+    box-shadow: 0 10px 40px rgba(79, 70, 229, 0.15); 
+    border: 1px solid #c7d2fe; /* ขอบสีม่วงอ่อน */
+}
+
+.toc-inner h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1e1b4b; /* สีกรมท่าเข้ม */
+    border-bottom: 2px solid #e0e7ff;
+    padding-bottom: 15px;
+}
+
+.toc-inner ul { list-style: none; }
+
+.toc-inner a {
+    display: block;
+    padding: 12px 15px;
+    color: #64748b;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+/* เอฟเฟกต์ตอนชี้ (Hover) - สีม่วง */
+.toc-inner a:hover, .toc-inner a.active {
+    background: #eef2ff; /* พื้นหลังม่วงอ่อนมาก */
+    color: #4338ca;      /* ตัวหนังสือม่วงเข้ม */
+    font-weight: 600;
+    border-left: 3px solid #4f46e5; /* เส้นขอบม่วง */
+    transform: translateX(5px);
+}
+
+/* ปรับ Scrollbar */
+.toc-inner::-webkit-scrollbar { width: 4px; }
+.toc-inner::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+/* Content */
+.content-area { background: white; padding: 50px; border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
+.chapter { margin-bottom: 60px; scroll-margin-top: 100px; }
+.chapter h2 { font-size: 1.8rem; color: var(--primary); margin-bottom: 25px; display: flex; align-items: center; gap: 15px; }
+.chapter-number { background: var(--accent); color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 1.2rem; }
+
+/* --- VIDEO EMBED STYLE (สำคัญมาก: ทำให้วิดีโอเต็มจอ) --- */
+.video-section { 
+    margin: 40px 0; 
+    text-align: center;
+    width: 100% !important;
+    max-width: 100% !important;
+    clear: both;
+}
+.video-section h3 { margin-bottom: 15px; color: var(--primary); font-size: 1.2rem; }
+.video-wrapper { 
+    position: relative; 
+    padding-bottom: 56.25%; /* อัตราส่วน 16:9 */
+    height: 0; 
+    overflow: hidden; 
+    width: 100% !important; 
+    border-radius: 12px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+    border: 4px solid var(--primary); 
+    background: #000; 
+}
+.video-wrapper iframe, .video-wrapper video { 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; 
+}
+.video-caption { margin-top: 10px; font-size: 0.9rem; color: var(--text-muted); font-style: italic; }
+
+/* --- LAB 1: HTTPS Simulator --- */
+.https-sim { background: #1e1b4b; padding: 30px; border-radius: 16px; margin: 30px 0; color: #fff; box-shadow: var(--shadow); border: 2px solid #4338ca; }
+.sim-controls { display: flex; gap: 15px; align-items: center; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-bottom: 30px; }
+.sim-controls input[type="text"] { flex: 1; padding: 12px; border-radius: 8px; border: none; background: #fff; color: #333; font-family: 'Courier Prime'; }
+.switch-group { display: flex; gap: 15px; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px; }
+.switch-group label { cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+.sim-controls button { padding: 12px 25px; background: var(--accent); border: none; border-radius: 8px; color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.sim-controls button:hover { background: var(--accent-hover); }
+
+.sim-visual { display: flex; justify-content: space-between; align-items: center; position: relative; padding: 20px 0; height: 150px; }
+.node { text-align: center; z-index: 2; }
+.node i { font-size: 2.5rem; color: var(--accent-light); margin-bottom: 10px; }
+.hacker { position: relative; }
+.hacker i { color: var(--danger); }
+.hacker-screen { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); background: #000; color: #0f0; padding: 5px 10px; border-radius: 5px; font-family: 'Courier Prime'; font-size: 0.8rem; white-space: nowrap; border: 1px solid #0f0; box-shadow: 0 0 10px rgba(0,255,0,0.3); }
+.packet-path { position: absolute; top: 50%; left: 50px; right: 50px; height: 4px; background: rgba(255,255,255,0.2); z-index: 1; transform: translateY(-50%); }
+.packet { position: absolute; top: 50%; left: 10%; transform: translate(-50%, -50%); background: var(--warning); color: #000; padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; white-space: nowrap; box-shadow: 0 0 15px var(--warning); z-index: 3; opacity: 0; }
+.packet.encrypted { background: var(--success); color: #fff; box-shadow: 0 0 15px var(--success); }
+
+/* --- LAB 2: Profile Inspector --- */
+.profile-sim { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; margin: 30px 0; box-shadow: var(--shadow); }
+.sim-card { display: flex; padding: 25px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; align-items: center; gap: 20px; }
+.sim-avatar img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent); object-fit: cover; }
+.sim-info h3 { font-size: 1.4rem; margin-bottom: 5px; }
+.sim-info p { color: var(--text-muted); margin-bottom: 10px; font-size: 0.95rem; }
+.sim-meta { display: flex; gap: 15px; font-size: 0.85rem; color: var(--text-muted); }
+.sim-meta i { color: var(--accent); }
+.sim-quiz { padding: 25px; }
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+.options label { display: flex; align-items: center; gap: 10px; background: var(--accent-light); padding: 15px; border-radius: 8px; cursor: pointer; border: 1px solid #c7d2fe; transition: 0.2s; }
+.options label:hover { border-color: var(--accent); background: #e0e7ff; }
+.options input { accent-color: var(--accent); transform: scale(1.2); }
+#checkProfileBtn { width: 100%; padding: 15px; background: var(--accent); border: none; border-radius: 8px; color: #fff; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
+#checkProfileBtn:hover { background: var(--accent-hover); }
+.result-box { padding: 20px; margin: 20px; border-radius: 8px; text-align: center; font-weight: bold; }
+.result-box.hidden { display: none; }
+.result-box.correct { background: #d1fae5; color: #065f46; border: 1px solid #34d399; }
+.result-box.wrong { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+
+/* Grid & Components */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0; }
+.info-card, .attack-card, .tool-card { background: var(--white); border: 1px solid #e2e8f0; padding: 25px; border-radius: 12px; transition: 0.3s; text-align: center; }
+.info-card:hover, .attack-card:hover, .tool-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--accent); }
+.info-card i { font-size: 2rem; color: var(--accent); margin-bottom: 15px; display: block; }
+.attack-card h3 i { color: var(--danger); }
+.tool-card i { font-size: 2.5rem; margin-bottom: 15px; display: block; }
+.tool-card .fa-facebook { color: #1877f2; }
+.tool-card .fa-line { color: #00c300; }
+.tool-card .fa-tiktok { color: #000000; }
+
+.tech-box { background: #eef2ff; padding: 25px; border-radius: 10px; border-left: 5px solid var(--accent); margin: 20px 0; }
+.alert-box { background: #fff1f2; border-left: 4px solid var(--danger); padding: 20px; border-radius: 8px; margin: 20px 0; color: #991b1b; }
+.checklist-box { list-style: none; background: #fefce8; padding: 25px; border-radius: 10px; border-left: 5px solid var(--warning); }
+.checklist-box li { margin-bottom: 10px; position: relative; padding-left: 30px; }
+.checklist-box.warning-theme li::before { content: '⚠️'; position: absolute; left: 0; }
+.accordion details { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 10px; padding: 15px; }
+.accordion summary { font-weight: bold; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.accordion summary::after { content: '\f078'; font-family: 'Font Awesome 5 Free'; font-weight: 900; transition: 0.3s; }
+.accordion details[open] summary::after { transform: rotate(180deg); }
+.accordion ul { margin-top: 15px; padding-left: 20px; }
+
+/* Call Center & Footer */
+.sim-provider-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0; }
+.sim-card.ais .sim-logo { background: #80c342; color: #fff; }
+.sim-card.true .sim-logo { background: #e71c24; color: #fff; }
+.sim-card.dtac .sim-logo { background: #007ad0; color: #fff; }
+.sim-logo { padding: 15px; text-align: center; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
+.sim-content { padding: 20px; }
+.ussd-code { display: block; background: #f1f5f9; padding: 10px; text-align: center; font-family: 'Courier Prime'; font-weight: bold; font-size: 1.2rem; margin: 10px 0; border-radius: 8px; border: 2px dashed #cbd5e1; }
+
+.step-process { display: flex; gap: 15px; margin: 30px 0; }
+.step { flex: 1; background: #fff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; text-align: center; }
+.step-num { width: 40px; height: 40px; background: var(--accent); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin: 0 auto 15px; font-size: 1.2rem; }
+
+footer { text-align: center; padding: 40px 0; border-top: 1px solid #e2e8f0; margin-top: 80px; background: var(--primary); color: #94a3b8; }
+.back-home-bar { position: fixed; bottom: 30px; left: 30px; z-index: 9999; background: rgba(255, 255, 255, 0.9); padding: 12px 25px; border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+.img-block { text-align: center; margin: 30px 0; }
+.img-block img { max-width: 100%; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+/* Next Chapter Card */
+.next-chapter-card { background-color: var(--accent-light); border: 2px solid var(--accent); border-radius: 20px; padding: 50px 30px; text-align: center; margin-top: 60px; box-shadow: 0 10px 30px rgba(79, 70, 229, 0.1); position: relative; overflow: hidden; }
+.next-chapter-card h3 { color: var(--primary); font-size: 1.5rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+.next-chapter-card p { color: var(--text-main); font-size: 1.1rem; margin-bottom: 35px; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+.btn-next-big { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--accent); color: white !important; padding: 15px 45px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; text-decoration: none; box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3); transition: all 0.3s ease; }
+.btn-next-big:hover { background: var(--accent-hover); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4); }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ================= FOOTER STANDARD STYLES ================= */
+footer {
+    background-color: #0f172a; /* สีกรมท่าเข้ม */
+    color: #94a3b8;            /* สีตัวอักษรเทาอมฟ้า */
+    padding-top: 50px;
+    margin-top: 60px;
+    border-top: 4px solid #64ffda; /* เส้นสีเขียวนีออนคาดบน */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* จัดกระจาย ซ้าย-กลาง-ขวา */
+    align-items: flex-start;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* เส้นแบ่งบางๆ */
+    flex-wrap: wrap;                /* ให้ตกบรรทัดได้ในมือถือ */
+    gap: 30px;
+}
+
+/* --- 1. ฝั่งซ้าย (Logo & Project) --- */
+.footer-left {
+    flex: 1;
+    min-width: 250px;
+}
+.footer-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 15px;
+    display: block;
+}
+.footer-logo span { color: #64ffda; }
+.project-name { 
+    font-size: 0.95rem; 
+    opacity: 0.8; 
+    margin-bottom: 5px; 
+}
+
+/* --- 2. ตรงกลาง (Links) --- */
+.footer-center {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+.footer-center h4 {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+.footer-links li { margin-bottom: 10px; }
+.footer-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.footer-links a:hover {
+    color: #64ffda; /* สีเขียวเมื่อชี้ */
+    transform: translateX(5px);
+}
+
+/* --- 3. ฝั่งขวา (Dev & Social) --- */
+.footer-right { 
+    flex: 1;
+    min-width: 250px;
+    text-align: right; 
+}
+.dev-name { 
+    color: white; 
+    font-weight: 500; 
+    margin-bottom: 20px; 
+    font-size: 1rem;
+}
+
+/* ไอคอนโซเชียล */
+.footer-socials {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end; /* จัดชิดขวา */
+}
+.f-icon {
+    color: white;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+}
+.f-icon:hover { transform: translateY(-5px); }
+.f-icon.fb:hover { background: #1877F2; }
+.f-icon.ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.f-icon.line:hover { background: #00C300; }
+
+/* --- Copyright Bar --- */
+.copyright-bar {
+    text-align: center;
+    padding: 25px 0;
+    font-size: 0.85rem;
+    color: #64748b;
+    background-color: rgba(0,0,0,0.2); /* สีพื้นหลังเข้มขึ้นนิดนึง */
+}
+
+/* --- Responsive (มือถือ) --- */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-center { margin: 10px 0; }
+    .footer-right { text-align: center; }
+    .footer-socials { justify-content: center; }
+}
+/* =========================================
+   [Lesson Animation] อนิเมชั่นสำหรับหน้าเนื้อหา
+   ========================================= */
+
+/* 1. คลาสสำหรับซ่อนเนื้อหาก่อน (รอเลื่อนมาเจอ) */
+.lesson-fade-hidden {
+    opacity: 0;
+    transform: translateY(30px); /* ลอยขึ้นจากข้างล่างนิดเดียวพอ */
+    transition: all 0.6s ease-out;
+}
+
+.lesson-fade-show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 2. รูปภาพในบทเรียน (ให้ขยายรับเมาส์นิดนึง) */
+.content-area img {
+    transition: transform 0.4s ease;
+    border-radius: 8px; /* มนมุมสวยๆ */
+}
+.content-area img:hover {
+    transform: scale(1.02); /* ขยาย 2% พอ ไม่ต้องเยอะ */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* 3. กล่องข้อความสำคัญ (Note Box) */
+.note-box, .warning-box {
+    transition: transform 0.3s;
+}
+.note-box:hover, .warning-box:hover {
+    transform: translateY(-5px);
+}
+/* =========================================
+   4. RESPONSIVE / MEDIA QUERIES (FIXED)
+   ========================================= */
+
+/* --- Tablet & iPad (1024px ลงมา) --- 
+   ปรับ Grid ให้เป็น 1 คอลัมน์ (ซ่อน Sidebar) เพื่อให้อ่านเนื้อหาได้เต็มตา */
+@media screen and (max-width: 1024px) {
+    
+    .container {
+        padding: 0 20px;
+    }
+
+    /* เปลี่ยน Layout เป็น 1 คอลัมน์เต็มจอ */
+    .main-layout {
+        display: block; /* ยกเลิก Grid */
+        margin-top: 30px;
+    }
+
+    /* ซ่อนสารบัญด้านข้าง (Sidebar) ใน Tablet/Mobile เพราะเกะกะ */
+    .sidebar-toc {
+        display: none; 
+    }
+
+    /* ขยายพื้นที่เนื้อหาให้เต็มจอ */
+    .content-area {
+        width: 100%;
+        padding: 30px; /* ลด Padding ลงหน่อย */
+    }
+
+    /* ปรับ Hero Section */
+    .lesson-hero {
+        padding: 60px 20px;
+    }
+    .lesson-hero h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* --- Menu Responsive (1024px ลงมา) --- 
+   เปลี่ยนเมนูเป็น Hamburger (แก้ Class ให้ตรงกับ intro.html คือ .nav-menu) */
+@media screen and (max-width: 1024px) {
+
+    .hamburger { 
+        display: block; 
+        z-index: 2000;
+        position: relative;
+    }
+
+    /* แก้จาก .nav-links เป็น .nav-menu ให้ตรงกับ HTML */
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%; /* ซ่อนไปทางขวาก่อน */
+        width: 100%; /* เต็มจอมือถือ/iPad */
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: center; /* จัดกึ่งกลางแนวตั้ง */
+        align-items: center;
+        gap: 25px;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1500;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-menu.active {
+        right: 0; /* เลื่อนออกมา */
+    }
+
+    .nav-menu li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-link {
+        font-size: 1.5rem; /* ตัวหนังสือใหญ่ขึ้นสำหรับนิ้วจิ้ม */
+        display: block;
+        padding: 10px;
+        color: var(--primary);
+    }
+
+    /* Dropdown ใน Mobile ให้โชว์เลย ไม่ต้อง Hover */
+    .dropdown-menu {
+        position: static;
+        display: block;
+        width: 80%; /* ไม่เต็มจอมาเกินไป */
+        margin: 10px auto;
+        box-shadow: none;
+        border: 1px solid #eee;
+        background: #f1f5f9;
+        transform: none;
+        text-align: center;
+    }
+    
+    .dropdown-menu li a {
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    /* ซ่อนปุ่ม Toggle Dropdown แต่โชว์หัวข้อ */
+    .nav-link.dropdown-toggle {
+        pointer-events: none; /* กดไม่ได้ */
+        color: #999;
+        font-size: 1rem;
+        text-transform: uppercase;
+        margin-bottom: -10px;
+    }
+}
+
+/* --- Mobile Phone (480px ลงมา) --- 
+   ปรับแต่งรายละเอียดสำหรับจอมือถือเล็กๆ */
+@media screen and (max-width: 480px) {
+    
+    /* ลดขนาดฟอนต์หัวข้อ */
+    .chapter h2 {
+        font-size: 1.4rem;
+        flex-direction: column; /* ให้เลขข้ออยู่บรรทัดบน */
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .chapter-number {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+
+    .content-area {
+        padding: 20px; /* ลด Padding ให้เหลือพื้นที่อ่านเยอะขึ้น */
+        border-radius: 15px;
+    }
+
+    /* ปรับ Footer ให้เรียงลงมา */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+    }
+    
+    .footer-socials {
+        justify-content: center;
+    }
+
+    .footer-right, .footer-left, .footer-center {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* ปรับ Video ให้สูงพอดี */
+    .video-wrapper {
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    }
+    
+    /* ปุ่ม Back Home ให้เล็กลง */
+    .back-home-bar {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+        bottom: 20px;
+        left: 20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   4. RESPONSIVE / MEDIA QUERIES (FINAL FIXED)
+   Theme: Chapter 4 (Internet & Social Safety)
+   ========================================= */
+
+/* --- Tablet & iPad & Mobile (หน้าจอเล็กกว่า 1024px) --- */
+@media screen and (max-width: 1024px) {
+    
+    /* 1. จัด Layout หน้าเว็บให้เป็นคอลัมน์เดียว */
+    .container { padding: 0 20px; }
+    
+    /* ยกเลิก Grid เพื่อให้เนื้อหาเต็มจอ */
+    .main-layout { 
+        display: block; 
+        margin-top: 30px;
+    }
+    
+    /* ซ่อนสารบัญด้านข้าง (เพราะกินที่ในมือถือ) */
+    .sidebar-toc { display: none; }
+    
+    /* ปรับเนื้อหาให้กว้างเต็มจอ */
+    .content-area {
+        width: 100%;
+        padding: 30px;
+    }
+
+    /* ปรับ Hero Section */
+    .lesson-hero { padding: 60px 20px; }
+    .lesson-hero h1 { font-size: 1.8rem; }
+
+    /* --- เฉพาะ Chapter 4: ปรับ Labs ให้แสดงผลสวยในมือถือ --- */
+    /* 1. HTTPS Simulator (Lab 1) */
+    .https-sim { padding: 25px 20px !important; }
+    .sim-controls { flex-direction: column; align-items: stretch; gap: 15px; }
+    .sim-visual { 
+        flex-direction: column; 
+        height: auto; 
+        gap: 40px; 
+        padding: 40px 0; 
+    }
+    /* ปรับเส้นทางวิ่งของ Packet ให้เป็นแนวตั้ง */
+    .packet-path { 
+        width: 4px; 
+        height: 100%; /* ยาวเชื่อมต่อระหว่าง Node */
+        top: 0; 
+        left: 50%; 
+        transform: translateX(-50%); 
+        z-index: 1;
+    }
+    /* ปรับตำแหน่งเริ่มต้นของ Packet */
+    .packet { 
+        top: 10%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+    }
+
+    /* 2. Profile Inspector (Lab 2) */
+    .profile-sim { padding: 0 !important; }
+    .sim-card { 
+        flex-direction: column; 
+        text-align: center; 
+        padding: 30px 20px;
+    }
+    .sim-meta { justify-content: center; margin-top: 10px; }
+    .sim-quiz { padding: 25px 20px; }
+    .options { grid-template-columns: 1fr; } /* ตัวเลือกเรียง 1 แถว */
+
+    /* 3. Call Center & Process */
+    .sim-provider-grid { grid-template-columns: 1fr; }
+    .step-process { flex-direction: column; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+
+    /* 2. ปุ่ม Hamburger (3 ขีด) */
+    .hamburger { 
+        display: block !important; 
+        z-index: 2000;
+        position: absolute; 
+        right: 20px;        
+        top: 50%;           
+        transform: translateY(-50%);
+        font-size: 1.6rem;
+        cursor: pointer;
+        color: var(--primary);
+        width: 40px; height: 40px;
+        text-align: right;
+        line-height: 40px;
+    }
+
+    /* 3. เมนู Slide (Side Drawer - ครึ่งจอ) */
+    .nav-menu, .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;          /* เริ่มต้น: ซ่อนไปทางขวาสุด */
+        left: auto;            /* ยกเลิกค่า Left เดิม */
+        
+        width: 320px;          /* ความกว้างเมนู (ครึ่งจอ iPad) */
+        max-width: 85%;        /* ไม่เกิน 85% ของจอมือถือเล็ก */
+        height: 100vh;         /* สูงเต็มจอ */
+        
+        background: #ffffff;   /* พื้นหลังขาว */
+        box-shadow: -5px 0 30px rgba(0,0,0,0.15); /* เงาด้านซ้าย */
+        
+        /* การจัดวางเนื้อหา (ชิดซ้าย) */
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;     
+        padding: 80px 30px 40px 30px; /* เว้นขอบบนหลบปุ่ม X */
+        gap: 15px;
+        
+        /* --- Animation Smooth --- */
+        transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 1500;
+        overflow-y: auto;      /* ให้เลื่อนขึ้นลงได้ */
+    }
+
+    /* เมื่อกดปุ่ม (Class active ถูกเติมโดย JS) */
+    .nav-menu.active, .nav-links.active {
+        right: 0 !important;   /* เลื่อนกลับมาที่ 0 */
+    }
+
+    /* ตกแต่งรายการเมนูข้างใน */
+    .nav-menu li, .nav-links li {
+        width: 100%;
+        border-bottom: 1px solid #f1f5f9;
+        text-align: left;
+    }
+    
+    .nav-link {
+        display: block;
+        padding: 15px 0;
+        font-size: 1.1rem;
+        color: var(--primary);
+        font-weight: 500;
+        text-align: left;
+    }
+
+    /* ปุ่มติดต่อเรา */
+    .btn-nav-contact {
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+        border-radius: 8px;
+        color: white !important;
+    }
+
+    /* Dropdown ในมือถือ (เปิดตลอด + ย่อหน้า) */
+    .dropdown-menu {
+        position: static !important;
+        display: flex !important;
+        flex-direction: column;
+        box-shadow: none !important;
+        border: none;
+        padding-left: 20px; 
+        border-left: 3px solid #f1f5f9;
+        width: 100% !important;
+        background: transparent;
+        transform: none !important;
+        margin-top: 0;
+    }
+    
+    .dropdown-menu li a {
+        font-size: 0.95rem;
+        color: #64748b;
+        padding: 12px 0;
+        border: none;
+    }
+    
+    /* ซ่อนลูกศรและทำให้กดหัวข้อไม่ได้ */
+    .fa-chevron-down { display: none; }
+    .nav-link.dropdown-toggle { 
+        pointer-events: none; 
+        color: #94a3b8; 
+        font-size: 0.9rem; 
+        text-transform: uppercase; 
+        margin-bottom: -10px; 
+        border: none;
+    }
+}
+
+/* --- Mobile Phones (จอเล็กกว่า 600px) --- */
+@media screen and (max-width: 600px) {
+    
+    .content-area {
+        padding: 25px 20px !important;
+        border-radius: 15px;
+    }
+    
+    .chapter h2 {
+        font-size: 1.5rem;
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    /* ปรับ Video ให้สูงพอดี */
+    .video-wrapper {
+        padding-bottom: 56.25%;
+    }
+    
+    /* Footer เรียงแนวตั้ง */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    .footer-socials { justify-content: center; }
+    .footer-right, .footer-left, .footer-center { width: 100%; text-align: center; }
+    
+    /* ปรับปุ่มย้อนกลับ */
+    .back-home-bar {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+        bottom: 20px;
+        left: 20px;
+    }
+}
+/* =========================================
+   MOBILE NAVBAR FIXED (เพิ่มใหม่: เมนูมือถือลอยตาม)
+   ========================================= */
+@media screen and (max-width: 1024px) {
+    /* 1. สั่งให้ Navbar ยึดติดขอบบนสุด */
+    .navbar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        z-index: 9999;
+    }
+
+    /* 2. ดันเนื้อหาลงมาไม่ให้โดนบัง */
+    body {
+        padding-top: 70px; 
+    }
+    
+    /* 3. ปรับตำแหน่งเมนู Slide ให้เริ่มใต้ Navbar */
+    .nav-menu {
+        top: 70px !important; 
+        height: calc(100vh - 70px) !important;
+    }
+}
+/* =========================================
+   CHAPTER 4 EXPANSION: SOCIAL SHIELD PACK
+   (ธีม: เครือข่ายสังคม & ความเป็นส่วนตัว - สีม่วง Indigo)
+   ========================================= */
+
+/* 1. NETWORK HERO (พื้นหลังเครือข่ายเชื่อมโยง) */
+.lesson-hero {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* สร้างจุดเชื่อมต่อ (Network Nodes) ลอยไปมา */
+.lesson-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: 
+        radial-gradient(#6366f1 2px, transparent 2px),
+        radial-gradient(#6366f1 2px, transparent 2px);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+    opacity: 0.1;
+    animation: network-float 20s linear infinite;
+    z-index: 0;
+}
+
+@keyframes network-float {
+    0% { background-position: 0 0, 20px 20px; }
+    100% { background-position: 40px 40px, 60px 60px; }
+}
+
+/* 2. LAB 1: HTTPS SIMULATOR (จำลองท่อส่งข้อมูล) */
+.https-sim {
+    background: #0f172a !important; /* พื้นหลังสีเข้ม */
+    border: 2px solid #4f46e5 !important; /* ขอบสีม่วง */
+    box-shadow: 0 0 30px rgba(79, 70, 229, 0.2) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* สร้างเส้นทางวิ่งของข้อมูล (Path) */
+.packet-path {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 4px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* ไอคอน Node (User, Hacker, Server) */
+.node i {
+    filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.6));
+    transition: transform 0.3s;
+}
+.node:hover i {
+    transform: scale(1.2);
+}
+
+/* หน้าจอ Hacker */
+.hacker-screen {
+    font-family: 'Courier Prime', monospace !important;
+    border: 1px solid #ef4444 !important;
+    color: #ef4444 !important; /* ตัวหนังสือแดง */
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.2) !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* 3. LAB 2: PROFILE INSPECTOR (การ์ดโปรไฟล์ปลอม) */
+.profile-sim {
+    border: none !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1) !important;
+    background: #fff !important;
+    position: relative;
+}
+
+/* ตกแต่งส่วนหัวการ์ดให้เหมือน Facebook/Social Cover */
+.profile-sim::before {
+    content: '';
+    display: block;
+    height: 120px;
+    background: linear-gradient(to right, #4f46e5, #818cf8);
+    border-radius: 16px 16px 0 0;
+}
+
+.sim-card {
+    margin-top: -60px; /* ดึงรูปโปรไฟล์ขึ้นไปทับ Cover */
+    background: transparent !important;
+    border: none !important;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.sim-avatar img {
+    width: 120px !important;
+    height: 120px !important;
+    border: 5px solid #fff !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
+}
+
+/* 4. CALL CENTER CARDS (ซิมการ์ดมือถือ) */
+.sim-provider-grid .sim-card {
+    margin-top: 0; /* รีเซ็ตค่าจากข้อ 3 */
+    flex-direction: column;
+    background: #fff !important;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    transition: 0.3s;
+    position: relative;
+}
+
+/* ทำรอยบากซิมการ์ด (Sim Card Notch) */
+.sim-provider-grid .sim-card::after {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 40px; height: 40px;
+    background: #f5f3ff; /* สีเดียวกับพื้นหลังเว็บ */
+    transform: rotate(45deg);
+    box-shadow: -2px 2px 5px rgba(0,0,0,0.05);
+}
+
+.sim-logo {
+    padding: 20px !important;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+}
+
+.sim-provider-grid .sim-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(79, 70, 229, 0.15);
+}
+
+/* 5. STEP PROCESS (ขั้นตอนรับมือดราม่า) */
+.step-process {
+    position: relative;
+    z-index: 1;
+}
+/* เส้นเชื่อมระหว่างขั้นตอน */
+.step-process::before {
+    content: '';
+    position: absolute;
+    top: 40px; left: 0; right: 0;
+    height: 4px;
+    background: #e0e7ff;
+    z-index: -1;
+    border-radius: 4px;
+}
+
+.step {
+    background: #fff;
+    border: 2px solid #e0e7ff !important;
+    transition: 0.3s;
+}
+.step:hover {
+    border-color: #4f46e5 !important;
+    transform: scale(1.05);
+}
+.step-num {
+    background: #4f46e5 !important;
+    box-shadow: 0 0 0 5px #eef2ff; /* วงแหวนรอบตัวเลข */
+}
+/* =========================================
+   CHAPTER 4 IMAGE FRAMES (กรอบรูปธีมสีม่วง)
+   [วางต่อท้ายสุดเพื่อเพิ่มกรอบให้รูปภาพ]
+   ========================================= */
+
+.img-block img {
+    /* สร้างกรอบ 2 ชั้นสไตล์ Cyber */
+    border: 2px solid rgba(79, 70, 229, 0.3); /* ขอบสีม่วงจางๆ */
+    padding: 8px; /* เว้นระยะระหว่างรูปกับขอบ */
+    background: rgba(79, 70, 229, 0.05); /* พื้นหลังสีม่วงอ่อนจางๆ */
+    border-radius: 12px;
+    
+    /* เอฟเฟกต์ */
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    max-width: 100%;
+    height: auto;
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ชี้ */
+.img-block img:hover {
+    border-color: #4f46e5; /* เปลี่ยนขอบเป็นสีม่วงเข้ม */
+    box-shadow: 0 0 25px rgba(79, 70, 229, 0.4); /* แสงเรืองสีม่วงฟุ้งๆ */
+    transform: scale(1.02); /* ขยายรูปขึ้นเล็กน้อย */
+}

@@ -1,0 +1,858 @@
+/* =========================================
+   0. GLOBAL SETTINGS (แก้ไขใหม่: ให้ Sidebar เลื่อนตามได้)
+   ========================================= */
+html {
+    scroll-behavior: smooth;
+    /* เปลี่ยนเป็น visible เพื่อให้คำสั่ง Sticky ทำงาน */
+    overflow-x: visible; 
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    /* ย้ายคำสั่งกันจอเลื่อนมาไว้ที่ Body แทน */
+    overflow-x: hidden; 
+    position: relative;
+    touch-action: pan-y;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+/* =========================================
+   THEME: Chapter 3 (Phishing Warning)
+   Color: Caution Amber (#f59e0b)
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700;800&family=Orbitron:wght@500;700&family=Courier+Prime:wght@400;700&display=swap');
+
+:root {
+    --primary: #0a192f;
+    --accent: #f59e0b;        /* Amber */
+    --accent-hover: #d97706;
+    --accent-light: #fffbeb;
+    --text-main: #334155;
+    --text-muted: #64748b;
+    --bg-body: #fff8f1;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.95);
+    --shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
+    --danger: #ef4444;
+    --success: #10b981;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Sarabun', sans-serif; }
+body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+/* Navbar (Standard) */
+.navbar { position: sticky; top: 0; width: 100%; background: var(--glass); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 70px; display: flex; align-items: center; }
+.nav-container { max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+.logo span { color: var(--accent); }
+.nav-menu { display: flex; gap: 30px; list-style: none; align-items: center; }
+.nav-link { color: var(--primary); font-weight: 500; }
+.nav-link:hover { color: var(--accent); }
+.btn-nav-contact { background: var(--accent); color: white !important; padding: 8px 20px; border-radius: 50px; }
+.hamburger { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); }
+
+/* Dropdown */
+.dropdown { position: relative; }
+.dropdown-menu { position: absolute; top: 100%; left: -20px; background: white; box-shadow: var(--shadow); border-radius: 10px; width: 280px; display: none; flex-direction: column; padding: 10px 0; z-index: 1000; }
+.dropdown:hover .dropdown-menu { display: flex; }
+.dropdown-menu li { list-style: none; margin: 0; padding: 0; }
+.dropdown-menu li a { padding: 10px 20px; display: block; color: var(--text-main); font-size: 0.9rem; border-left: 3px solid transparent; }
+.dropdown-menu li a:hover { background: var(--accent-light); color: var(--accent); border-left: 3px solid var(--accent); }
+.divider { height: 1px; background: #e2e8f0; margin: 5px 0; }
+
+/* Hero */
+.lesson-hero { background: linear-gradient(135deg, #451a03 0%, #78350f 100%); padding: 80px 20px; text-align: center; color: white; border-bottom: 5px solid var(--accent); position: relative; }
+.badge-category { background: rgba(245, 158, 11, 0.2); color: #fbbf24; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; border: 1px solid var(--accent); }
+.lesson-hero h1 { font-size: 2.2rem; margin: 20px 0; }
+.meta-info { display: flex; justify-content: center; gap: 20px; margin-top: 20px; color: #d6d3d1; }
+.meta-info i { color: var(--accent); margin-right: 5px; }
+
+/* Layout */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.main-layout { display: grid; grid-template-columns: 280px 1fr; gap: 40px; margin-top: 50px; margin-bottom: 80px; }
+
+/* =========================================
+   SIDEBAR TOC (แก้ไขใหม่: สวย + เลื่อนตาม)
+   ========================================= */
+.sidebar-toc {
+    height: 100%; /* สำคัญ: ต้องสูงเต็มพื้นที่เพื่อให้เมนูมีที่วิ่ง */
+    min-height: 100vh;
+}
+
+.toc-inner {
+    /* --- ส่วนฟังก์ชัน (ห้ามแก้) --- */
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 90px; /* ระยะห่างจากด้านบน */
+    z-index: 10;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+
+    /* --- ส่วนความสวยงาม (Theme: Amber/Phishing) --- */
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    /* เงาสีส้มจางๆ ให้เข้ากับธีมบทเรียนนี้ */
+    box-shadow: 0 10px 40px rgba(245, 158, 11, 0.1); 
+    border: 1px solid #fcd34d; /* ขอบสีเหลืองทอง */
+}
+
+.toc-inner h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #0a192f;
+    border-bottom: 2px solid #fff7ed;
+    padding-bottom: 15px;
+}
+
+.toc-inner ul { list-style: none; }
+
+.toc-inner a {
+    display: block;
+    padding: 12px 15px;
+    color: #64748b;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+/* เอฟเฟกต์ตอนชี้ (Hover) - สีส้ม */
+.toc-inner a:hover, .toc-inner a.active {
+    background: #fffbeb; /* พื้นหลังส้มอ่อน */
+    color: #d97706;      /* ตัวหนังสือส้มเข้ม */
+    font-weight: 600;
+    border-left: 3px solid #f59e0b; /* เส้นขอบส้ม */
+    transform: translateX(5px);
+}
+
+/* ปรับ Scrollbar */
+.toc-inner::-webkit-scrollbar { width: 4px; }
+.toc-inner::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+/* Content */
+.content-area { background: white; padding: 50px; border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
+.chapter { margin-bottom: 60px; scroll-margin-top: 100px; }
+.chapter h2 { font-size: 1.8rem; color: var(--primary); margin-bottom: 25px; display: flex; align-items: center; gap: 15px; }
+.chapter-number { background: var(--accent); color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 1.2rem; }
+
+/* --- VIDEO EMBED STYLE (ส่วนที่เพิ่มใหม่) --- */
+.video-section { margin: 40px 0; text-align: center; }
+.video-section h3 { margin-bottom: 15px; color: var(--primary); font-size: 1.2rem; }
+.video-wrapper { 
+    position: relative; 
+    padding-bottom: 56.25%; /* อัตราส่วน 16:9 */
+    height: 0; 
+    overflow: hidden; 
+    max-width: 100%; 
+    border-radius: 12px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+    border: 4px solid var(--primary); 
+    background: #000; 
+}
+.video-wrapper iframe, .video-wrapper video { 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; 
+}
+.video-caption { margin-top: 10px; font-size: 0.9rem; color: var(--text-muted); font-style: italic; }
+
+/* --- LAB 1: URL Inspector --- */
+.url-inspector { background: #1e293b; padding: 30px; border-radius: 16px; margin: 30px 0; color: #fff; box-shadow: var(--shadow); border: 2px solid #334155; }
+.input-group { display: flex; gap: 15px; margin-bottom: 20px; }
+.input-group input { flex: 1; padding: 15px; border-radius: 8px; border: 2px solid #334155; background: #0f172a; color: #fff; font-family: 'Courier Prime'; font-size: 1.1rem; outline: none; }
+.input-group button { padding: 0 30px; background: var(--accent); border: none; border-radius: 8px; color: #fff; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.input-group button:hover { background: var(--accent-hover); }
+.result-box { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 10px; border-left: 5px solid #666; margin-top: 20px; }
+.result-box.hidden { display: none; }
+.result-box.safe { border-color: var(--success); background: rgba(16,185,129,0.1); }
+.result-box.danger { border-color: var(--danger); background: rgba(239,68,68,0.1); }
+.breakdown-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+.bd-item span { font-family: 'Courier Prime'; color: #cbd5e1; }
+.bd-item .highlight { color: var(--accent); font-weight: bold; }
+
+/* --- LAB 2: Email Quiz --- */
+.email-quiz-container { background: #f1f5f9; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin: 30px 0; }
+.email-mockup { background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; overflow: hidden; }
+.email-header-ui { background: #f8fafc; padding: 15px 20px; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; color: #475569; }
+.email-header-ui .row { margin-bottom: 5px; }
+.email-body-ui { padding: 25px; color: #334155; }
+.fake-btn { display: inline-block; background: #e50914; color: white; padding: 10px 25px; text-decoration: none; border-radius: 4px; margin: 20px 0; font-weight: bold; cursor: pointer; }
+.footer-text { font-size: 0.8rem; color: #94a3b8; margin-top: 30px; border-top: 1px solid #eee; padding-top: 10px; }
+.quiz-controls { display: flex; gap: 20px; justify-content: center; }
+.quiz-btn { padding: 12px 30px; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; color: #fff; }
+.quiz-btn.real { background: #10b981; }
+.quiz-btn.fake { background: #ef4444; }
+.quiz-btn:hover { transform: scale(1.05); }
+.feedback { margin-top: 20px; text-align: center; font-weight: bold; padding: 15px; border-radius: 8px; }
+.feedback.correct { background: #d1fae5; color: #065f46; border: 1px solid #34d399; }
+.feedback.wrong { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+
+/* Grid & Cards */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 30px 0; }
+.attack-card, .tool-card { background: var(--white); border: 1px solid #e2e8f0; padding: 25px; border-radius: 12px; transition: 0.3s; text-align: center; }
+.attack-card:hover, .tool-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--accent); }
+.attack-card i, .tool-card i { font-size: 2rem; color: var(--accent); margin-bottom: 15px; display: block; }
+
+/* Misc */
+.tech-box { background: #fefce8; padding: 25px; border-radius: 10px; border-left: 5px solid var(--accent); margin: 20px 0; }
+.alert-box { background: #fff7ed; border-left: 4px solid #f97316; padding: 20px; border-radius: 8px; margin: 20px 0; color: #9a3412; }
+.checklist-box { list-style: none; background: #fff1f2; padding: 25px; border-radius: 10px; border-left: 5px solid #ef4444; }
+.checklist-box li { margin-bottom: 10px; position: relative; padding-left: 30px; }
+.checklist-box li::before { content: '🚩'; position: absolute; left: 0; }
+.nist-compare { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin: 30px 0; }
+.nist-col { padding: 30px; }
+.nist-col.old { background: #fef2f2; border-right: 1px solid #e2e8f0; }
+.nist-col.new { background: #ecfdf5; }
+.safe-text { color: #10b981; }
+.danger-text { color: #ef4444; text-decoration: underline; text-decoration-style: wavy; }
+
+/* Footer */
+footer { text-align: center; padding: 40px 0; border-top: 1px solid #e2e8f0; margin-top: 80px; }
+.back-home-bar { position: fixed; bottom: 30px; left: 30px; z-index: 9999; background: rgba(255, 255, 255, 0.9); padding: 12px 25px; border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+.next-chapter-box { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border: 1px solid #fcd34d; padding: 40px; border-radius: 16px; text-align: center; margin-top: 50px; }
+.btn-next { display: inline-block; background: var(--accent); color: white; padding: 12px 30px; border-radius: 50px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+.btn-next:hover { background: var(--accent-hover); transform: translateX(5px); }
+.img-block { text-align: center; margin: 30px 0; }
+.img-block img { max-width: 100%; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+/* =========================================
+   MOBILE RESPONSIVE (ปรับปรุงใหม่ให้พอดีจอ)
+   ========================================= */
+
+
+@media (max-width: 768px) {
+    /* 1. ลดขอบด้านข้าง เนื้อหาจะได้ไม่บีบ */
+    .content-area { padding: 30px 20px !important; }
+    .container { padding: 0 15px; }
+
+    /* 2. ปรับขนาด Font หัวข้อ */
+    .lesson-hero { padding: 50px 15px; }
+    .lesson-hero h1 { font-size: 1.6rem; }
+
+    /* 3. ปรับเครื่องมือ Lab ให้เรียงแนวตั้ง */
+    .url-inspector, .email-quiz-container { padding: 20px !important; }
+    .input-group { flex-direction: column; }
+    .input-group button { width: 100%; padding: 12px; }
+    .breakdown-grid { grid-template-columns: 1fr; }
+    
+    /* 4. ปรับวิดีโอ */
+    .video-section { margin: 25px 0; }
+}
+/* ================= FOOTER STANDARD STYLES ================= */
+footer {
+    background-color: #0f172a; /* สีกรมท่าเข้ม */
+    color: #94a3b8;            /* สีตัวอักษรเทาอมฟ้า */
+    padding-top: 50px;
+    margin-top: 60px;
+    border-top: 4px solid #64ffda; /* เส้นสีเขียวนีออนคาดบน */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* จัดกระจาย ซ้าย-กลาง-ขวา */
+    align-items: flex-start;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* เส้นแบ่งบางๆ */
+    flex-wrap: wrap;                /* ให้ตกบรรทัดได้ในมือถือ */
+    gap: 30px;
+}
+
+/* --- 1. ฝั่งซ้าย (Logo & Project) --- */
+.footer-left {
+    flex: 1;
+    min-width: 250px;
+}
+.footer-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 15px;
+    display: block;
+}
+.footer-logo span { color: #64ffda; }
+.project-name { 
+    font-size: 0.95rem; 
+    opacity: 0.8; 
+    margin-bottom: 5px; 
+}
+
+/* --- 2. ตรงกลาง (Links) --- */
+.footer-center {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+.footer-center h4 {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+.footer-links li { margin-bottom: 10px; }
+.footer-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.footer-links a:hover {
+    color: #64ffda; /* สีเขียวเมื่อชี้ */
+    transform: translateX(5px);
+}
+
+/* --- 3. ฝั่งขวา (Dev & Social) --- */
+.footer-right { 
+    flex: 1;
+    min-width: 250px;
+    text-align: right; 
+}
+.dev-name { 
+    color: white; 
+    font-weight: 500; 
+    margin-bottom: 20px; 
+    font-size: 1rem;
+}
+
+/* ไอคอนโซเชียล */
+.footer-socials {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end; /* จัดชิดขวา */
+}
+.f-icon {
+    color: white;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+}
+.f-icon:hover { transform: translateY(-5px); }
+.f-icon.fb:hover { background: #1877F2; }
+.f-icon.ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.f-icon.line:hover { background: #00C300; }
+
+/* --- Copyright Bar --- */
+.copyright-bar {
+    text-align: center;
+    padding: 25px 0;
+    font-size: 0.85rem;
+    color: #64748b;
+    background-color: rgba(0,0,0,0.2); /* สีพื้นหลังเข้มขึ้นนิดนึง */
+}
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   4. RESPONSIVE / MEDIA QUERIES (FINAL FIXED)
+   ฉบับรวมมิตร: แก้เมนูทับกัน + สไลด์นุ่ม + จัด Layout มือถือ
+   ========================================= */
+
+/* --- Tablet & iPad & Mobile (หน้าจอเล็กกว่า 1024px) --- */
+@media screen and (max-width: 1024px) {
+    
+    /* 1. จัด Layout หน้าเว็บให้เป็นคอลัมน์เดียว */
+    .container {
+        padding: 0 20px;
+    }
+    .main-layout {
+        display: block; /* ยกเลิก Grid เพื่อให้เนื้อหาเต็มจอ */
+        margin-top: 30px;
+    }
+    .sidebar-toc {
+        display: none; /* ซ่อนสารบัญด้านข้าง (เพราะกินที่ในมือถือ) */
+    }
+    .content-area {
+        width: 100%;
+        padding: 30px;
+    }
+    .lesson-hero {
+        padding: 60px 20px;
+    }
+    .lesson-hero h1 {
+        font-size: 1.8rem;
+    }
+
+    /* 2. จัดการปุ่ม Hamburger */
+    .hamburger { 
+        display: block !important; 
+        z-index: 2000;
+        position: absolute; 
+        right: 20px;        
+        top: 50%;           
+        transform: translateY(-50%);
+        font-size: 1.6rem;
+        cursor: pointer;
+        color: var(--primary);
+        width: 40px; height: 40px;
+        text-align: right; /* ให้ไอคอนอยู่ขวาสุดของกล่อง */
+        line-height: 40px;
+    }
+
+    /* 3. จัดการเมนูสไลด์ข้าง (Side Drawer) */
+    /* รวม .nav-links (หน้าแรก) และ .nav-menu (หน้าบทเรียน) ให้ใช้ดีไซน์เดียวกัน */
+    .nav-menu, .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;         /* ซ่อนไปทางขวาสุด */
+        
+        /* --- กำหนดขนาดเมนู --- */
+        width: 320px;         /* กว้าง 320px (ประมาณครึ่งจอ iPad) */
+        max-width: 85%;       /* ถ้ามือถือจอเล็กมาก ให้กว้างแค่ 85% */
+        height: 100vh;        /* สูงเต็มจอ */
+        
+        background: #ffffff;  /* พื้นหลังขาวทึบ */
+        box-shadow: -5px 0 30px rgba(0,0,0,0.15); /* เงาด้านซ้าย */
+        
+        /* --- จัดเรียงเนื้อหา --- */
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start; /* เรียงจากบนลงล่าง */
+        align-items: flex-start;     /* ชิดซ้าย */
+        padding: 90px 30px 40px 30px; /* เว้นระยะ: บน ขวา ล่าง ซ้าย */
+        gap: 15px;
+        
+        /* --- Animation หัวใจสำคัญของความ Smooth --- */
+        transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1); 
+        z-index: 1500;
+        overflow-y: auto;     /* เลื่อนขึ้นลงได้ */
+    }
+
+    /* เมื่อมี Class active (จาก Javascript) ให้เลื่อนออกมาที่ 0 */
+    .nav-menu.active, .nav-links.active {
+        right: 0 !important;
+    }
+
+    /* จัดระเบียบรายการเมนู */
+    .nav-menu li, .nav-links li {
+        width: 100%;
+        text-align: left;
+        border-bottom: 1px solid #f1f1f1; /* เส้นคั่นบางๆ */
+    }
+
+    .nav-link, .nav-item {
+        font-size: 1.1rem;
+        display: block;
+        padding: 15px 0;
+        color: var(--primary);
+        font-weight: 500;
+    }
+    
+    /* ปุ่มติดต่อเราในเมนู */
+    .btn-nav-contact, .btn-contact {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-top: 20px;
+        background: var(--accent);
+        color: white !important;
+        border-radius: 8px;
+    }
+
+    /* 4. Dropdown Menu (เปิดโชว์ตลอด แบบย่อหน้า) */
+    .dropdown-menu {
+        position: static !important;
+        display: block !important;
+        width: 100% !important;
+        margin: 0;
+        box-shadow: none !important;
+        border: none;
+        background: transparent;
+        padding-left: 20px; /* ย่อหน้าเข้า */
+        border-left: 2px solid #eee; /* เส้นไกด์ไลน์ */
+    }
+    
+    .dropdown-menu li a {
+        font-size: 0.95rem;
+        color: #64748b;
+        padding: 12px 0;
+        border: none;
+        text-align: left;
+    }
+
+    /* ซ่อนลูกศร */
+    .fa-chevron-down { display: none; }
+    /* ปิดการกดที่หัวข้อ Dropdown เพื่อกันงง */
+    .nav-link.dropdown-toggle { pointer-events: none; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; margin-bottom: -10px; border: none; }
+}
+
+/* --- Mobile Phones (จอเล็กกว่า 600px) --- */
+@media screen and (max-width: 600px) {
+    
+    /* ปรับเนื้อหาบทเรียนให้อ่านง่าย */
+    .content-area {
+        padding: 25px 20px !important;
+        border-radius: 15px;
+    }
+    
+    .chapter h2 {
+        font-size: 1.5rem;
+        flex-direction: column; /* หัวข้ออยู่คนละบรรทัดกับเลข */
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    /* ปรับ Footer เรียงแนวตั้ง */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    
+    .footer-left, .footer-center, .footer-right {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .footer-socials {
+        justify-content: center;
+    }
+    
+    /* ปรับปุ่มย้อนกลับให้ไม่บังเนื้อหา */
+    .back-home-bar {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+        bottom: 20px;
+        left: 20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   MOBILE & TABLET RESPONSIVE (SLIDE FROM RIGHT)
+   ========================================= */
+
+@media screen and (max-width: 1024px) {
+    
+    /* 1. ตั้งค่า Layout พื้นฐาน */
+    .container { padding: 0 20px; }
+    .main-layout, .grid-2, .grid-3, .nist-compare { grid-template-columns: 1fr; }
+    .sidebar-toc { display: none; } /* ซ่อนสารบัญ */
+    
+    /* ปรับ Hero */
+    .lesson-hero { padding: 60px 20px; }
+    .lesson-hero h1 { font-size: 1.8rem; }
+    
+    /* ปรับเครื่องมือ Lab ให้พอดีจอ */
+    .url-inspector, .email-quiz-container { padding: 20px !important; }
+    .input-group { flex-direction: column; }
+    .input-group button { width: 100%; padding: 12px; margin-top: 10px; }
+
+    /* 2. ปุ่ม Hamburger (3 ขีด) */
+    .hamburger { 
+        display: block !important; 
+        z-index: 2000;
+        cursor: pointer;
+        font-size: 1.8rem;
+        color: var(--primary);
+    }
+
+    /* 3. เมนู Slide (พระเอกของเรา) */
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;          /* เริ่มต้น: ซ่อนไปทางขวาสุด (นอกจอ) */
+        left: auto;            /* ยกเลิกค่า Left เดิม */
+        
+        width: 300px;          /* ความกว้างเมนู */
+        max-width: 85%;        /* ไม่เกิน 85% ของจอมือถือ */
+        height: 100vh;         /* สูงเต็มจอ */
+        
+        background: #ffffff;   /* พื้นหลังขาว */
+        box-shadow: -5px 0 30px rgba(0,0,0,0.2); /* เงาด้านซ้าย */
+        
+        /* การจัดวางเนื้อหา */
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;     /* ชิดซ้าย */
+        padding: 80px 30px 40px 30px; /* เว้นขอบบนเยอะหน่อย (หลบปุ่ม X) */
+        gap: 15px;
+        
+        /* --- Animation Smooth --- */
+        transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 1500;
+        overflow-y: auto;      /* ให้เลื่อนขึ้นลงได้ถ้าเมนูยาว */
+    }
+
+    /* เมื่อกดปุ่ม (Class active ถูกเติมโดย JS) */
+    .nav-menu.active {
+        right: 0 !important;   /* เลื่อนกลับมาที่ 0 (โผล่มา) */
+    }
+
+    /* ตกแต่งรายการเมนูข้างใน */
+    .nav-menu li {
+        width: 100%;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    
+    .nav-link {
+        display: block;
+        padding: 15px 0;
+        font-size: 1.1rem;
+        color: var(--text-main);
+        text-align: left;
+    }
+
+    /* ปุ่มติดต่อเรา */
+    .btn-nav-contact {
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+        border-radius: 8px;
+    }
+
+    /* Dropdown ในมือถือ (เปิดตลอด) */
+    .dropdown-menu {
+        position: static;
+        display: flex;
+        box-shadow: none;
+        border: none;
+        padding-left: 20px; /* ย่อหน้า */
+        border-left: 2px solid #e2e8f0;
+        width: 100%;
+    }
+    .dropdown:hover .dropdown-menu { display: flex; } /* กันบั๊ก */
+    .fa-chevron-down { display: none; } /* ซ่อนลูกศร */
+}
+/* =========================================
+   MOBILE NAVBAR FIXED (เพิ่มใหม่: เมนูมือถือลอยตาม)
+   ========================================= */
+@media screen and (max-width: 1024px) {
+    /* 1. สั่งให้ Navbar ยึดติดขอบบนสุด */
+    .navbar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        z-index: 9999;
+    }
+
+    /* 2. ดันเนื้อหาลงมาไม่ให้โดนบัง */
+    body {
+        padding-top: 70px; 
+    }
+    
+    /* 3. ปรับตำแหน่งเมนู Slide ให้เริ่มใต้ Navbar */
+    .nav-menu {
+        top: 70px !important; 
+        height: calc(100vh - 70px) !important;
+    }
+}
+/* =========================================
+   CHAPTER 3 EXPANSION: PHISHING DETECTIVE PACK
+   (ธีม: นักสืบจับผิดเว็บปลอม - สีส้ม Amber)
+   ========================================= */
+
+/* 1. HAZARD ZONE HERO (พื้นหลังลายแถบเตือนภัย) */
+.lesson-hero {
+    /* พื้นหลังสีน้ำตาลไหม้ ไล่เฉดส้ม */
+    background: linear-gradient(135deg, #451a03 0%, #7c2d12 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* สร้างลายแถบเหลือง-ดำ จางๆ เคลื่อนไหวได้ (เหมือน Police Line) */
+.lesson-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(245, 158, 11, 0.05),
+        rgba(245, 158, 11, 0.05) 20px,
+        rgba(0, 0, 0, 0.05) 20px,
+        rgba(0, 0, 0, 0.05) 40px
+    );
+    animation: hazard-slide 60s linear infinite;
+    z-index: 0;
+}
+
+@keyframes hazard-slide {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100px); }
+}
+
+/* 2. SCANNER INPUT (ช่องค้นหาแบบสแกนเนอร์) */
+.url-inspector .input-group {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+/* เส้นเลเซอร์สแกนวิ่งไปมาในช่อง Input */
+.url-inspector .input-group::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: #f59e0b; /* สีส้ม */
+    box-shadow: 0 0 15px #f59e0b;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* เมื่อกดพิมพ์ ให้เส้นเลเซอร์ทำงาน */
+.url-inspector .input-group:focus-within::after {
+    animation: scan-input 1.5s ease-in-out infinite alternate;
+    opacity: 0.8;
+}
+
+@keyframes scan-input {
+    0% { left: 0; }
+    100% { left: 100%; }
+}
+
+/* 3. NERVOUS CARDS (การ์ดสั่นประสาท) */
+/* สำหรับหัวข้อ "จิตวิทยา" (Fear, Urgency) เมื่อชี้แล้วจะสั่นเล็กน้อย */
+.attack-card:hover {
+    animation: nervous-shake 0.4s ease-in-out;
+    border-color: #f59e0b;
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2) !important;
+}
+
+@keyframes nervous-shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-3px) rotate(-1deg); }
+    50% { transform: translateX(3px) rotate(1deg); }
+    75% { transform: translateX(-3px) rotate(-1deg); }
+    100% { transform: translateX(0); }
+}
+
+/* 4. EVIDENCE MARKER (หลักฐานอีเมล) */
+/* ตกแต่งกล่องอีเมลให้ดูเหมือนหลักฐานในคดี */
+.email-mockup {
+    position: relative;
+    transition: 0.3s;
+    border: 1px solid #cbd5e1;
+}
+.email-mockup:hover {
+    transform: rotate(1deg) scale(1.01);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    border-color: #f59e0b;
+}
+/* แปะป้าย Evidence มุมขวาบน */
+.email-mockup::before {
+    content: 'EVIDENCE #001';
+    position: absolute;
+    top: 15px; right: 15px;
+    background: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+    border: 2px solid #dc2626;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    transform: rotate(-10deg);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* 5. MAGNIFYING ZOOM (แว่นขยายส่องรูป) */
+/* รูปภาพในบทนี้จะซูมได้เยอะเป็นพิเศษ เหมือนใช้แว่นขยายส่อง */
+.img-block img {
+    cursor: zoom-in;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s;
+    border: 2px solid transparent;
+}
+.img-block img:hover {
+    transform: scale(1.3); /* ซูม 1.3 เท่า (เยอะกว่าบทอื่น) */
+    z-index: 10;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    border-color: #f59e0b; /* ขอบส้ม */
+    border-radius: 8px;
+    background: #fff;
+}
+
+/* 6. GLITCH REVEAL (เฉลยตัวอักษรปลอม) */
+/* ใช้กับส่วน Homograph Attack เพื่อให้เห็นความแตกต่างชัดเจน */
+.nist-col.old:hover h2 {
+    animation: glitch-text 0.3s infinite;
+    color: #ef4444; /* เปลี่ยนเป็นสีแดงเตือนภัย */
+    text-shadow: 2px 0 #000;
+}
+
+@keyframes glitch-text {
+    0% { transform: skewX(0deg); }
+    20% { transform: skewX(-10deg); }
+    40% { transform: skewX(10deg); }
+    60% { transform: skewX(-5deg); }
+    80% { transform: skewX(5deg); }
+    100% { transform: skewX(0deg); }
+}
+/* =========================================
+   MASTER IMAGE STYLE (มาตรฐานรูปภาพเดียวกันทุกบท)
+   [บังคับใช้กรอบสไตล์ HUD กับทุกรูปภาพในเว็บ]
+   ========================================= */
+
+/* 1. ล้างเอฟเฟกต์พิเศษอื่นๆ ทิ้งให้หมด (เช่น เส้นสแกน, แว่นขยาย) */
+.img-block {
+    border: none !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+    animation: none !important;
+}
+.img-block::after {
+    display: none !important; /* ปิดเส้นสแกน */
+}
+
+/* 2. สร้างกรอบมาตรฐาน (เหมือนบทที่ 1) */
+.img-block img {
+    /* โครงสร้างกรอบ */
+    border: 2px solid rgba(0, 0, 0, 0.1); /* ขอบเริ่มต้นสีจางๆ */
+    padding: 8px; /* ช่องว่างระหว่างรูปกับขอบ (Padding) */
+    background: #ffffff; /* พื้นหลังรองรูป */
+    border-radius: 12px; /* มุมโค้งมน */
+    
+    /* การแสดงผล */
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    
+    /* เอฟเฟกต์การขยับ */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* เงาปกติ */
+    cursor: default; /* ไม่ต้องเป็นรูปแว่นขยาย */
+}
+
+/* 3. เอฟเฟกต์ตอนเอาเมาส์ชี้ (เปลี่ยนสีตามธีมของแต่ละบท) */
+.img-block img:hover {
+    transform: scale(1.02); /* ขยายขึ้นนิดเดียวพองาม */
+    border-color: var(--accent); /* สีขอบเปลี่ยนตามธีมบทเรียน (เขียว/ส้ม/แดง) */
+    
+    /* แสงฟุ้งตามสีธีม */
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2); 
+}

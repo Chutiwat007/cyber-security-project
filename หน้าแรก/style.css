@@ -1,0 +1,731 @@
+/* =========================================
+   0. GLOBAL SETTINGS (แก้ไขใหม่: รองรับ Fixed Navbar)
+   ========================================= */
+html {
+    scroll-behavior: smooth;
+    overflow-x: visible; 
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden; /* ย้ายคำสั่งกันจอเลื่อนมาไว้ที่นี่แทน */
+    position: relative;
+    touch-action: pan-y;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================================
+   1. GLOBAL RESET & BASE STYLES
+   ========================================= */
+:root {
+    --primary-color: #0a192f;
+    --accent-color: #64ffda;
+    --blue-btn: #007bff;
+    --bg-light: #F0F2F5;
+    --card-bg: #ffffff;
+    --text-main: #333333;
+    --text-muted: #666666;
+    --nav-height: 70px;
+}
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'Sarabun', sans-serif; 
+    -webkit-tap-highlight-color: transparent;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; 
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden; 
+    width: 100%;
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
+img { max-width: 100%; height: auto; display: block; object-fit: cover; }
+
+.container { 
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
+}
+
+/* =========================================
+   2. HEADER & NAVIGATION (DESKTOP)
+   ========================================= */
+header {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);  
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    position: sticky; 
+    top: 0; 
+    z-index: 1000;
+    height: var(--nav-height); 
+    display: flex; 
+    align-items: center;
+}
+
+.nav-container { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    height: 100%; 
+    position: relative;
+}
+
+/* Logo */
+.logo { 
+    font-size: 1.6rem; 
+    font-weight: 800; 
+    color: var(--primary-color); 
+    display: flex; 
+    gap: 5px; 
+    align-items: center; 
+    white-space: nowrap; 
+}
+.logo span { color: var(--blue-btn); }
+
+/* Desktop Menu */
+.nav-links, .nav-menu { display: flex; gap: 30px; align-items: center; }
+.nav-item, .nav-link { font-weight: 600; color: var(--primary-color); font-size: 1rem; position: relative; cursor: pointer;}
+.nav-item:hover, .nav-link:hover { color: var(--blue-btn); }
+
+/* --- [แก้ไข] Dropdown Desktop (เพิ่มสะพานล่องหน) --- */
+.dropdown { position: relative; }
+
+.dropdown-menu {
+    position: absolute; 
+    top: 100%; 
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    width: 280px; 
+    background: #fff; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 12px; 
+    display: none; 
+    padding: 10px 0;
+    border: 1px solid #eee;
+    z-index: 1100;
+}
+
+/* !!! จุดสำคัญที่เพิ่มให้ครับ (สะพานล่องหน) !!! */
+.dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -25px;    /* ยื่นขึ้นไปปิดช่องว่างด้านบน */
+    left: 0;
+    width: 100%;
+    height: 30px;  /* ความหนาของสะพาน */
+    background: transparent; /* สีใส มองไม่เห็น */
+    display: block;
+}
+
+.dropdown:hover .dropdown-menu { display: block; animation: fadeIn 0.3s; }
+.dropdown-menu li a { display: block; padding: 12px 20px; border-bottom: 1px solid #f9f9f9; font-size: 0.95rem; color: #555;}
+.dropdown-menu li a:hover { background: #f0f7ff; color: var(--blue-btn); padding-left: 25px; }
+
+/* Contact Button Desktop */
+.btn-contact {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: #fff !important; padding: 10px 25px; border-radius: 50px; font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+.btn-contact:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4); }
+
+.hamburger { display: none; } /* ซ่อนในคอม */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* =========================================
+   3. HERO & SECTIONS
+   ========================================= */
+.hero {
+    min-height: 85vh; 
+    background: linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.8)), 
+                url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; color: white;
+    padding: 100px 20px;
+    background-attachment: scroll;
+}
+
+.hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 20px; line-height: 1.2; font-weight: 700; }
+.hero h1 span { color: var(--accent-color); text-shadow: 0 0 15px rgba(100, 255, 218, 0.4); }
+.hero p { font-size: clamp(1rem, 2.5vw, 1.2rem); margin-bottom: 30px; opacity: 0.9; max-width: 600px; margin-left: auto; margin-right: auto;}
+
+.btn-primary { 
+    display: inline-block; padding: 12px 35px; border: 2px solid var(--accent-color); 
+    color: var(--accent-color); border-radius: 8px; font-weight: bold; margin-top: 10px;
+}
+.btn-primary:hover { background: rgba(100, 255, 218, 0.1); transform: translateY(-3px); }
+
+/* Content Sections */
+.section-padding { padding: 60px 0; }
+.section-header { text-align: center; margin-bottom: 40px; }
+.section-header h2 { font-size: 2.2rem; margin-bottom: 10px; color: var(--primary-color); }
+
+/* Search Box */
+.search-box {
+    margin: 25px auto; width: 100%; max-width: 550px; position: relative;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.08); border-radius: 50px; background: #fff;
+}
+.search-box input { width: 100%; padding: 15px 50px; border: 1px solid #eee; border-radius: 50px; outline: none; font-size: 1rem; }
+.search-box i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--blue-btn); font-size: 1.2rem; }
+
+/* Grid Cards */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 30px;
+    padding: 10px 5px;
+}
+
+.course-card {
+    background: #fff; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
+    transition: all 0.3s ease;
+    display: flex; flex-direction: column; border: 1px solid #f0f0f0;
+}
+.course-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); }
+.card-image { height: 200px; position: relative; overflow: hidden; }
+.card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+.course-card:hover .card-image img { transform: scale(1.1); }
+.card-badge { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.7); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; }
+.card-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+.card-info h4 { margin-bottom: 10px; font-size: 1.2rem; color: var(--primary-color); }
+.card-info p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px; }
+.card-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #f0f0f0; display: flex; justify-content: space-between; color: var(--blue-btn); font-weight: 600; }
+
+/* Footer */
+footer { background: #0f172a; color: #cbd5e1; padding-top: 60px; margin-top: 60px; border-top: 4px solid var(--accent-color); }
+.footer-content { display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between; padding-bottom: 40px; }
+.footer-left, .footer-center, .footer-right { flex: 1 1 250px; }
+.footer-logo { font-size: 1.5rem; font-weight: bold; color: #fff; margin-bottom: 15px; }
+.footer-links li { margin-bottom: 12px; }
+.footer-socials { display: flex; gap: 15px; margin-top: 20px; }
+.f-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #fff; transition: 0.3s; }
+.f-icon:hover { background: var(--accent-color); color: #000; }
+.copyright-bar { text-align: center; padding: 20px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; }
+
+
+/* =========================================
+   4. UNIVERSAL RESPONSIVE FIX (ฉบับแก้ไข: ครึ่งจอ + ชิดซ้าย)
+   ========================================= */
+
+/* --- Tablet & iPad & Mobile (ทุกจอที่เล็กกว่า 1024px) --- */
+@media screen and (max-width: 1024px) {
+    
+    /* 1. ปรับ Container พื้นฐาน */
+    .container {
+        padding: 0 20px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* 2. ปุ่ม Hamburger (3 ขีด) */
+    .hamburger { 
+        display: block !important; 
+        z-index: 2000;
+        
+        position: absolute; 
+        right: 20px; 
+        top: 50%;
+        transform: translateY(-50%);
+        
+        font-size: 1.6rem;
+        cursor: pointer;
+        color: var(--primary-color);
+        width: 40px;
+        height: 40px;
+        text-align: right;
+        line-height: 40px;
+    }
+
+    /* 3. ตัวเมนู Sidebar (แถบที่เลื่อนออกมา) */
+    .nav-links, .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;         /* ซ่อนไปทางขวา */
+        
+        /* --- กำหนดความกว้าง --- */
+        width: 320px;         /* กว้าง 320px (ประมาณครึ่งจอ iPad) */
+        max-width: 80%;       /* แต่ห้ามเกิน 80% ของจอมือถือเล็ก */
+        height: 100vh;        /* สูงเต็มจอ */
+        
+        background: #ffffff;  /* พื้นหลังสีขาวทึบ (อ่านง่าย) */
+        box-shadow: -5px 0 30px rgba(0,0,0,0.1); /* เงาด้านซ้าย */
+        
+        /* --- จัดเรียงเนื้อหาภายใน (ชิดซ้าย) --- */
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start; /* เรียงจากบนลงล่าง */
+        align-items: flex-start;     /* ดันทุกอย่างชิดซ้าย! */
+        padding: 90px 30px 40px 30px; /* เว้นขอบ: บน ขวา ล่าง ซ้าย */
+        gap: 15px;
+        
+        transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Animation นุ่มๆ */
+        z-index: 1500;
+        overflow-y: auto;
+    }
+
+    /* สั่งให้โผล่ออกมา */
+    .nav-links.active, .nav-menu.active {
+        right: 0 !important;
+    }
+
+    /* 4. ปรับแต่งลิงก์และตัวหนังสือ (ชิดซ้าย) */
+    .nav-links li, .nav-menu li {
+        width: 100%;
+        text-align: left; /* ตัวหนังสือชิดซ้าย */
+        border-bottom: 1px solid #f1f1f1; /* เส้นขีดคั่นบางๆ */
+    }
+
+    .nav-item, .nav-link {
+        font-size: 1.1rem; /* ขนาดกำลังดี */
+        display: block;
+        padding: 15px 0;   /* เว้นช่องไฟบนล่าง */
+        color: var(--text-main);
+        font-weight: 500;
+        transition: 0.2s;
+    }
+    
+    .nav-item:hover {
+        color: var(--blue-btn);
+        padding-left: 10px; /* ขยับนิดนึงตอนเอาเมาส์จ่อ */
+    }
+
+    /* 5. Dropdown Menu (รายการย่อย) */
+    .dropdown-menu {
+        position: static !important;
+        display: block !important;
+        width: 100% !important;
+        margin: 0;
+        box-shadow: none !important;
+        border: none;
+        background: transparent;
+        transform: none !important;
+        opacity: 1 !important;
+        
+        /* ย่อหน้าเข้าไปด้านในให้รู้ว่าเป็นข้อย่อย */
+        padding-left: 20px; 
+        border-left: 2px solid #eee; /* เส้นไกด์ไลน์ด้านซ้าย */
+    }
+    
+    .dropdown-menu li a {
+        font-size: 0.95rem;
+        color: #666;
+        padding: 12px 0;
+        border-bottom: none; /* เอาเส้นคั่นในลูกย่อยออก */
+    }
+
+    /* ซ่อนลูกศร Dropdown */
+    .fa-chevron-down { display: none; }
+
+    /* 6. ปุ่มติดต่อเรา (Contact) */
+    .btn-contact {
+        width: 100%;
+        margin-top: 20px;
+        text-align: center;
+        display: block;
+        border-radius: 8px; /* ปรับปุ่มให้มนน้อยลงเพื่อให้เข้ากับลิสต์ */
+    }
+}
+
+/* --- Mobile Phone (จอเล็กกว่า 600px) --- */
+@media screen and (max-width: 600px) {
+    /* ปรับ Hero Section */
+    .hero {
+        padding: 100px 20px 60px 20px !important;
+    }
+    .hero h1 { font-size: 1.8rem !important; }
+    
+    /* Grid 1 แถว */
+    .grid-container { grid-template-columns: 1fr; }
+    
+    /* Footer แนวตั้ง */
+    .footer-content { flex-direction: column; text-align: center; gap: 30px; }
+    .footer-socials { justify-content: center; }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- Layout หลักของหน้าเรียน --- */
+.lesson-section {
+    padding: 40px 0;
+    min-height: 100vh;
+}
+
+.lesson-layout {
+    display: flex; /* จัดให้เมนูและเนื้อหาอยู่คู่กัน */
+    gap: 40px;     /* ช่องว่างระหว่างเมนูกับเนื้อหา */
+    position: relative;
+    align-items: flex-start; /* สำคัญ! ป้องกัน Sidebar ยืดจนเต็มความสูง */
+}
+
+/* --- ส่วน Sidebar --- */
+.lesson-sidebar {
+    width: 300px; /* ความกว้างเมนู */
+    flex-shrink: 0; /* ห้ามหด */
+    display: none; /* ซ่อนในมือถือ (ค่อยเปิดใน Desktop) */
+}
+
+/* --- ตัวทำ Sticky (พระเอกของงาน) --- */
+.sticky-menu {
+    position: -webkit-sticky; /* สำหรับ Safari */
+    position: sticky;
+    top: 90px; /* ระยะห่างจากขอบบน (ต้องมากกว่าความสูง Header 70px) */
+    
+    /* ตกแต่งกล่อง */
+    background: #fff;
+    border: 1px solid #a5b4fc; /* สีขอบฟ้าอ่อนๆ ตามรูป */
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* --- ตกแต่งภายในเมนู (ให้เหมือนรูป) --- */
+.menu-header {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #4ade80; /* สีเขียวมิ้นต์ */
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.menu-list {
+    list-style: none;
+    border-left: 3px solid #e0e7ff; /* เส้นสีเทาฟ้าซ้ายมือ */
+    padding-left: 20px;
+}
+
+.menu-list li {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.menu-list li a {
+    color: #4ade80; /* สีตัวอักษรปกติ */
+    font-weight: 600;
+    font-size: 1rem;
+    transition: 0.2s;
+    display: block;
+}
+
+.menu-list li a:hover {
+    color: #22c55e;
+    transform: translateX(5px);
+}
+
+/* --- ส่วนเนื้อหา (Content) --- */
+.lesson-content {
+    flex-grow: 1; /* ขยายเต็มพื้นที่ที่เหลือ */
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* --- Responsive (มือถือ) --- */
+@media screen and (max-width: 900px) {
+    .lesson-layout {
+        flex-direction: column; /* เรียงลงมาแทน */
+    }
+    
+    .lesson-sidebar {
+        display: none; /* ซ่อน Sidebar แบบ Sticky ในมือถือเพราะที่แคบ */
+        /* หรือถ้าอยากให้แสดง ก็แก้เป็น width: 100%; position: static; */
+    }
+}
+
+@media screen and (min-width: 901px) {
+    .lesson-sidebar {
+        display: block; /* แสดงเฉพาะในคอม/ไอแพด */
+    }
+}
+/* =========================================
+   MOBILE NAVBAR FIXED (เพิ่มใหม่: เมนูมือถือลอยตาม)
+   ========================================= */
+@media screen and (max-width: 1024px) {
+    /* 1. สั่งให้ Navbar ยึดติดขอบบนสุด */
+    #main-header { /* ในหน้าแรกใช้ ID main-header */
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        z-index: 9999;
+    }
+
+    /* 2. ดันเนื้อหาลงมาไม่ให้โดน Navbar บัง */
+    body {
+        padding-top: 70px; 
+    }
+    
+    /* 3. ปรับตำแหน่งเมนูที่สไลด์ออกมา ให้เริ่มใต้ Navbar พอดี */
+    .nav-links, .nav-menu {
+        top: 70px !important; 
+        height: calc(100vh - 70px) !important;
+        z-index: 9998;
+    }
+}
+/* =========================================
+   FONT SETTINGS (ตั้งค่าฟอนต์หน้าแรก)
+   ========================================= */
+
+/* 1. โลโก้ CyberSecure (ใช้ฟอนต์ Orbitron แบบไซเบอร์) */
+.logo {
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 700;
+    letter-spacing: 1px; /* เพิ่มระยะห่างตัวอักษรให้ดูทันสมัย */
+}
+
+/* 2. เมนูและเนื้อหาทั่วไป (ใช้ฟอนต์ Sarabun อ่านง่าย) */
+body, .nav-item, .nav-link, .btn-contact, h1, h2, h3, h4, p, a {
+    font-family: 'Sarabun', sans-serif;
+}
+
+/* 3. หัวข้อใหญ่ Banner (Hero Section) */
+.hero h1 {
+    font-family: 'Sarabun', sans-serif;
+    font-weight: 800; /* หนาพิเศษ */
+}
+
+/* 4. หัวข้อภาษาอังกฤษ หรือตัวเลข (ถ้าอยากให้ดูเท่) */
+.card-badge, .meta-info {
+    font-family: 'Sarabun', sans-serif;
+}
+/* =========================================
+   FONT FIX (แก้ฟอนต์ให้เหมือนหน้าบทเรียน)
+   ========================================= */
+
+/* 1. บังคับโลโก้ให้เป็นฟอนต์ Orbitron (ไซเบอร์) */
+.logo {
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 700; /* หรือลองเปลี่ยนเป็น 800 ถ้าอยากให้หนาปึ้ก */
+    letter-spacing: 1px; /* เพิ่มช่องไฟให้ดูโปร */
+}
+
+/* 2. บังคับเมนูและเนื้อหาทั้งหมดให้เป็น Sarabun */
+body, h1, h2, h3, h4, p, a, .nav-link, .btn-contact {
+    font-family: 'Sarabun', sans-serif !important;
+}
+
+/* 3. เก็บตกหัวข้อใหญ่ (Hero) ให้หนาพิเศษเหมือนต้นฉบับ */
+.hero h1 {
+    font-weight: 800 !important; /* ต้องมี 800 จากขั้นตอนที่ 1 ก่อนนะ */
+}
+/* =========================================
+   CYBER AESTHETIC PACK (ชุดแต่งความสวยงามหน้าแรก)
+   [วางต่อท้ายไฟล์ style.css ได้เลย]
+   ========================================= */
+
+/* 1. SCROLLBAR (เปลี่ยนแถบเลื่อนเป็นสีเขียว Cyber) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #0f172a; /* พื้นหลังรางเลื่อนสีมืด */
+}
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color); /* สีเขียวมิ้นต์ */
+    border-radius: 5px;
+    border: 2px solid #0f172a; /* ขอบมืดตัดกัน */
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #fff; /* ชี้แล้วเปลี่ยนเป็นสีขาว */
+}
+
+/* 2. CYBER GRID BACKGROUND (พื้นหลังลายตารางจางๆ) */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    /* สร้างเส้นตารางสีเทาจางๆ */
+    background-image: 
+        linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px; /* ขนาดตาราง */
+    z-index: -1; /* ส่งไปอยู่หลังสุด */
+    pointer-events: none;
+}
+
+/* 3. TEXT SELECTION (ลากคลุมข้อความแล้วเท่) */
+::selection {
+    background: var(--accent-color);
+    color: #0a192f;
+    text-shadow: none;
+}
+
+/* 4. CARD HOVER EFFECT (การ์ดบทเรียนเด้งดึ๋ง) */
+.course-card {
+    border: 1px solid rgba(0,0,0,0.05); /* เส้นขอบบางๆ */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* เอฟเฟกต์เด้ง */
+    background: rgba(255, 255, 255, 0.8); /* พื้นหลังโปร่งแสงนิดๆ */
+    backdrop-filter: blur(5px); /* เบลอฉากหลัง (Glassmorphism Lite) */
+}
+
+.course-card:hover {
+    transform: translateY(-10px) scale(1.02); /* ลอยขึ้นและขยาย */
+    box-shadow: 0 20px 40px rgba(10, 25, 47, 0.15); /* เงาฟุ้งๆ */
+    border-color: var(--accent-color); /* เปลี่ยนขอบเป็นสีเขียว */
+}
+
+.course-card:hover .card-image img {
+    transform: scale(1.15) rotate(2deg); /* รูปภาพขยายและเอียงนิดๆ */
+}
+
+/* 5. GLOWING BUTTONS (ปุ่มเรืองแสง) */
+.btn-primary, .btn-contact {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover, .btn-contact:hover {
+    box-shadow: 0 0 20px rgba(100, 255, 218, 0.6); /* แสงฟุ้งสีเขียว */
+    transform: translateY(-3px);
+    text-shadow: 0 0 8px rgba(255,255,255,0.8);
+}
+
+/* 6. SEARCH BOX FOCUS (ช่องค้นหามีพลัง) */
+.search-box {
+    transition: all 0.3s ease;
+}
+.search-box:focus-within {
+    transform: scale(1.05); /* ขยายเมื่อกดพิมพ์ */
+    box-shadow: 0 10px 30px rgba(100, 255, 218, 0.15);
+    border: 1px solid var(--accent-color);
+}
+
+/* 7. HERO TEXT ANIMATION (หัวข้อใหญ่ขยับได้นิดๆ) */
+.hero h1 span {
+    display: inline-block;
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0); text-shadow: 0 0 15px rgba(100, 255, 218, 0.4); }
+    50% { transform: translateY(-5px); text-shadow: 0 0 25px rgba(100, 255, 218, 0.8); }
+}
+/* =========================================
+   CYBER EXPANSION PACK (อนิเมชันชุดเสริม)
+   [วางต่อท้ายไฟล์ style.css ได้เลย]
+   ========================================= */
+
+/* --- 1. HERO ENTRANCE (เปิดตัวส่วนหัวแบบไหลขึ้น) --- */
+/* สร้างคีย์เฟรมสำหรับเอฟเฟกต์เลื่อนขึ้นและค่อยๆ ปรากฏ */
+@keyframes fadeInUpCyber {
+    from {
+        opacity: 0;
+        transform: translateY(40px); /* เริ่มต้นอยู่ต่ำกว่าปกติ */
+        filter: blur(5px); /* เบลอนนิดๆ ตอนเริ่ม */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* นำไปใช้กับองค์ประกอบต่างๆ ใน Hero Section โดยตั้งเวลาให้เหลื่อมกัน (Staggered) */
+.hero h1 {
+    opacity: 0; /* ซ่อนก่อน */
+    animation: fadeInUpCyber 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.3s; /* เริ่มวินาทีที่ 0.3 */
+}
+
+.hero p.subtitle {
+    opacity: 0;
+    animation: fadeInUpCyber 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.5s; /* เริ่มวินาทีที่ 0.5 */
+}
+
+.search-container {
+    opacity: 0;
+    animation: fadeInUpCyber 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.7s; /* เริ่มวินาทีที่ 0.7 */
+}
+
+/* --- 2. LOGO GLITCH FLICKER (โลโก้กระพริบแบบดิจิทัลเมื่อชี้) --- */
+@keyframes glitch-flicker {
+    0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--accent-color); }
+    10%, 30%, 50%, 70%, 90% { opacity: 0.9; text-shadow: 2px 0 red, -2px 0 blue; transform: skewX(-1deg); }
+    20%, 40%, 60%, 80% { opacity: 1; text-shadow: -2px 0 red, 2px 0 blue; transform: skewX(1deg); }
+    5% { opacity: 0.5; transform: translateX(-2px); }
+    25% { opacity: 0.7; transform: translateY(2px); }
+}
+
+.logo:hover span {
+    display: inline-block;
+    /* เมื่อเอาเมาส์ชี้ คำว่า "Secure" จะกระพริบแบบ Error */
+    animation: glitch-flicker 0.6s infinite linear alternate-reverse;
+    color: #fff; /* เปลี่ยนเป็นสีขาวเพื่อให้เห็นสี Glitch ชัดขึ้น */
+}
+
+
+/* --- 3. PULSING CARD BADGE (ป้ายตัวเลขเรืองแสงเป็นจังหวะเมื่อชี้การ์ด) --- */
+@keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.8); }
+    70% { box-shadow: 0 0 0 15px rgba(100, 255, 218, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0); }
+}
+
+.course-card:hover .card-badge {
+    background: var(--accent-color); /* เปลี่ยนพื้นหลังเป็นสีเขียว */
+    color: #0a192f; /* ตัวเลขสีเข้ม */
+    /* สร้างวงแหวนแสงขยายออกรอบๆ ป้าย */
+    animation: pulse-ring 1.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+/* =========================================
+   FOOTER LINK ANIMATION FIX
+   (คืนค่าอนิเมชั่นตรงแหล่งข้อมูลอ้างอิง)
+   ========================================= */
+
+/* ตั้งค่าเริ่มต้นให้ลิงก์ */
+.footer-links li a {
+    display: inline-block;       /* ต้องใส่บรรทัดนี้ ไม่งั้นมันจะไม่เลื่อน */
+    color: #cbd5e1;             /* สีข้อความปกติ (เทาอ่อน) */
+    transition: all 0.3s ease;  /* ทำให้ขยับนุ่มนวล */
+    text-decoration: none;
+}
+
+/* ตั้งค่าตอนเอาเมาส์ชี้ (Hover) */
+.footer-links li a:hover {
+    color: var(--accent-color); /* เปลี่ยนเป็นสีเขียว Cyber (หรือสีตามธีม) */
+    transform: translateX(10px); /* เลื่อนไปทางขวา 10px */
+    text-shadow: 0 0 8px rgba(100, 255, 218, 0.4); /* มีแสงเรืองออกมานิดๆ */
+}
+
+/* เพิ่มลูกเล่นให้ไอคอนหมุนนิดนึงตอนชี้ */
+.footer-links li a:hover i {
+    transform: rotate(15deg);   /* หมุนไอคอน 15 องศา */
+    display: inline-block;
+    transition: transform 0.3s;
+}

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 2: คัมภีร์การตั้งรหัสผ่านและการยืนยันตัวตน (Ultimate Edition) - CyberPedia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700;800&family=Orbitron:wght@500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <a href="../หน้าแรก/index.html" class="back-home-bar">
+        <i class="fas fa-chevron-left"></i> กลับหน้าหลัก
+    </a>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">Cyber<span>Secure</span></a>
+            <div class="hamburger" id="hamburger-btn"><i class="fas fa-bars"></i></div>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="../การตั้งรหัสผ่านอย่างปลอดภัย/index.html" class="nav-link">หน้าหลัก</a></li>
+                <li class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">บทเรียน <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="../ความรู้เกี่ยวกับภัยไซเบอร์และวิธีป้องกัน/intro.html">1. ความรู้เกี่ยวกับภัยไซเบอร์</a></li>
+                        <li><a href="index.html">2. การตั้งรหัสผ่านอย่างปลอดภัย</a></li>
+                        <li><a href="../การรู้เท่ากันอีเมลและเว็บไซต์ปลอม/index.html">3. การรู้เท่ากันอีเมลและเว็บไซต์ปลอม</a></li>
+                        <li><a href="../การใช้อินเทอร์เน็ตและสื่อสังคมอย่างปลอดภัย/index.html">4. การใช้อินเทอร์เน็ตและสื่อสังคมอย่างปลอดภัย</a></li>
+                        <li><a href="../การป้องกันไวรัสและมัลแวร์/index.html">5. การป้องกันไวรัสและมัลแวร์</a></li>
+                        <li class="divider"></li>
+                    </ul>
+                </li>
+                <li><a href="../ติดต่อเรา/index.html" class="nav-link btn-nav-contact">ติดต่อเรา</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="lesson-hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="badge-category">Module 2 : Authentication Mastery</span>
+            <h1>คัมภีร์การตั้งรหัสผ่านและการยืนยันตัวตน <br><span class="subtitle">(Advanced Password Security, Vaults & MFA Mechanics)</span></h1>
+            <div class="meta-info">
+                <span><i class="fas fa-book-open"></i> บทที่ 2</span>
+                <span><i class="fas fa-flask"></i> รวม 3 Labs ทดลอง</span>
+                <span><i class="fas fa-clock"></i> เนื้อหาละเอียด: 60 นาที</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="container main-layout">
+        
+        <aside class="sidebar-toc">
+            <div class="toc-inner">
+                <h3><i class="fas fa-list-ul"></i> หัวข้อการเรียนรู้</h3>
+                <ul id="toc-list">
+                    <li><a href="#sec1" class="active">1. จิตวิทยาและปัญหา</a></li>
+                    <li><a href="#lab1" class="highlight-toc">LAB 1: ตรวจสอบ Entropy</a></li>
+                    <li><a href="#sec2">2. คณิตศาสตร์การเจาะรหัส</a></li>
+                    <li><a href="#sec3">3. เบื้องหลังการเก็บ (Hashing)</a></li>
+                    <li><a href="#sec4">4. มาตรฐาน NIST SP 800-63B</a></li>
+                    <li><a href="#sec5">5. Password Manager</a></li>
+                    <li><a href="#lab2" class="highlight-toc">LAB 2: เครื่องมือสร้างรหัส</a></li>
+                    <li><a href="#sec6">6. ระบบ 2FA/MFA เชิงลึก</a></li>
+                    <li><a href="#lab3" class="highlight-toc">LAB 3: จำลอง TOTP</a></li>
+                    <li><a href="#sec7">7. FIDO2 & WebAuthn</a></li>
+                    <li><a href="#sec8">8. Biometrics</a></li>
+                    <li><a href="#sec9">9. OAuth & SSO</a></li>
+                    <li><a href="#sec10">10. แผนกู้คืนบัญชี</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <article class="content-area">
+            
+            <section id="sec1" class="chapter">
+                <h2><span class="chapter-number">1</span> จิตวิทยาและปัญหาของรหัสผ่าน (The Psychology of Passwords)</h2>
+                <p>รหัสผ่านคือกลไกการยืนยันตัวตนที่เก่าแก่และแพร่หลายที่สุด แต่กลับเป็น <strong>"จุดอ่อนที่สุด"</strong> ของระบบความปลอดภัย (Single Point of Failure) สาเหตุหลักมาจากขีดจำกัดของสมองมนุษย์ที่ไม่สามารถจดจำสิ่งที่ซับซ้อนและไม่มีความหมายได้ เราจึงมักเลือกทางลัด:</p>
+                <ul class="detail-list">
+                    <li><strong>Predictability (ความน่าจะเป็น):</strong> มนุษย์ชอบใช้รูปแบบเดิมๆ เช่น <code>Password123</code>, <code>Qwerty</code>, หรือชื่อคนรักตามด้วยปีเกิด</li>
+                    <li><strong>Reuse (การใช้ซ้ำ):</strong> สถิติจาก Google ระบุว่า 65% ของผู้ใช้ ใช้รหัสผ่านเดิมซ้ำกันในหลายบัญชี ซึ่งทำให้เกิดความเสี่ยงแบบโดมิโน (Domino Effect)</li>
+                </ul>
+                
+                <figure class="img-block medium">
+                    <img src="1.jpg" alt="กราฟแสดงสถิติการใช้รหัสผ่านซ้ำและการรั่วไหล">
+                    <figcaption>เมื่อรหัสผ่านเว็บหนึ่งหลุด แฮกเกอร์จะใช้ Credential Stuffing โจมตีเว็บอื่นของคุณทันที</figcaption>
+                </figure>
+               <div class="video-section">
+                    <h3><i class="fas fa-play-circle"></i> วิดีโอประกอบ: 7 ทริกตั้งรหัสผ่านให้ปลอดภัย</h3>
+                  <div class="video-wrapper">
+    <iframe 
+        src="https://drive.google.com/file/d/1kybgT39unsypgWUC2dmJSKmmaxRU1sOD/preview" 
+        allow="autoplay; fullscreen"
+        allowfullscreen
+        width="100%" 
+        height="100%">
+    </iframe>
+</div>
+                    <p class="video-caption">ขอบคุณสื่อการสอนจาก: ชัวร์ก่อนแชร์ สำนักข่าวไทย</p>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+           <section id="lab1" class="chapter">
+                <h2><i class="fas fa-flask"></i> LAB 1: ตรวจสอบความแข็งแกร่ง (Entropy Check)</h2>
+                <p>ทดลองคำนวณความยากในการเจาะรหัสผ่านด้วยระบบจำลอง (ข้อมูลประมวลผลในเครื่องของคุณ ไม่มีการส่งออกภายนอก)</p>
+
+                <div class="password-sim">
+                    <div class="input-group">
+                        <input type="text" id="checkInput" placeholder="พิมพ์รหัสผ่านเพื่อทดสอบ..." autocomplete="off">
+                        <button id="toggleCheck"><i class="fas fa-eye"></i></button>
+                    </div>
+                    
+                    <div class="strength-meter">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                    
+                    <div class="analysis-result">
+                        <div class="result-item">
+                            <span class="label">เวลาที่ใช้เจาะ (โดยประมาณ):</span>
+                            <span id="crackTime" class="value highlight">---</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">ระดับความยาก:</span>
+                            <span id="strengthText" class="value">---</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="label">ค่า Entropy:</span>
+                            <span id="entropyVal" class="value">0 bits</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <span style="font-size: 0.8rem; color: #94a3b8;">
+                            <i class="fas fa-info-circle"></i> อ้างอิงหลักการคำนวณจาก: <strong>Security.org & zxcvbn</strong>
+                        </span>
+                        <a href="https://www.uic.edu/apps/strong-password/" target="_blank" style="font-size: 0.8rem; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 5px 12px; border-radius: 20px; transition: 0.3s;">
+                            เทียบกับเว็บต้นฉบับ <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec2" class="chapter">
+                <h2><span class="chapter-number">2</span> คณิตศาสตร์และการโจมตี (The Math & Attack Vectors)</h2>
+                <p>ความปลอดภัยของรหัสผ่านวัดกันที่ค่า <strong>Entropy (ความยุ่งเหยิง)</strong> ซึ่งมีหน่วยเป็น Bits ยิ่งค่าสูง จำนวนครั้งที่ต้องเดาก็จะยิ่งเพิ่มขึ้นแบบทวีคูณ (Exponential)</p>
+                
+                <div class="tech-box">
+                    <h4><i class="fas fa-calculator"></i> สูตรคำนวณ: E = L × log<sub>2</sub>(R)</h4>
+                    <ul class="detail-list">
+                        <li><strong>L (Length):</strong> ความยาวของรหัสผ่าน (มีผลมากที่สุด)</li>
+                        <li><strong>R (Range):</strong> ขนาดของกลุ่มตัวอักษร (เช่น ตัวเลข=10, ตัวพิมพ์เล็ก=26, ผสมทุกอย่าง=94)</li>
+                    </ul>
+                    <p class="note"><em>*การเพิ่มความยาวรหัสผ่านเพียง 1 ตัวอักษร จะเพิ่มความยากในการเจาะได้มากกว่าการเปลี่ยนตัวอักษรธรรมดาเป็นอักขระพิเศษเสียอีก</em></p>
+                </div>
+
+                <h3>กลยุทธ์การโจมตีของแฮกเกอร์ (Advanced Cracking)</h3>
+                <div class="grid-2">
+                    <div class="attack-card">
+                        <h3><i class="fas fa-book"></i> Dictionary Attack</h3>
+                        <p>ใช้ไฟล์รวมคำศัพท์ (Wordlist) เช่น <code>rockyou.txt</code> ที่มีรหัสผ่านยอดฮิตกว่า 14 ล้านคำ มาไล่ลองทีละคำ วิธีนี้เร็วมาก</p>
+                    </div>
+                    <div class="attack-card">
+                        <h3><i class="fas fa-rainbow"></i> Rainbow Table</h3>
+                        <p>ใช้ตารางที่คำนวณค่า Hash ของรหัสผ่านที่เป็นไปได้ทั้งหมดไว้ล่วงหน้า (Pre-computed) ทำให้ย้อนกลับหารหัสผ่านต้นฉบับได้ในเสี้ยววินาที</p>
+                    </div>
+                    <div class="attack-card">
+                        <h3><i class="fas fa-microchip"></i> GPU Brute Force</h3>
+                        <p>ใช้การ์ดจอประสิทธิภาพสูง (เช่น RTX 4090) ที่สามารถสุ่มเดารหัสผ่านได้หลายล้านล้านครั้งต่อวินาที</p>
+                    </div>
+                    <div class="attack-card">
+                        <h3><i class="fas fa-spider"></i> Spidering / Social Eng.</h3>
+                        <p>โปรแกรมอัตโนมัติที่สแกนโซเชียลมีเดียของคุณเพื่อหา วันเกิด, ชื่อสัตว์เลี้ยง, โรงเรียน เพื่อนำมาสร้าง Wordlist เฉพาะตัว</p>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec3" class="chapter">
+                <h2><span class="chapter-number">3</span> เบื้องหลังการเก็บรักษา: Hashing, Salting & Peppering</h2>
+                <p>เว็บไซต์ที่ปลอดภัยจะไม่เก็บรหัสผ่านของคุณเป็นข้อความปกติ (Plain Text) แต่จะผ่านกระบวนการทางคณิตศาสตร์เพื่อแปลงสภาพ</p>
+
+                <div class="tech-box">
+                    <h4>1. Hashing (การบดข้อมูล)</h4>
+                    <p>คือการแปลงรหัสผ่านให้เป็นรหัสลับที่มีความยาวคงที่ (Digest) เป็นกระบวนการทางเดียว (One-way) ไม่สามารถแปลงกลับได้</p>
+                    <div class="code-example">SHA-256("password") = 5e884898da28047151d0e56f8dc62927...</div>
+                    
+                    <h4 style="margin-top:20px;">2. Salting (เติมเกลือ)</h4>
+                    <p>การเติมค่าสุ่ม (Random String) ต่อท้ายรหัสผ่านก่อนนำไป Hash เพื่อป้องกันการโจมตีแบบ Rainbow Table และทำให้รหัสผ่านที่เหมือนกัน (เช่น 123456) มีค่า Hash ที่ต่างกันในระบบ</p>
+                    <div class="code-example">Hash("password" + "Salt#8x9") = a94f8... (ค่าเปลี่ยนไปโดยสิ้นเชิง)</div>
+
+                    <h4 style="margin-top:20px;">3. Peppering (เติมพริกไทย)</h4>
+                    <p>คล้ายกับ Salt แต่ค่า Pepper จะถูกเก็บแยกไว้ในที่ลับ (ไม่ได้อยู่ในฐานข้อมูลเดียวกับรหัสผ่าน) เพื่อเพิ่มความปลอดภัยอีกชั้น</p>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec4" class="chapter">
+                <h2><span class="chapter-number">4</span> เจาะลึกมาตรฐาน NIST SP 800-63B</h2>
+                <p>สถาบันมาตรฐานและเทคโนโลยีแห่งชาติสหรัฐฯ (NIST) ได้ออกคู่มือฉบับใหม่ที่ลบล้างความเชื่อเดิมๆ ที่เราเคยเรียนมา:</p>
+
+                <div class="nist-compare">
+                    <div class="nist-col old">
+                        <h4>❌ ความเชื่อเดิม (Legacy)</h4>
+                        <ul>
+                            <li><strong>Composition Rules:</strong> บังคับต้องมี ตัวใหญ่+ตัวเล็ก+ตัวเลข+สัญลักษณ์ (ทำให้คนตั้งรหัสแบบ <code>P@ssw0rd1</code> ซึ่งเดาง่าย)</li>
+                            <li><strong>Expiration:</strong> บังคับเปลี่ยนรหัสทุก 90 วัน (ทำให้คนจดใส่กระดาษ หรือเปลี่ยนแค่ตัวเลขท้าย)</li>
+                            <li><strong>Security Questions:</strong> ใช้คำถามกันลืม (เช่น ชื่อแม่) ซึ่งแฮกเกอร์หาคำตอบได้ง่าย</li>
+                        </ul>
+                    </div>
+                    <div class="nist-col new">
+                        <h4>✅ มาตรฐานใหม่ (Modern)</h4>
+                        <ul>
+                            <li><strong>Length is King:</strong> เน้นความยาวเป็นหลัก (แนะนำ 8 ตัวขึ้นไป แต่ควร 12+)</li>
+                            <li><strong>No Expiration:</strong> ไม่ต้องบังคับเปลี่ยนรหัส ถ้าไม่มีหลักฐานว่าโดนแฮก</li>
+                            <li><strong>Allow Paste:</strong> อนุญาตให้วางรหัสผ่านได้ (เพื่อรองรับ Password Manager)</li>
+                            <li><strong>Ban Common Passwords:</strong> ระบบต้องตรวจสอบเทียบกับฐานข้อมูลรหัสผ่านที่เคยรั่วไหล</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec5" class="chapter">
+                <h2><span class="chapter-number">5</span> Password Manager: สถาปัตยกรรมความปลอดภัย</h2>
+                <p>เมื่อสมองจำไม่ไหว เราจึงต้องใช้เครื่องมือช่วยจำ การทำงานของ Password Manager ไม่ใช่แค่การจดใส่สมุด แต่มีการเข้ารหัสขั้นสูง</p>
+
+                <figure class="img-block medium">
+                    <img src="2.jpg" alt="แผนภาพการทำงานของ Password Manager">
+                    <figcaption>หลักการ Zero-Knowledge: กุญแจถอดรหัสอยู่กับคุณเท่านั้น ไม่ได้อยู่บน Cloud</figcaption>
+                </figure>
+
+                <h3>กลไก Zero-Knowledge Architecture</h3>
+                <p>ผู้ให้บริการ (เช่น Bitwarden, 1Password) จะได้รับข้อมูลที่ถูกเข้ารหัส (Encrypted Blob) แล้วเท่านั้น พวกเขา "ไม่มีกุญแจ" ที่จะเปิดดูรหัสของคุณได้ กุญแจนั้นถูกสร้างจาก <strong>Master Password</strong> ของคุณและไม่เคยถูกส่งออกจากเครื่อง</p>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead><tr><th>เทคโนโลยี</th><th>หน้าที่</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>AES-256</strong></td><td>มาตรฐานการเข้ารหัสระดับการทหาร ใช้ล็อกข้อมูลใน Vault</td></tr>
+                            <tr><td><strong>PBKDF2 / Argon2</strong></td><td>ฟังก์ชัน Key Derivation ที่ทำให้การสุ่มเดา Master Password ช้าลงอย่างมาก</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+         <section id="lab2" class="chapter">
+                <h2><i class="fas fa-tools"></i> LAB 2: เครื่องมือสร้างรหัสผ่าน (NIST Standard)</h2>
+                <p>สร้างรหัสผ่านที่มีความซับซ้อนสูง (High Entropy) โดยใช้อัลกอริทึมการสุ่มที่ปลอดภัย</p>
+
+                <div class="generator-tool">
+                    <div class="output-display">
+                        <span id="genOutput">Click Generate</span>
+                        <button id="copyBtn" title="Copy"><i class="fas fa-copy"></i></button>
+                    </div>
+                    <div class="controls">
+                        <div class="control-group">
+                            <label>ความยาว: <span id="lengthVal">16</span> ตัวอักษร</label>
+                            <input type="range" id="lengthRange" min="8" max="64" value="16">
+                        </div>
+                        <div class="options-grid">
+                            <label><input type="checkbox" id="chkUpper" checked> A-Z</label>
+                            <label><input type="checkbox" id="chkLower" checked> a-z</label>
+                            <label><input type="checkbox" id="chkNumber" checked> 0-9</label>
+                            <label><input type="checkbox" id="chkSymbol" checked> !@#</label>
+                        </div>
+                        <button id="generateBtn" class="btn-gen"><i class="fas fa-sync-alt"></i> สร้างรหัสผ่านใหม่</button>
+                    </div>
+
+                  <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.2); font-size: 0.85rem; color: #ccc; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <span>
+                            <i class="fas fa-book"></i> มาตรฐาน: <strong>NIST SP 800-63B</strong>
+                        </span>
+                        <a href="https://www.expressvpn.com/th/password-generator?srsltid=AfmBOopPwf_eI484KnCz44axHcvJfk91LQZLDAqH7StuhFI7f0nWxSlb" target="_blank" style="color: #6ee7b7; text-decoration: none; border: 1px solid #6ee7b7; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; transition: 0.3s;">
+                            เทียบกับ expressvpn <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec6" class="chapter">
+                <h2><span class="chapter-number">6</span> ระบบ 2FA เชิงลึก: TOTP & HMAC</h2>
+                <p><strong>Multi-Factor Authentication (MFA)</strong> คือการเพิ่มปัจจัยยืนยันตัวตน เพื่อที่ว่าต่อให้รหัสผ่านหลุด แฮกเกอร์ก็ยังเข้าไม่ได้</p>
+
+                <h3>6.1 หลักการทำงานของ TOTP (Time-based One-Time Password)</h3>
+                <p>เคยสงสัยไหมว่าแอป Authenticator ทำงานได้ไงทั้งที่ไม่ได้ต่อเน็ต? มันใช้สมการคณิตศาสตร์ที่ชื่อว่า <strong>HMAC</strong></p>
+                <div class="tech-box">
+                    <p class="code-block">OTP = HMAC-SHA1(SecretKey, TimeStep)</p>
+                    <ul class="detail-list">
+                        <li><strong>Secret Key:</strong> กุญแจลับที่แชร์กันระหว่าง Server และมือถือเรา (ตอนสแกน QR Code)</li>
+                        <li><strong>Time Step:</strong> เวลาปัจจุบันของโลก (Unix Time) หารด้วย 30 วินาที</li>
+                    </ul>
+                    <p><em>*ตราบใดที่เวลาในมือถือและ Server ตรงกัน รหัสที่คำนวณได้จะออกมาเหมือนกันเป๊ะ</em></p>
+                </div>
+               <div class="video-section">
+                    <h3><i class="fas fa-play-circle"></i> วิดีโอประกอบ: 2FA คืออะไร ทำไมเวลาใช้ถึงต้องระวัง !?</h3>
+                 <div class="video-wrapper">
+    <iframe 
+        src="https://drive.google.com/file/d/1bBElXuOUOwbkUpnoTERQP8CYwL5UhPYF/preview" 
+        allow="autoplay; fullscreen"
+        allowfullscreen
+        width="100%" 
+        height="100%">
+    </iframe>
+</div>
+                    <p class="video-caption">ขอบคุณสื่อการสอนจาก:BT beartai </p>
+                </div>
+            </section>
+
+            <section id="lab3" class="chapter">
+                <h2><i class="fas fa-stopwatch"></i> LAB 3: จำลองการทำงาน TOTP</h2>
+                <p>นี่คือสิ่งที่เกิดขึ้นภายในแอป Google Authenticator รหัสจะเปลี่ยนทุก 30 วินาทีตามเวลาจริง</p>
+
+                <div class="totp-sim">
+                    <div class="totp-header">
+                        <span>CyberPedia Account</span>
+                        <small>user@example.com</small>
+                    </div>
+                    <div class="totp-code" id="totpDisplay">000 000</div>
+                    <div class="totp-timer">
+                        <div class="timer-bar" id="totpBar"></div>
+                    </div>
+                    <p class="timer-text">รหัสจะเปลี่ยนในอีก <span id="secLeft">30</span> วินาที</p>
+                </div>
+                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.2); font-size: 0.85rem; color: #94a3b8; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                        <span>
+                            <i class="fas fa-code"></i> อัลกอริทึม: <strong>RFC 6238 (TOTP Standard)</strong>
+                        </span>
+                        <a href="https://totp.danhersam.com/" target="_blank" style="color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; transition: 0.3s;">
+                            ดูการทำงานต้นฉบับ <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec7" class="chapter">
+                <h2><span class="chapter-number">7</span> อนาคต: FIDO2, WebAuthn & Passkeys</h2>
+                <p>จุดอ่อนของ TOTP และ SMS คือ <strong>"Phishing"</strong> (เราอาจเผลอกรอกรหัส OTP ลงในเว็บปลอม) โลกจึงพัฒนาระบบใหม่ที่เรียกว่า <strong>FIDO2 (Fast Identity Online)</strong></p>
+
+                <figure class="img-block medium">
+                    <img src="3.jpg" alt="การทำงานของ FIDO2 Hardware Key">
+                    <figcaption>FIDO2 Hardware Key: ป้องกัน Phishing ได้ 100%</figcaption>
+                </figure>
+
+                <div class="definition-box cyan-style">
+                    <h3><i class="fas fa-shield-alt"></i> ทำไม FIDO ถึงกันเว็บปลอมได้?</h3>
+                    <p>เพราะ FIDO ใช้การเข้ารหัสแบบกุญแจคู่ (Public/Private Key) และผูกมัดกับ <strong>"Domain Name"</strong> ของเว็บไซต์อย่างเคร่งครัด หากคุณเข้าเว็บปลอม (เช่น g00gle.com) เบราว์เซอร์และกุญแจจะไม่ยอมส่งข้อมูลยืนยันตัวตนออกไป</p>
+                </div>
+            </section>
+
+            <hr class="divider">
+
+            <section id="sec8" class="chapter">
+                <h2><span class="chapter-number">8</span> ชีวมาตร (Biometrics): ร่างกายคือกุญแจ</h2>
+                <p>การใช้ "สิ่งที่คุณเป็น" (Inherence) เช่น ลายนิ้วมือ ใบหน้า หรือม่านตา เป็นวิธีที่สะดวกที่สุด แต่ก็มีข้อควรระวัง:</p>
+                
+                <div class="grid-2">
+                    <div class="attack-card">
+                        <h3><i class="fas fa-fingerprint"></i> ข้อดี</h3>
+                        <ul class="detail-list">
+                            <li><strong>สะดวก:</strong> ไม่ต้องจำ ไม่ต้องพกอุปกรณ์</li>
+                            <li><strong>รวดเร็ว:</strong> สแกนปุ๊บเข้าใช้งานได้ทันที</li>
+                            <li><strong>Non-Transferable:</strong> ยากที่จะให้คนอื่นยืมใช้</li>
+                        </ul>
+                    </div>
+                    <div class="attack-card">
+                        <h3><i class="fas fa-user-injured"></i> ข้อเสีย/ความเสี่ยง</h3>
+                        <ul class="detail-list">
+                            <li><strong>เปลี่ยนไม่ได้:</strong> รหัสผ่านหลุดยังเปลี่ยนใหม่ได้ แต่ลายนิ้วมือหลุดคือจบกัน</li>
+                            <li><strong>บังคับใช้ได้:</strong> ตำรวจหรือโจรอาจบังคับจับนิ้วเราแปะเพื่อปลดล็อกได้ (ศาลสหรัฐฯ เคยตัดสินว่ารหัสผ่านได้รับความคุ้มครองมากกว่า)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec9" class="chapter">
+                <h2><span class="chapter-number">9</span> OAuth และ SSO: ทางลัดที่ปลอดภัย?</h2>
+                <p>ปุ่ม <strong>"Login with Google/Facebook"</strong> คือเทคโนโลยี OAuth ที่ช่วยให้เราไม่ต้องสมัครสมาชิกใหม่ทุกเว็บ</p>
+                <div class="tech-box">
+                    <h4><i class="fas fa-network-wired"></i> Single Sign-On (SSO) ในองค์กร</h4>
+                    <p>พนักงานล็อกอินครั้งเดียวตอนเช้า สามารถเข้าใช้ Email, HR Portal, Zoom ได้หมดโดยไม่ต้องกรอกรหัสซ้ำ ช่วยลดปัญหาการลืมรหัสผ่าน แต่ถ้าบัญชีหลักหลุด แฮกเกอร์ก็ได้ทุกอย่างเช่นกัน</p>
+                </div>
+            </section>
+
+            <section id="sec10" class="chapter">
+                <h2><span class="chapter-number">10</span> แผนกู้คืนบัญชี (Account Recovery Plan)</h2>
+                <p>เมื่อคุณทำมือถือหาย หรือลืมรหัสผ่าน สิ่งเหล่านี้คือ "ชูชีพ" ที่จะช่วยคุณได้:</p>
+                <ul class="checklist-box">
+                    <li><strong>Backup Codes:</strong> รหัสฉุกเฉิน 10 ชุดที่ได้ตอนเปิด 2FA <strong>"ต้องจดเก็บไว้ในที่ปลอดภัย (Offline)"</strong> ห้ามเก็บในมือถือเด็ดขาด</li>
+                    <li><strong>Trusted Contacts:</strong> ตั้งค่าเพื่อนที่ไว้ใจได้ใน Facebook/Apple ID เพื่อให้ช่วยยืนยันตัวตนเวลาเราเข้าไม่ได้</li>
+                    <li><strong>Secondary Email:</strong> อีเมลสำรองควรเป็นคนละผู้ให้บริการ (เช่น หลักใช้ Gmail, สำรองใช้ Outlook) เผื่อระบบใดระบบหนึ่งล่ม</li>
+                </ul>
+
+               <div class="next-chapter-card">
+                    <h3><i class="fas fa-check-circle"></i> บทเรียนถัดไป</h3>
+                    <p>เมื่อคุณมีเกราะป้องกันที่แข็งแกร่งแล้ว! บทต่อไปเราจะไปดูวิธีที่โจรใช้หลอกเราด้วย "อีเมลและเว็บไซต์ปลอม"</p>
+                    
+                    <a href="../การรู้เท่ากันอีเมลและเว็บไซต์ปลอม/index.html" class="btn-next-big">
+                        บทที่ 3: รู้ทัน Phishing <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+
+        </article>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            
+            <div class="footer-left">
+                <div class="footer-logo">
+                    <i class="fas fa-shield-alt"></i> Cyber<span>Secure</span>
+                </div>
+                <p class="project-name">โครงการเพื่อการศึกษา</p>
+                 <p class="project-name">วิทยาลัยเทคนิคพิจิตร</p>
+                <p class="project-name">แผนกเทคโนโลยีธุรกิจดิจิทัล</p>
+            </div>
+
+            <div class="footer-center">
+                <h4>แหล่งข้อมูลอ้างอิง</h4>
+           <ul class="footer-links">
+        <li>
+            <a href="https://www.thaicert.or.th/" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-shield-alt"></i> ThaiCERT (ไทยเซิร์ต) - คู่มือความปลอดภัย
+            </a>
+        </li>
+
+        <li>
+            <a href="https://www.etda.or.th/th/Our-Service/Standard/Digital-ID.aspx" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-id-card"></i> ETDA - มาตรฐาน Digital ID
+            </a>
+        </li>
+
+        <li>
+            <a href="https://www.ncsa.or.th/" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-landmark"></i> สกมช. (NCSA) - กฎหมายไซเบอร์
+            </a>
+        </li>
+
+        <li>
+            <a href="https://www.bot.or.th/th/satang-story.html" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-money-bill-wave"></i> ศคง. (แบงก์ชาติ) - เตือนภัยออนไลน์
+            </a>
+        </li>
+
+        <li>
+            <a href="https://www.thaipoliceonline.go.th/" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-user-secret"></i> ตำรวจไซเบอร์ (PCT)
+            </a>
+        </li>
+
+        <li>
+            <a href="https://www.beartai.com/" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-video"></i> Beartai (แบไต๋)
+            </a>
+        </li>
+    </ul>
+            </div>
+
+            <div class="footer-right">
+                <p class="dev-name">พัฒนาโดย: นายชุติวัตร์ ลอประเสริฐ<br>แผนกเทคโนโลยีธุรกิจดิจิทัล<br>วิทยาลัยเทคนิคพิจิตร</p>
+                <div class="footer-socials">
+                    <a href="https://www.facebook.com/chutiwat.i.408598?locale=th_TH" target="_blank" class="f-icon fb">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/chutiwat_7/" target="_blank" class="f-icon ig">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://line.me/ti/p/38q3GaZZKs" target="_blank" class="f-icon line">
+                        <i class="fab fa-line"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="copyright-bar">
+            <p>&copy; 2025 Cyber Security Awareness Project. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

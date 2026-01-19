@@ -1,0 +1,1118 @@
+/* =========================================
+   0. GLOBAL SETTINGS (แก้ไขใหม่: ให้ Sidebar เลื่อนตามได้)
+   ========================================= */
+html {
+    scroll-behavior: smooth;
+    overflow-x: visible; /* เปิดให้ Sticky ทำงาน */
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden; /* ย้ายคำสั่งกันจอเลื่อนมาไว้ที่นี่แทน */
+    position: relative;
+    touch-action: pan-y;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+
+/* =========================================
+   THEME: Chapter 5 (Malware Defense)
+   Color: Biohazard Red (#e11d48)
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700;800&family=Orbitron:wght@500;700&family=Courier+Prime:wght@400;700&display=swap');
+
+:root {
+    --primary: #0a192f;
+    --accent: #e11d48;        /* RED 600 */
+    --accent-hover: #be123c;
+    --accent-light: #fff1f2;
+    --text-main: #334155;
+    --text-muted: #64748b;
+    --bg-body: #fffafa;       /* พื้นหลังขาวอมแดงจางๆ */
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.95);
+    --shadow: 0 4px 20px rgba(225, 29, 72, 0.15);
+    
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --success: #10b981;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Sarabun', sans-serif; }
+body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.8; }
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+/* Navbar */
+.navbar { position: sticky; top: 0; width: 100%; background: var(--glass); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 70px; display: flex; align-items: center; }
+.nav-container { max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+.logo span { color: var(--accent); }
+.nav-menu { display: flex; gap: 30px; list-style: none; align-items: center; }
+.nav-link { color: var(--primary); font-weight: 500; }
+.nav-link:hover { color: var(--accent); }
+.btn-nav-contact { background: var(--accent); color: white !important; padding: 8px 20px; border-radius: 50px; }
+.hamburger { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); }
+
+/* Dropdown */
+.dropdown { position: relative; }
+.dropdown-menu { position: absolute; top: 100%; left: -20px; background: white; box-shadow: var(--shadow); border-radius: 10px; width: 280px; display: none; flex-direction: column; padding: 10px 0; z-index: 1000; }
+.dropdown:hover .dropdown-menu { display: flex; }
+.dropdown-menu li { list-style: none; margin: 0; padding: 0; }
+.dropdown-menu li a { padding: 10px 20px; display: block; color: var(--text-main); font-size: 0.9rem; border-left: 3px solid transparent; }
+.dropdown-menu li a:hover { background: var(--accent-light); color: var(--accent); border-left: 3px solid var(--accent); }
+.divider { height: 1px; background: #e2e8f0; margin: 5px 0; }
+
+/* Hero */
+.lesson-hero { background: linear-gradient(135deg, #881337 0%, #4c0519 100%); padding: 80px 20px; text-align: center; color: white; border-bottom: 5px solid var(--accent); position: relative; }
+.badge-category { background: rgba(225, 29, 72, 0.2); color: #fca5a5; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; border: 1px solid var(--accent); }
+.lesson-hero h1 { font-size: 2.2rem; margin: 20px 0; }
+.meta-info { display: flex; justify-content: center; gap: 20px; margin-top: 20px; color: #fecdd3; font-size: 0.9rem; }
+.meta-info i { color: var(--accent); margin-right: 5px; }
+
+/* Layout */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.main-layout { display: grid; grid-template-columns: 280px 1fr; gap: 40px; margin-top: 50px; margin-bottom: 80px; }
+
+/* =========================================
+   SIDEBAR TOC (แก้ไขใหม่: สวย + เลื่อนตาม + ธีมแดง)
+   ========================================= */
+.sidebar-toc {
+    height: 100%; /* สำคัญ: ต้องสูงเต็มพื้นที่เพื่อให้เมนูมีที่วิ่ง */
+    min-height: 100vh;
+}
+
+.toc-inner {
+    /* --- ส่วนฟังก์ชัน (ห้ามแก้) --- */
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 90px; /* ระยะห่างจากด้านบน */
+    z-index: 10;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+
+    /* --- ส่วนความสวยงาม (Theme: Red/Chapter 5) --- */
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    /* เงาสีแดงจางๆ */
+    box-shadow: 0 10px 40px rgba(225, 29, 72, 0.15); 
+    border: 1px solid #fecdd3; /* ขอบสีแดงอ่อน */
+}
+
+.toc-inner h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #881337; /* สีแดงเลือดหมูเข้ม */
+    border-bottom: 2px solid #fff1f2;
+    padding-bottom: 15px;
+}
+
+.toc-inner ul { list-style: none; }
+
+.toc-inner a {
+    display: block;
+    padding: 12px 15px;
+    color: #64748b;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+/* เอฟเฟกต์ตอนชี้ (Hover) - สีแดง */
+.toc-inner a:hover, .toc-inner a.active {
+    background: #fff1f2; /* พื้นหลังแดงอ่อนมาก */
+    color: #be123c;      /* ตัวหนังสือแดงเข้ม */
+    font-weight: 600;
+    border-left: 3px solid #e11d48; /* เส้นขอบแดง */
+    transform: translateX(5px);
+}
+
+/* ปรับ Scrollbar */
+.toc-inner::-webkit-scrollbar { width: 4px; }
+.toc-inner::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+/* Content */
+.content-area { background: white; padding: 50px; border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; }
+.chapter { margin-bottom: 60px; scroll-margin-top: 100px; }
+.chapter h2 { font-size: 1.8rem; color: var(--primary); margin-bottom: 25px; display: flex; align-items: center; gap: 15px; }
+.chapter-number { background: var(--accent); color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 1.2rem; }
+
+/* --- LAB 1: Malware Scanner --- */
+.scanner-tool { background: #1e293b; padding: 30px; border-radius: 16px; margin: 30px 0; border: 2px solid #334155; box-shadow: var(--shadow); }
+.scanner-screen { background: #0f172a; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #475569; position: relative; overflow: hidden; }
+.scan-header { display: flex; justify-content: space-between; color: white; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 10px; font-family: 'Courier Prime'; }
+.status-ready { color: var(--success); }
+.file-selection { display: flex; flex-direction: column; gap: 10px; color: #cbd5e1; margin-bottom: 20px; }
+.file-selection label { cursor: pointer; padding: 10px; background: #1e293b; border-radius: 5px; transition: 0.2s; display: flex; align-items: center; gap: 10px; border: 1px solid transparent; }
+.file-selection label:hover { background: #334155; }
+.file-selection input:checked + label { border-color: var(--accent); background: #334155; }
+.scan-progress { height: 8px; background: #334155; border-radius: 4px; overflow: hidden; margin-bottom: 15px; }
+.scan-progress .bar { height: 100%; width: 0%; background: var(--accent); transition: width 0.1s; }
+.scan-result { padding: 15px; border-radius: 5px; font-weight: bold; text-align: center; border: 1px solid; }
+.scan-result.clean { background: rgba(16, 185, 129, 0.1); color: #34d399; border-color: #34d399; }
+.scan-result.infected { background: rgba(239, 68, 68, 0.1); color: #f87171; border-color: #f87171; }
+.scan-result.hidden { display: none; }
+.btn-scan { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1.1rem; transition: 0.3s; }
+.btn-scan:hover { background: var(--accent-hover); }
+.btn-scan:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* --- LAB 2: Ransomware Simulator (NEW STYLE) --- */
+.ransomware-sim {
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 30px 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.file-explorer {
+    background: #f1f5f9;
+    min-height: 350px;
+    position: relative;
+    border: 1px solid #e2e8f0;
+}
+
+.fe-header {
+    background: #fff;
+    padding: 15px 20px;
+    border-bottom: 1px solid #cbd5e1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    color: var(--text-main);
+}
+
+.fe-body {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 20px;
+}
+
+.file-item {
+    text-align: center;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 8px;
+    transition: 0.2s;
+    font-size: 0.85rem;
+    color: #475569;
+}
+.file-item:hover { background: #e2e8f0; }
+.file-icon { font-size: 3rem; margin-bottom: 10px; color: #3b82f6; transition: 0.3s; }
+.file-icon.danger { color: #ef4444; }
+
+.file-item.encrypted .file-icon { color: #ef4444; }
+.file-item.encrypted span { text-decoration: line-through; color: #ef4444; }
+.blink { animation: blink-text 1.5s infinite; color: #ef4444; font-weight: bold; }
+
+.ransom-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(185, 28, 28, 0.95);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+    transition: 0.5s;
+}
+.ransom-overlay.hidden { opacity: 0; pointer-events: none; transform: scale(1.1); }
+.lock-icon { font-size: 4rem; margin-bottom: 15px; animation: shake 0.5s; }
+.action-buttons { margin-top: 25px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+
+.btn-pay, .btn-restore {
+    padding: 12px 25px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.2s;
+}
+.btn-pay { background: #450a0a; color: #fca5a5; cursor: not-allowed; }
+.btn-restore { background: #fff; color: #b91c1c; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+.btn-restore:hover { transform: scale(1.05); background: #fef2f2; }
+
+@keyframes blink-text { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+/* Grid & Cards */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0; }
+.attack-card, .tool-card { background: var(--white); border: 1px solid #e2e8f0; padding: 25px; border-radius: 12px; transition: 0.3s; text-align: center; }
+.attack-card:hover, .tool-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--accent); }
+.attack-card i, .tool-card i { font-size: 2rem; color: var(--accent); margin-bottom: 15px; display: block; }
+
+.tech-box { background: #fff1f2; padding: 25px; border-radius: 10px; border-left: 5px solid var(--accent); margin: 20px 0; }
+.accordion details { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
+.accordion summary { padding: 15px 20px; cursor: pointer; font-weight: bold; background: #fff; display: flex; align-items: center; gap: 10px; }
+.accordion summary:hover { background: var(--accent-light); }
+.accordion p { padding: 20px; border-top: 1px solid #e2e8f0; font-size: 0.95rem; color: #475569; }
+
+/* Footer */
+footer { text-align: center; padding: 40px 0; border-top: 1px solid #e2e8f0; margin-top: 80px; }
+.back-home-bar { position: fixed; bottom: 30px; left: 30px; z-index: 9999; background: rgba(255, 255, 255, 0.9); padding: 12px 25px; border-radius: 50px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 10px; }
+.img-block { text-align: center; margin: 30px 0; }
+.img-block img { max-width: 100%; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.next-chapter-box { background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border: 1px solid #fda4af; padding: 40px; border-radius: 16px; text-align: center; margin-top: 50px; }
+.btn-next { display: inline-block; background: var(--accent); color: white; padding: 12px 30px; border-radius: 50px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+.btn-next:hover { background: var(--accent-hover); transform: translateX(5px); }
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+    .main-layout, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .sidebar-toc { display: none; }
+    .nav-menu { position: fixed; top: 70px; left: 0; width: 100%; background: white; flex-direction: column; padding: 20px; display: none; border-bottom: 2px solid var(--accent); }
+    .nav-menu.active { display: flex; }
+    .hamburger { display: block; }
+}
+
+@media (max-width: 768px) {
+    .content-area { padding: 30px 20px !important; }
+    .container { padding: 0 15px; }
+    .lesson-hero { padding: 50px 15px; }
+    .lesson-hero h1 { font-size: 1.6rem; }
+    .scanner-tool, .ransomware-sim { padding: 20px !important; width: 100% !important; margin: 20px 0; }
+    .fe-body { grid-template-columns: repeat(2, 1fr); padding: 15px; }
+}
+/* =========================================
+   [ADD-ON] Video Section Styles
+   ========================================= */
+.video-section {
+    margin: 40px 0;
+    text-align: center;
+    width: 100%;
+}
+
+.video-section h3 {
+    margin-bottom: 15px;
+    color: var(--primary);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* อัตราส่วน 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border: 4px solid var(--primary);
+    background: #000;
+    width: 100%;
+}
+
+/* ✅ โค้ดใหม่ (รองรับทั้ง video และ iframe) */
+.video-wrapper video, 
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none; /* ลบขอบ iframe */
+}
+
+.video-caption {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+    .video-section h3 { font-size: 1rem; }
+}
+/* ================= FOOTER STANDARD STYLES ================= */
+footer {
+    background-color: #0f172a; /* สีกรมท่าเข้ม */
+    color: #94a3b8;            /* สีตัวอักษรเทาอมฟ้า */
+    padding-top: 50px;
+    margin-top: 60px;
+    border-top: 4px solid #64ffda; /* เส้นสีเขียวนีออนคาดบน */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* จัดกระจาย ซ้าย-กลาง-ขวา */
+    align-items: flex-start;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* เส้นแบ่งบางๆ */
+    flex-wrap: wrap;                /* ให้ตกบรรทัดได้ในมือถือ */
+    gap: 30px;
+}
+
+/* --- 1. ฝั่งซ้าย (Logo & Project) --- */
+.footer-left {
+    flex: 1;
+    min-width: 250px;
+}
+.footer-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 15px;
+    display: block;
+}
+.footer-logo span { color: #64ffda; }
+.project-name { 
+    font-size: 0.95rem; 
+    opacity: 0.8; 
+    margin-bottom: 5px; 
+}
+
+/* --- 2. ตรงกลาง (Links) --- */
+.footer-center {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+.footer-center h4 {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+.footer-links li { margin-bottom: 10px; }
+.footer-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.footer-links a:hover {
+    color: #64ffda; /* สีเขียวเมื่อชี้ */
+    transform: translateX(5px);
+}
+
+/* --- 3. ฝั่งขวา (Dev & Social) --- */
+.footer-right { 
+    flex: 1;
+    min-width: 250px;
+    text-align: right; 
+}
+.dev-name { 
+    color: white; 
+    font-weight: 500; 
+    margin-bottom: 20px; 
+    font-size: 1rem;
+}
+
+/* ไอคอนโซเชียล */
+.footer-socials {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end; /* จัดชิดขวา */
+}
+.f-icon {
+    color: white;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+}
+.f-icon:hover { transform: translateY(-5px); }
+.f-icon.fb:hover { background: #1877F2; }
+.f-icon.ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.f-icon.line:hover { background: #00C300; }
+
+/* --- Copyright Bar --- */
+.copyright-bar {
+    text-align: center;
+    padding: 25px 0;
+    font-size: 0.85rem;
+    color: #64748b;
+    background-color: rgba(0,0,0,0.2); /* สีพื้นหลังเข้มขึ้นนิดนึง */
+}
+
+/* --- Responsive (มือถือ) --- */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-center { margin: 10px 0; }
+    .footer-right { text-align: center; }
+    .footer-socials { justify-content: center; }
+}
+/* --- Quiz Styles --- */
+.quiz-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.quiz-item {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 20px;
+}
+.quiz-item h4 {
+    margin-bottom: 15px;
+    color: var(--primary);
+}
+
+.options label {
+    display: block;
+    padding: 10px 15px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1px solid transparent;
+}
+.options label:hover {
+    background: #e2e8f0;
+}
+.options input { margin-right: 10px; }
+
+/* เฉดสีตอนเฉลย */
+.options label.correct {
+    background: #dcfce7;
+    border-color: #22c55e;
+    color: #166534;
+    font-weight: bold;
+}
+.options label.wrong {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #991b1b;
+    opacity: 0.7;
+}
+
+/* กล่องคำอธิบายเฉลย */
+.feedback {
+    margin-top: 10px;
+    padding: 15px;
+    background: #f0f9ff;
+    border-left: 4px solid #0ea5e9;
+    font-size: 0.9rem;
+    color: #0369a1;
+    border-radius: 0 5px 5px 0;
+    display: none; /* ซ่อนไว้ก่อน */
+}
+.feedback.show { display: block; animation: fadeIn 0.5s; }
+
+.btn-submit-quiz {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+.btn-submit-quiz:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+.quiz-result {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f8fafc;
+    border: 2px solid var(--primary);
+}
+.quiz-result h3 { font-size: 1.5rem; color: var(--primary); }
+/* =========================================
+   [Lesson Animation] อนิเมชั่นสำหรับหน้าเนื้อหา
+   ========================================= */
+
+/* 1. คลาสสำหรับซ่อนเนื้อหาก่อน (รอเลื่อนมาเจอ) */
+.lesson-fade-hidden {
+    opacity: 0;
+    transform: translateY(30px); /* ลอยขึ้นจากข้างล่างนิดเดียวพอ */
+    transition: all 0.6s ease-out;
+}
+
+.lesson-fade-show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 2. รูปภาพในบทเรียน (ให้ขยายรับเมาส์นิดนึง) */
+.content-area img {
+    transition: transform 0.4s ease;
+    border-radius: 8px; /* มนมุมสวยๆ */
+}
+.content-area img:hover {
+    transform: scale(1.02); /* ขยาย 2% พอ ไม่ต้องเยอะ */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* 3. กล่องข้อความสำคัญ (Note Box) */
+.note-box, .warning-box {
+    transition: transform 0.3s;
+}
+.note-box:hover, .warning-box:hover {
+    transform: translateY(-5px);
+}
+/* =========================================
+   4. RESPONSIVE / MEDIA QUERIES (FIXED)
+   ========================================= */
+
+/* --- Tablet & iPad (1024px ลงมา) --- 
+   ปรับ Grid ให้เป็น 1 คอลัมน์ (ซ่อน Sidebar) เพื่อให้อ่านเนื้อหาได้เต็มตา */
+@media screen and (max-width: 1024px) {
+    
+    .container {
+        padding: 0 20px;
+    }
+
+    /* เปลี่ยน Layout เป็น 1 คอลัมน์เต็มจอ */
+    .main-layout {
+        display: block; /* ยกเลิก Grid */
+        margin-top: 30px;
+    }
+
+    /* ซ่อนสารบัญด้านข้าง (Sidebar) ใน Tablet/Mobile เพราะเกะกะ */
+    .sidebar-toc {
+        display: none; 
+    }
+
+    /* ขยายพื้นที่เนื้อหาให้เต็มจอ */
+    .content-area {
+        width: 100%;
+        padding: 30px; /* ลด Padding ลงหน่อย */
+    }
+
+    /* ปรับ Hero Section */
+    .lesson-hero {
+        padding: 60px 20px;
+    }
+    .lesson-hero h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* --- Menu Responsive (1024px ลงมา) --- 
+   เปลี่ยนเมนูเป็น Hamburger (แก้ Class ให้ตรงกับ intro.html คือ .nav-menu) */
+@media screen and (max-width: 1024px) {
+
+    .hamburger { 
+        display: block; 
+        z-index: 2000;
+        position: relative;
+    }
+
+    /* แก้จาก .nav-links เป็น .nav-menu ให้ตรงกับ HTML */
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%; /* ซ่อนไปทางขวาก่อน */
+        width: 100%; /* เต็มจอมือถือ/iPad */
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        flex-direction: column;
+        justify-content: center; /* จัดกึ่งกลางแนวตั้ง */
+        align-items: center;
+        gap: 25px;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1500;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-menu.active {
+        right: 0; /* เลื่อนออกมา */
+    }
+
+    .nav-menu li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-link {
+        font-size: 1.5rem; /* ตัวหนังสือใหญ่ขึ้นสำหรับนิ้วจิ้ม */
+        display: block;
+        padding: 10px;
+        color: var(--primary);
+    }
+
+    /* Dropdown ใน Mobile ให้โชว์เลย ไม่ต้อง Hover */
+    .dropdown-menu {
+        position: static;
+        display: block;
+        width: 80%; /* ไม่เต็มจอมาเกินไป */
+        margin: 10px auto;
+        box-shadow: none;
+        border: 1px solid #eee;
+        background: #f1f5f9;
+        transform: none;
+        text-align: center;
+    }
+    
+    .dropdown-menu li a {
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    /* ซ่อนปุ่ม Toggle Dropdown แต่โชว์หัวข้อ */
+    .nav-link.dropdown-toggle {
+        pointer-events: none; /* กดไม่ได้ */
+        color: #999;
+        font-size: 1rem;
+        text-transform: uppercase;
+        margin-bottom: -10px;
+    }
+}
+
+/* --- Mobile Phone (480px ลงมา) --- 
+   ปรับแต่งรายละเอียดสำหรับจอมือถือเล็กๆ */
+@media screen and (max-width: 480px) {
+    
+    /* ลดขนาดฟอนต์หัวข้อ */
+    .chapter h2 {
+        font-size: 1.4rem;
+        flex-direction: column; /* ให้เลขข้ออยู่บรรทัดบน */
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .chapter-number {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+
+    .content-area {
+        padding: 20px; /* ลด Padding ให้เหลือพื้นที่อ่านเยอะขึ้น */
+        border-radius: 15px;
+    }
+
+    /* ปรับ Footer ให้เรียงลงมา */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+    }
+    
+    .footer-socials {
+        justify-content: center;
+    }
+
+    .footer-right, .footer-left, .footer-center {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* ปรับ Video ให้สูงพอดี */
+    .video-wrapper {
+        padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    }
+    
+    /* ปุ่ม Back Home ให้เล็กลง */
+    .back-home-bar {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+        bottom: 20px;
+        left: 20px;
+    }
+}
+
+
+
+
+
+
+
+/* =========================================
+   4. RESPONSIVE / MEDIA QUERIES (FINAL FIXED)
+   Theme: Chapter 5 (Malware Defense)
+   ========================================= */
+
+/* --- Tablet & iPad & Mobile (หน้าจอเล็กกว่า 1024px) --- */
+@media screen and (max-width: 1024px) {
+    
+    /* 1. จัด Layout หน้าเว็บให้เป็นคอลัมน์เดียว */
+    .container { padding: 0 20px; }
+    
+    /* ยกเลิก Grid เพื่อให้เนื้อหาเต็มจอ */
+    .main-layout, .grid-2, .grid-3 { 
+        display: block; 
+        grid-template-columns: 1fr;
+        margin-top: 30px;
+    }
+    
+    /* ซ่อนสารบัญด้านข้าง (เพราะกินที่ในมือถือ) */
+    .sidebar-toc { display: none; }
+    
+    /* ปรับเนื้อหาให้กว้างเต็มจอ */
+    .content-area {
+        width: 100%;
+        padding: 30px;
+    }
+
+    /* ปรับ Hero Section */
+    .lesson-hero { padding: 60px 20px; }
+    .lesson-hero h1 { font-size: 1.8rem; }
+    
+    /* ปรับเครื่องมือ Lab ให้พอดีจอ */
+    .scanner-tool, .ransomware-sim, .fe-body {
+        padding: 20px !important;
+        grid-template-columns: repeat(2, 1fr); /* ใน Lab ให้เหลือ 2 คอลัมน์ */
+    }
+
+    /* 2. ปุ่ม Hamburger (3 ขีด) */
+    .hamburger { 
+        display: block !important; 
+        z-index: 2000;
+        position: absolute; 
+        right: 20px;        
+        top: 50%;           
+        transform: translateY(-50%);
+        font-size: 1.6rem;
+        cursor: pointer;
+        color: var(--primary);
+        width: 40px; height: 40px;
+        text-align: right;
+        line-height: 40px;
+    }
+
+    /* 3. เมนู Slide (พระเอกของเรา) */
+    .nav-menu, .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;          /* เริ่มต้น: ซ่อนไปทางขวาสุด (นอกจอ) */
+        left: auto;            /* ยกเลิกค่า Left เดิม */
+        
+        width: 320px;          /* ความกว้างเมนู (ครึ่งจอ iPad) */
+        max-width: 85%;        /* ไม่เกิน 85% ของจอมือถือเล็ก */
+        height: 100vh;         /* สูงเต็มจอ */
+        
+        background: #ffffff;   /* พื้นหลังขาว */
+        box-shadow: -5px 0 30px rgba(0,0,0,0.15); /* เงาด้านซ้าย */
+        
+        /* การจัดวางเนื้อหา (ชิดซ้าย) */
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;     
+        padding: 80px 30px 40px 30px; /* เว้นขอบบนหลบปุ่ม X */
+        gap: 15px;
+        
+        /* --- Animation Smooth (หัวใจสำคัญ) --- */
+        transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 1500;
+        overflow-y: auto;      /* ให้เลื่อนขึ้นลงได้ */
+    }
+
+    /* เมื่อกดปุ่ม (Class active ถูกเติมโดย JS) */
+    .nav-menu.active, .nav-links.active {
+        right: 0 !important;   /* เลื่อนกลับมาที่ 0 */
+    }
+
+    /* ตกแต่งรายการเมนูข้างใน */
+    .nav-menu li, .nav-links li {
+        width: 100%;
+        border-bottom: 1px solid #f1f5f9;
+        text-align: left;
+    }
+    
+    .nav-link {
+        display: block;
+        padding: 15px 0;
+        font-size: 1.1rem;
+        color: var(--primary);
+        font-weight: 500;
+        text-align: left;
+    }
+
+    /* ปุ่มติดต่อเรา */
+    .btn-nav-contact {
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+        border-radius: 8px;
+        color: white !important;
+    }
+
+    /* Dropdown ในมือถือ (เปิดตลอด + ย่อหน้า) */
+    .dropdown-menu {
+        position: static !important;
+        display: flex !important;
+        flex-direction: column;
+        box-shadow: none !important;
+        border: none;
+        padding-left: 20px; 
+        border-left: 3px solid #f1f5f9;
+        width: 100% !important;
+        background: transparent;
+        transform: none !important;
+    }
+    
+    .dropdown-menu li a {
+        font-size: 0.95rem;
+        color: #64748b;
+        padding: 12px 0;
+        border: none;
+    }
+    
+    /* ซ่อนลูกศรและทำให้กดหัวข้อไม่ได้ (กันงง) */
+    .fa-chevron-down { display: none; }
+    .nav-link.dropdown-toggle { 
+        pointer-events: none; 
+        color: #94a3b8; 
+        font-size: 0.9rem; 
+        text-transform: uppercase; 
+        margin-bottom: -10px; 
+        border: none;
+    }
+}
+
+/* --- Mobile Phones (จอเล็กกว่า 600px) --- */
+@media screen and (max-width: 600px) {
+    
+    .content-area {
+        padding: 25px 20px !important;
+        border-radius: 15px;
+    }
+    
+    .chapter h2 {
+        font-size: 1.5rem;
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    /* ปรับ Lab ในมือถือเล็กให้เหลือ 1 แถว */
+    .fe-body {
+        grid-template-columns: 1fr; 
+    }
+
+    /* Footer เรียงแนวตั้ง */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    .footer-socials { justify-content: center; }
+    .footer-right, .footer-left, .footer-center { width: 100%; text-align: center; }
+    
+    /* ปรับปุ่มย้อนกลับ */
+    .back-home-bar {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+        bottom: 20px;
+        left: 20px;
+    }
+}
+/* =========================================
+   MOBILE NAVBAR FIXED (เพิ่มใหม่: เมนูมือถือลอยตาม)
+   ========================================= */
+@media screen and (max-width: 1024px) {
+    /* 1. สั่งให้ Navbar ยึดติดขอบบนสุด */
+    .navbar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        z-index: 9999;
+    }
+
+    /* 2. ดันเนื้อหาลงมาไม่ให้โดนบัง */
+    body {
+        padding-top: 70px; 
+    }
+    
+    /* 3. ปรับตำแหน่งเมนู Slide ให้เริ่มใต้ Navbar */
+    .nav-menu {
+        top: 70px !important; 
+        height: calc(100vh - 70px) !important;
+    }
+}
+/* =========================================
+   CHAPTER 5 EXPANSION: BIOHAZARD DEFENSE PACK
+   (ธีม: ไวรัส & มัลแวร์ - สีแดง Biohazard)
+   ========================================= */
+
+/* 1. DANGER ZONE HERO (พื้นหลังเขตอันตราย) */
+.lesson-hero {
+    background: linear-gradient(135deg, #881337 0%, #4c0519 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* สร้างลายแถบเตือนภัย (Warning Stripes) จางๆ */
+.lesson-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.1),
+        rgba(0, 0, 0, 0.1) 20px,
+        transparent 20px,
+        transparent 40px
+    );
+    animation: warning-slide 60s linear infinite;
+    z-index: 0;
+}
+
+@keyframes warning-slide {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100px); }
+}
+
+/* ไอคอน Biohazard ลอยจางๆ */
+.lesson-hero::after {
+    content: '\f780'; /* Icon Biohazard */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 5%; bottom: -30px;
+    font-size: 15rem;
+    color: rgba(255, 255, 255, 0.05);
+    transform: rotate(20deg);
+}
+
+/* 2. LAB 1: MALWARE SCANNER (หน้าจอ Antivirus) */
+.scanner-tool {
+    background: #1e293b !important;
+    border: 2px solid #334155 !important;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* หน้าจอเรดาร์สแกน */
+.scanner-screen {
+    background: #0f172a !important;
+    border: 1px solid #475569;
+    position: relative;
+}
+.scanner-screen::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 2px;
+    background: #10b981; /* เส้นสแกนสีเขียว */
+    box-shadow: 0 0 10px #10b981;
+    animation: radar-scan 2s linear infinite;
+    z-index: 1;
+    display: none; /* ซ่อนก่อน จะโชว์ตอน JS ทำงาน (ถ้าแก้ JS เพิ่ม) */
+}
+
+/* ปุ่มเลือกไฟล์ */
+.file-selection label {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid transparent;
+}
+.file-selection label:hover {
+    border-color: var(--accent);
+    transform: translateX(5px);
+}
+.file-selection input:checked + label {
+    background: rgba(225, 29, 72, 0.2) !important;
+    border-color: var(--accent) !important;
+    color: #fca5a5 !important;
+}
+
+/* 3. LAB 2: RANSOMWARE SIMULATOR (คอมพิวเตอร์ติดไวรัส) */
+.ransomware-sim {
+    border: none !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2) !important;
+}
+
+/* ไฟล์ที่ถูกล็อก (สีแดงกระพริบ) */
+.file-item.virus-file {
+    animation: pulse-red 2s infinite;
+}
+@keyframes pulse-red {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); text-shadow: 0 0 10px red; }
+    100% { transform: scale(1); }
+}
+
+/* หน้าจอเรียกค่าไถ่ (Overlay) */
+.ransom-overlay {
+    background: rgba(127, 29, 29, 0.95) !important; /* แดงเลือดหมูเข้ม */
+    backdrop-filter: blur(5px);
+}
+.lock-icon {
+    animation: lock-bounce 1s infinite;
+    color: #fca5a5;
+}
+@keyframes lock-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* 4. ATTACK CARDS (การ์ดภัยคุกคาม) */
+.attack-card {
+    border: 1px solid rgba(225, 29, 72, 0.1) !important;
+    background: #fff !important;
+}
+.attack-card:hover {
+    border-color: var(--accent) !important;
+    box-shadow: 0 10px 30px rgba(225, 29, 72, 0.15) !important;
+    transform: translateY(-5px) rotate(1deg); /* เอียงนิดๆ ดูน่ากลัว */
+}
+.attack-card h3 i {
+    color: var(--accent);
+    filter: drop-shadow(0 0 5px rgba(225, 29, 72, 0.4));
+}
+
+/* 5. IMAGE FRAMES (กรอบรูปธีมสีแดง) */
+.img-block img {
+    border: 2px solid rgba(225, 29, 72, 0.3); /* ขอบแดงจาง */
+    padding: 8px;
+    background: rgba(225, 29, 72, 0.05); /* พื้นหลังแดงอ่อน */
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    max-width: 100%;
+    height: auto;
+}
+.img-block img:hover {
+    border-color: #e11d48; /* แดงเข้ม */
+    box-shadow: 0 0 25px rgba(225, 29, 72, 0.4); /* แสงฟุ้งสีแดง */
+    transform: scale(1.02);
+}
+
+/* 6. GLITCH EFFECT (เอฟเฟกต์ภาพกระตุกสำหรับหัวข้ออันตราย) */
+.tech-box h4 {
+    position: relative;
+    display: inline-block;
+}
+.tech-box:hover h4 {
+    animation: glitch-skew 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    color: #e11d48;
+}
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); }
+    20% { transform: skew(-10deg); }
+    40% { transform: skew(10deg); }
+    60% { transform: skew(-5deg); }
+    80% { transform: skew(5deg); }
+    100% { transform: skew(0deg); }
+}
