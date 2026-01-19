@@ -1,0 +1,747 @@
+/* =========================================
+   0. GLOBAL SETTINGS (แก้ไขใหม่: รองรับ Fixed Navbar)
+   ========================================= */
+html {
+    scroll-behavior: smooth;
+    overflow-x: visible; 
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden; /* ย้ายคำสั่งกันจอเลื่อนมาไว้ที่นี่แทน */
+    position: relative;
+    touch-action: pan-y;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================================
+   CYBERPEDIA STYLE - CONTACT PAGE (Redesign)
+   Theme: Communication Indigo (#4f46e5)
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700;800&family=Orbitron:wght@500;700&family=Prompt:wght@400;600&display=swap');
+
+:root {
+    --primary: #0f172a;       /* Dark Navy */
+    --accent: #4f46e5;        /* INDIGO 600 */
+    --accent-hover: #4338ca;  /* INDIGO 700 */
+    --accent-light: #eef2ff;  /* INDIGO 50 */
+    --text-main: #334155;
+    --text-light: #64748b;
+    --bg-body: #f8fafc;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.95);
+    --shadow: 0 10px 30px rgba(79, 70, 229, 0.1);
+    
+    /* Social Colors */
+    --fb: #1877F2;
+    --line: #00C300;
+    --ig: #d62976; 
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Sarabun', sans-serif; }
+body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.7; }
+
+/* 1. Navbar & Back Bar (Keep same structure) */
+.back-home-bar {
+    position: fixed; bottom: 40px; left: 40px; z-index: 1100;
+    background: white; padding: 12px 30px; border-radius: 50px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1); color: var(--primary);
+    text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 10px; transition: all 0.3s;
+}
+.back-home-bar:hover { transform: translateY(-5px); color: var(--accent); }
+
+.navbar { position: sticky; top: 0; width: 100%; background: var(--glass); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 70px; display: flex; align-items: center; }
+.nav-container { max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+.logo span { color: var(--accent); }
+.nav-menu { display: flex; gap: 30px; list-style: none; align-items: center; }
+.nav-link { text-decoration: none; color: var(--primary); font-weight: 500; transition: 0.3s; }
+.nav-link:hover { color: var(--accent); }
+.btn-nav-contact { background: var(--accent); color: white !important; padding: 8px 20px; border-radius: 50px; }
+.hamburger { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); }
+
+/* ================= DROPDOWN MENU (Clean Style) ================= */
+.dropdown { position: relative; }
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: -20px; /* ขยับซ้ายนิดนึงให้สมดุล */
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); /* เงานุ่มๆ เหมือนในรูป */
+    border-radius: 15px; /* มุมมนสวยๆ */
+    width: 340px; /* ขยายความกว้างให้ข้อความยาวๆ ไม่ตกบรรทัด */
+    display: none;
+    flex-direction: column;
+    padding: 15px 0; /* เว้นระยะขอบบนล่าง */
+    z-index: 1000;
+    border: 1px solid rgba(0,0,0,0.05); /* เส้นขอบจางๆ */
+    
+    /* --- คำสั่งล้างเส้น/จุด (สำคัญมาก) --- */
+    list-style: none !important;
+    margin: 0;
+    padding-left: 0;
+}
+
+.dropdown:hover .dropdown-menu { display: flex; animation: fadeInY 0.3s ease; }
+
+.dropdown-menu li {
+    list-style: none !important; /* ลบจุด/เส้นรายการ */
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: 100%;
+}
+
+.dropdown-menu li a {
+    padding: 12px 25px; /* ระยะห่างภายในปุ่ม */
+    display: block;
+    color: #334155; /* สีเทาเข้มอ่านง่าย */
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none; /* ลบขีดเส้นใต้ */
+    transition: all 0.2s;
+    border-left: 4px solid transparent; /* เตรียมเส้นสีด้านซ้าย */
+}
+
+/* Effect ตอนเอาเมาส์ชี้ */
+.dropdown-menu li a:hover {
+    background: #f8fafc; /* พื้นหลังสีเทาจางๆ */
+    color: var(--accent); /* เปลี่ยนตัวหนังสือเป็นสีธีม */
+    border-left: 4px solid var(--accent); /* เส้นสีด้านซ้ายโผล่มา */
+    padding-left: 30px; /* ขยับข้อความไปขวานิดนึงให้ดูมีมิติ */
+}
+
+/* เส้นคั่นบางๆ (ถ้ามี) */
+.divider { 
+    height: 1px; 
+    background: #f1f5f9; 
+    margin: 8px 0; 
+}
+
+/* Animation เลื่อนขึ้นเบาๆ */
+@keyframes fadeInY {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* 2. Hero Section */
+.lesson-hero {
+    background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%);
+    padding: 80px 20px; text-align: center; color: white; border-bottom: 5px solid var(--accent); position: relative;
+}
+.badge-category { background: rgba(79, 70, 229, 0.2); color: #c7d2fe; padding: 5px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; border: 1px solid var(--accent); }
+.lesson-hero h1 { font-size: 2.5rem; margin: 20px 0; }
+.subtitle { font-size: 1.1rem; color: #e0e7ff; font-weight: 400; display: block; margin-top: 10px; }
+
+/* 3. NEW CONTACT GRID LAYOUT */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: -50px; /* ดึงขึ้นไปทับ Hero นิดหน่อย */
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 10;
+}
+
+.contact-card {
+    background: white;
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: all 0.4s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.contact-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(79, 70, 229, 0.2);
+    border-color: var(--accent-light);
+}
+
+/* ไฮไลท์การ์ดตรงกลาง (หรือการ์ดสำคัญ) */
+.contact-card.highlight {
+    border-top: 5px solid var(--accent);
+}
+
+.icon-box {
+    width: 80px;
+    height: 80px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    transition: 0.3s;
+}
+
+.contact-card:hover .icon-box {
+    background: var(--accent);
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.contact-card h3 {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.contact-card p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+/* Contact List inside card */
+.contact-list p {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--text-main);
+    font-weight: 500;
+}
+.contact-list i { color: var(--accent); }
+
+/* Social Buttons */
+.social-icons-big {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.s-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    color: white;
+}
+
+.s-btn.fb { background: var(--fb); }
+.s-btn.ig { background: var(--ig); }
+.s-btn.line { background: var(--line); }
+
+.s-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.btn-text {
+    color: var(--accent);
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: auto;
+}
+.btn-text:hover { gap: 10px; }
+
+/* Footer */
+footer { text-align: center; padding: 40px 0; color: var(--text-light); border-top: 1px solid #e2e8f0; margin-top: 60px; }
+
+/* Mobile */
+@media (max-width: 900px) {
+    .contact-grid { margin-top: 30px; grid-template-columns: 1fr; }
+    .hamburger { display: block; }
+    .nav-menu { position: fixed; top: 70px; left: 0; width: 100%; background: white; flex-direction: column; padding: 20px 0; display: none; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+    .nav-menu.active { display: flex; }
+    .nav-link { display: block; padding: 15px; border-bottom: 1px solid #f1f5f9; width: 100%; text-align: center; }
+    .back-home-bar { bottom: 20px; left: 20px; }
+}
+/* ================= FOOTER STANDARD STYLES ================= */
+footer {
+    background-color: #0f172a; /* สีกรมท่าเข้ม */
+    color: #94a3b8;            /* สีตัวอักษรเทาอมฟ้า */
+    padding-top: 50px;
+    margin-top: 60px;
+    border-top: 4px solid #64ffda; /* เส้นสีเขียวนีออนคาดบน */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between; /* จัดกระจาย ซ้าย-กลาง-ขวา */
+    align-items: flex-start;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* เส้นแบ่งบางๆ */
+    flex-wrap: wrap;                /* ให้ตกบรรทัดได้ในมือถือ */
+    gap: 30px;
+}
+
+/* --- 1. ฝั่งซ้าย (Logo & Project) --- */
+.footer-left {
+    flex: 1;
+    min-width: 250px;
+}
+.footer-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    color: white;
+    margin-bottom: 15px;
+    display: block;
+}
+.footer-logo span { color: #64ffda; }
+.project-name { 
+    font-size: 0.95rem; 
+    opacity: 0.8; 
+    margin-bottom: 5px; 
+}
+
+/* --- 2. ตรงกลาง (Links) --- */
+.footer-center {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+.footer-center h4 {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+.footer-links li { margin-bottom: 10px; }
+.footer-links a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.footer-links a:hover {
+    color: #64ffda; /* สีเขียวเมื่อชี้ */
+    transform: translateX(5px);
+}
+
+/* --- 3. ฝั่งขวา (Dev & Social) --- */
+.footer-right { 
+    flex: 1;
+    min-width: 250px;
+    text-align: right; 
+}
+.dev-name { 
+    color: white; 
+    font-weight: 500; 
+    margin-bottom: 20px; 
+    font-size: 1rem;
+}
+
+/* ไอคอนโซเชียล */
+.footer-socials {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end; /* จัดชิดขวา */
+}
+.f-icon {
+    color: white;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    text-decoration: none; /* <--- เพิ่มบรรทัดนี้เข้าไปครับ */
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+}
+.f-icon:hover { transform: translateY(-5px); }
+.f-icon.fb:hover { background: #1877F2; }
+.f-icon.ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.f-icon.line:hover { background: #00C300; }
+
+/* --- Copyright Bar --- */
+.copyright-bar {
+    text-align: center;
+    padding: 25px 0;
+    font-size: 0.85rem;
+    color: #64748b;
+    background-color: rgba(0,0,0,0.2); /* สีพื้นหลังเข้มขึ้นนิดนึง */
+}
+
+/* --- Responsive (มือถือ) --- */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-center { margin: 10px 0; }
+    .footer-right { text-align: center; }
+    .footer-socials { justify-content: center; }
+}
+/* =========================================
+   [Lesson Animation] อนิเมชั่นสำหรับหน้าเนื้อหา
+   ========================================= */
+
+/* 1. คลาสสำหรับซ่อนเนื้อหาก่อน (รอเลื่อนมาเจอ) */
+.lesson-fade-hidden {
+    opacity: 0;
+    transform: translateY(30px); /* ลอยขึ้นจากข้างล่างนิดเดียวพอ */
+    transition: all 0.6s ease-out;
+}
+
+.lesson-fade-show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 2. รูปภาพในบทเรียน (ให้ขยายรับเมาส์นิดนึง) */
+.content-area img {
+    transition: transform 0.4s ease;
+    border-radius: 8px; /* มนมุมสวยๆ */
+}
+.content-area img:hover {
+    transform: scale(1.02); /* ขยาย 2% พอ ไม่ต้องเยอะ */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* 3. กล่องข้อความสำคัญ (Note Box) */
+.note-box, .warning-box {
+    transition: transform 0.3s;
+}
+.note-box:hover, .warning-box:hover {
+    transform: translateY(-5px);
+}
+
+
+
+
+
+
+
+
+/* =========================================
+   4. RESPONSIVE / MEDIA QUERIES (FINAL FIXED)
+   Theme: Contact Page (Indigo)
+   ========================================= */
+
+/* --- Tablet & iPad (1024px ลงมา) --- */
+@media screen and (max-width: 1024px) {
+    
+    /* 1. ปรับ Layout พื้นฐาน */
+    .container { padding: 0 20px; }
+    
+    /* Contact Grid เรียง 1 แถว */
+    .contact-grid { 
+        grid-template-columns: 1fr; 
+        margin-top: 30px;
+    }
+    
+    .contact-card {
+        padding: 30px 20px;
+    }
+
+    /* ปรับ Hero Section */
+    .lesson-hero { padding: 60px 20px; }
+    .lesson-hero h1 { font-size: 1.8rem; }
+
+    /* 2. ปุ่ม Hamburger (3 ขีด) */
+    .hamburger { 
+        display: block !important; 
+        z-index: 2000;
+        position: absolute; 
+        right: 20px;        
+        top: 50%;           
+        transform: translateY(-50%);
+        font-size: 1.6rem;
+        cursor: pointer;
+        color: var(--primary);
+        width: 40px; height: 40px;
+        text-align: right;
+        line-height: 40px;
+    }
+
+    /* 3. เมนู Slide (Side Drawer - ครึ่งจอ) */
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;          /* เริ่มต้น: ซ่อนไปทางขวาสุด */
+        left: auto;            /* ยกเลิกค่า Left เดิม */
+        
+        width: 320px;          /* ความกว้างเมนู (ครึ่งจอ iPad) */
+        max-width: 85%;        /* ไม่เกิน 85% ของจอมือถือเล็ก */
+        height: 100vh;         /* สูงเต็มจอ */
+        
+        background: #ffffff;   /* พื้นหลังขาว */
+        box-shadow: -5px 0 30px rgba(0,0,0,0.15); /* เงาด้านซ้าย */
+        
+        /* การจัดวางเนื้อหา (ชิดซ้าย) */
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;     
+        padding: 80px 30px 40px 30px; /* เว้นขอบบนหลบปุ่ม X */
+        gap: 15px;
+        
+        /* --- Animation Smooth --- */
+        transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        z-index: 1500;
+        overflow-y: auto;      /* ให้เลื่อนขึ้นลงได้ */
+        margin: 0;
+    }
+
+    /* เมื่อกดปุ่ม (Class active ถูกเติมโดย JS) */
+    .nav-menu.active {
+        right: 0 !important;   /* เลื่อนกลับมาที่ 0 */
+    }
+
+    /* ตกแต่งรายการเมนูข้างใน */
+    .nav-menu li {
+        width: 100%;
+        border-bottom: 1px solid #f1f5f9;
+        text-align: left;
+    }
+    
+    .nav-link {
+        display: block;
+        padding: 15px 0;
+        font-size: 1.1rem;
+        color: var(--primary);
+        font-weight: 500;
+        text-align: left;
+    }
+    
+    /* Hover แล้วเปลี่ยนสี */
+    .nav-link:hover {
+        color: var(--accent);
+        padding-left: 10px; /* ขยับนิดนึงให้ดูมีมิติ */
+    }
+
+    /* ปุ่มติดต่อเรา (ในเมนู) */
+    .btn-nav-contact {
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+        border-radius: 8px;
+        color: white !important;
+        background: var(--accent);
+        padding: 12px;
+    }
+
+    /* Dropdown ในมือถือ (เปิดตลอด + ย่อหน้า) */
+    .dropdown-menu {
+        position: static !important;
+        display: flex !important;
+        flex-direction: column;
+        box-shadow: none !important;
+        border: none;
+        padding-left: 20px; 
+        border-left: 3px solid #eef2ff;
+        width: 100% !important;
+        background: transparent;
+        transform: none !important;
+        margin-top: 0;
+    }
+    
+    .dropdown-menu li { border: none; }
+    
+    .dropdown-menu li a {
+        font-size: 0.95rem;
+        color: #64748b;
+        padding: 12px 0;
+        border: none;
+        text-align: left;
+    }
+    
+    /* ซ่อนลูกศรและทำให้กดหัวข้อไม่ได้ */
+    .fa-chevron-down { display: none; }
+    .nav-link.dropdown-toggle { 
+        pointer-events: none; 
+        color: #94a3b8; 
+        font-size: 0.9rem; 
+        text-transform: uppercase; 
+        margin-bottom: -10px; 
+        border: none;
+    }
+}
+
+/* --- Mobile Phone (480px ลงมา) --- */
+@media screen and (max-width: 480px) {
+    
+    .lesson-hero h1 { font-size: 1.5rem; }
+    
+    /* ปรับ Footer ให้เรียงลงมา */
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    .footer-socials { justify-content: center; }
+    .footer-right, .footer-left, .footer-center { width: 100%; text-align: center; }
+    
+    /* ปุ่ม Back Home เล็กลง */
+    .back-home-bar {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+        bottom: 20px;
+        left: 20px;
+    }
+}
+/* =========================================
+   MOBILE NAVBAR FIXED (เพิ่มใหม่: เมนูมือถือลอยตาม)
+   ========================================= */
+@media screen and (max-width: 1024px) {
+    /* 1. สั่งให้ Navbar ยึดติดขอบบนสุด */
+    .navbar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        z-index: 9999; /* ให้ลอยเหนือทุกอย่าง */
+    }
+
+    /* 2. ดันเนื้อหาลงมาไม่ให้โดน Navbar บัง */
+    /* เนื่องจากหน้านี้ไม่มี Sidebar เราดัน body ลงมาตรงๆ ได้เลย */
+    body {
+        padding-top: 70px; 
+    }
+    
+    /* 3. ปรับตำแหน่งเมนูที่สไลด์ออกมา ให้เริ่มใต้ Navbar พอดี */
+    .nav-menu {
+        top: 70px !important; 
+        height: calc(100vh - 70px) !important;
+        z-index: 9998;
+    }
+}
+/* =========================================
+   CONTACT PAGE UPGRADE: DIGITAL CONNECT PACK
+   (ธีม: การสื่อสารไร้พรมแดน - Indigo/Cyan)
+   ========================================= */
+
+/* 1. HERO NETWORK ANIMATION (พื้นหลังเครือข่ายเคลื่อนไหว) */
+.lesson-hero {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* สร้างจุดแสงลอยวิบวับเหมือนดาวเทียม */
+.lesson-hero::before {
+    content: '';
+    position: absolute;
+    width: 100%; height: 100%;
+    top: 0; left: 0;
+    /* จุดไข่ปลาสีม่วงอ่อน */
+    background-image: radial-gradient(#818cf8 1.5px, transparent 1.5px);
+    background-size: 30px 30px;
+    opacity: 0.3;
+    animation: network-twinkle 3s infinite alternate;
+}
+
+@keyframes network-twinkle {
+    0% { opacity: 0.1; transform: scale(1); }
+    100% { opacity: 0.4; transform: scale(1.1); }
+}
+
+/* 2. HOLOGRAPHIC CARDS (การ์ดติดต่อแบบกระจกโฮโลแกรม) */
+.contact-card {
+    border: 1px solid rgba(79, 70, 229, 0.1) !important;
+    background: rgba(255, 255, 255, 0.9) !important; /* พื้นหลังขาวโปร่งแสง */
+    backdrop-filter: blur(10px); /* เบลอฉากหลัง */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important; /* เอฟเฟกต์เด้งดึ๋ง */
+    position: relative;
+    overflow: hidden;
+}
+
+/* เมื่อเอาเมาส์ชี้การ์ด */
+.contact-card:hover {
+    transform: translateY(-10px) scale(1.02); /* ลอยขึ้น */
+    box-shadow: 0 20px 50px rgba(79, 70, 229, 0.25) !important; /* เงาสีม่วงฟุ้ง */
+    border-color: #4f46e5 !important;
+}
+
+/* 3. PULSING ICONS (ไอคอนเต้นได้) */
+.contact-card:hover .icon-box {
+    background: #4f46e5 !important;
+    color: #fff !important;
+    transform: rotateY(180deg); /* หมุนไอคอน 180 องศาเท่ๆ */
+    box-shadow: 0 0 0 8px rgba(79, 70, 229, 0.2); /* วงแหวนรอบไอคอน */
+}
+
+/* 4. DEVELOPER PROFILE (ไฮไลท์ข้อมูลผู้พัฒนา) */
+/* ทำให้รายการเบอร์โทร/อีเมล มีปฏิกิริยาตอนชี้ */
+.contact-list p {
+    transition: 0.3s;
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: default;
+}
+
+.contact-list p:hover {
+    background: #eef2ff; /* พื้นหลังม่วงอ่อน */
+    color: #4338ca;      /* ตัวหนังสือม่วงเข้ม */
+    border-color: #c7d2fe;
+    transform: translateX(5px); /* ขยับไปขวา */
+}
+.contact-list p:hover i {
+    transform: scale(1.2); /* ขยายไอคอน */
+}
+
+/* 5. MAP BUTTON (ปุ่มดูแผนที่ให้เด่นขึ้น) */
+.btn-text {
+    background: #f8fafc;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: 0.3s;
+    border: 1px solid #e2e8f0;
+}
+.btn-text:hover {
+    background: #4f46e5;
+    color: white;
+    border-color: #4f46e5;
+    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+}
+
+/* 6. SOCIAL BUTTONS GLOW (ปุ่มโซเชียลเรืองแสง) */
+.s-btn {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: 0;
+}
+/* เพิ่มแสงวิ่งผ่านปุ่ม */
+.s-btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: skewX(-20deg);
+    transition: 0.5s;
+    z-index: -1;
+}
+.s-btn:hover::after {
+    left: 150%; /* แสงวิ่งจากซ้ายไปขวา */
+    transition: 0.5s ease-in-out;
+}
+.s-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
