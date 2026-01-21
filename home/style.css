@@ -729,3 +729,53 @@ body::before {
     display: inline-block;
     transition: transform 0.3s;
 }
+/* =========================================
+   FLUID RESPONSIVE LAYOUT (เต็มจอทุกขนาด - ย่อขยายไม่สะดุด)
+   [วางต่อท้ายสุดแทนโค้ด Projector อันเก่า]
+   ========================================= */
+
+/* 1. ปลดล็อกความกว้าง (ให้กว้างได้สูงสุดถึง 2000px) */
+.container, .nav-container {
+    max-width: 2000px !important; /* เดิมจำกัดแค่ 1200px */
+}
+
+/* 2. สูตรคำนวณความกว้างตามขนาดจอ (Smart Width) */
+/* ถ้าจอใหญ่ (PC/Projector) ให้กว้าง 95% */
+@media screen and (min-width: 1024px) {
+    .container, .nav-container {
+        width: 95% !important;
+        padding: 0 40px; /* เพิ่มขอบข้างนิดหน่อยให้ดูไม่ชิดเกินไป */
+    }
+
+    /* ขยายตัวหนังสือแบบลื่นไหล (Fluid Typography) ไม่กระตุกตอนย่อจอ */
+    html {
+        /* สูตรนี้จะทำให้ฟอนต์ใหญ่ขึ้นตามความกว้างจอโดยอัตโนมัติ */
+        /* ขั้นต่ำ 16px -> สูงสุด 20px */
+        font-size: clamp(16px, 1vw + 10px, 20px); 
+    }
+
+    /* ปรับหัวข้อใหญ่ให้ยืดหดตามจอ */
+    .hero h1 {
+        font-size: clamp(2.5rem, 5vw, 4.5rem) !important;
+    }
+    
+    /* ปรับการ์ดให้เรียงตัวสวย ไม่บีบ */
+    .grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+        gap: 30px !important;
+    }
+}
+
+/* 3. ถ้าจอเล็ก (Tablet/Mobile) ให้เต็มขอบ 100% (ไม่แคบ) */
+@media screen and (max-width: 1023px) {
+    .container, .nav-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 20px !important; /* เว้นขอบนิดเดียวพอ */
+    }
+    
+    /* คืนค่าฟอนต์ปกติให้อ่านง่ายในมือถือ */
+    html {
+        font-size: 16px; 
+    }
+}

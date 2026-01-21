@@ -1116,3 +1116,83 @@ footer {
     80% { transform: skew(5deg); }
     100% { transform: skew(0deg); }
 }
+/* =========================================
+   FLUID RESPONSIVE LAYOUT (ครอบคลุมทุกหน้า: Home + Chapters)
+   [เต็มจอทุกขนาด - ย่อขยายลื่นไหล - ไม่กระทบมือถือ]
+   ========================================= */
+
+/* 1. ปลดล็อกความกว้างสูงสุด (ให้ขยายได้เกิน 1200px) */
+.container, .nav-container {
+    max-width: 2500px !important; /* ปล่อยให้กว้างสุดๆ */
+}
+
+/* 2. สูตรคำนวณความกว้างตามขนาดจอ (Smart Width) */
+/* ทำงานเฉพาะจอใหญ่ (PC/Laptop/Projector) ตั้งแต่ 1024px ขึ้นไป */
+@media screen and (min-width: 1024px) {
+    
+    /* --- กฎรวมทุกหน้า --- */
+    .container, .nav-container {
+        width: 95% !important; /* กางเกือบเต็มจอเสมอ */
+        padding: 0 40px;      /* เว้นขอบข้างสวยๆ */
+    }
+
+    /* สูตรขยายฟอนต์อัตโนมัติ (Fluid Typography) */
+    html {
+        font-size: clamp(16px, 1vw + 10px, 22px); 
+    }
+
+    /* --- หน้าแรก (Home) --- */
+    .hero h1 {
+        font-size: clamp(2.5rem, 5vw, 5rem) !important;
+    }
+    .grid-container {
+        /* ปรับการ์ดให้เรียงตัวสวยตามความกว้าง */
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)) !important;
+        gap: 30px !important;
+    }
+
+    /* --- หน้าบทเรียน (Chapters) --- */
+    /* จัด Grid หน้าบทเรียนให้ยืดตามจอ (เมนูข้าง 280px + เนื้อหายืดเต็มที่) */
+    .main-layout {
+        display: grid;
+        grid-template-columns: 300px 1fr !important; /* เมนูข้างกว้างขึ้นนิดนึง */
+        gap: 50px !important;
+        max-width: 100% !important;
+    }
+
+    /* ขยายหัวข้อในหน้าบทเรียน */
+    .lesson-hero h1 {
+        font-size: clamp(2rem, 4vw, 4.5rem) !important;
+        max-width: 1200px; /* ไม่ให้ยาวเกินไปจนอ่านยาก */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* ปรับกล่องเนื้อหาให้อ่านง่ายแม้จอจะกว้างมาก */
+    .content-area {
+        padding: 60px !important; /* เพิ่มพื้นที่หายใจด้านใน */
+    }
+    
+    /* บังคับให้รูปภาพและกล่องต่างๆ ไม่เล็กเกินไปในจอ Wide */
+    .img-block img, .video-wrapper {
+        width: 100% !important;
+        max-width: 1000px; /* จำกัดความกว้างรูปไม่ให้แตก */
+    }
+}
+
+/* 3. ถ้าจอเล็ก (Tablet/Mobile) ให้กลับสู่ค่าปกติ */
+@media screen and (max-width: 1023px) {
+    .container, .nav-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 20px !important;
+    }
+    
+    html {
+        font-size: 16px; /* คืนค่าฟอนต์มาตรฐาน */
+    }
+    
+    .main-layout {
+        display: block !important; /* เรียงลงแนวตั้งปกติ */
+    }
+}
