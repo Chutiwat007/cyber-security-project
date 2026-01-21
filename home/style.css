@@ -56,11 +56,13 @@ a { text-decoration: none; color: inherit; transition: 0.3s; }
 ul { list-style: none; }
 img { max-width: 100%; height: auto; display: block; object-fit: cover; }
 
-.container { 
-    width: 100%;
-    max-width: 1200px; 
-    margin: 0 auto; 
-    padding: 0 20px; 
+/* ค้นหา .container เดิม แล้วแก้เป็นแบบนี้ */
+.container {
+    width: 100%;           /* ให้กว้างเต็มจอเสมอ */
+    max-width: 1200px;     /* แต่ไม่เกิน 1200px (เพื่อไม่ให้กว้างเกินไปบนจอคอม) */
+    margin: 0 auto;        /* จัดกึ่งกลาง */
+    padding: 0 20px;       /* เว้นขอบซ้ายขวานิดหน่อย ไม่ให้ติดขอบจอ */
+    box-sizing: border-box; /* สำคัญ! ให้นับรวม padding เข้าไปในขนาดกล่อง */
 }
 
 /* =========================================
@@ -778,4 +780,43 @@ body::before {
     html {
         font-size: 16px; 
     }
+}
+/* =========================================
+   MOBILE RESPONSIVE (สำหรับมือถือและแท็บเล็ต)
+   ========================================= */
+@media screen and (max-width: 768px) {
+    
+    /* 1. จัดเรียง Grid/Flex ให้เป็นแนวตั้ง */
+    .grid-2, .grid-3, .nav-menu {
+        display: flex;
+        flex-direction: column; /* เรียงลงล่าง */
+    }
+
+    /* 2. ปรับขนาดตัวหนังสือให้อ่านง่ายขึ้น */
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    
+    /* 3. ซ่อนเมนู (ถ้ายังไม่ได้ทำ Hamburger Menu) */
+    /* หรือปรับให้เมนูเรียงลงมา */
+    .nav-menu {
+        width: 100%;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    /* 4. ให้เนื้อหากินพื้นที่เกือบเต็มจอ */
+    .content-area, .sidebar-toc {
+        width: 100%;
+        display: block;
+    }
+    
+    /* ซ่อน Sidebar สารบัญในมือถือ (ถ้าต้องการ) */
+    .sidebar-toc {
+        display: none; 
+    }
+}
+/* ใส่ไว้ที่ไหนก็ได้ใน style.css */
+img, iframe, video {
+    max-width: 100%;   /* ห้ามกว้างเกินหน้าจอ */
+    height: auto;      /* ปรับสูงอัตโนมัติรักษาสัดส่วน */
 }

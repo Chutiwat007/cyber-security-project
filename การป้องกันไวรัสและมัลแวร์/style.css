@@ -1196,3 +1196,26 @@ footer {
         display: block !important; /* เรียงลงแนวตั้งปกติ */
     }
 }
+/* =========================================
+   ทำให้วิดีโอจาก Drive ยืดหดตามจอ (Responsive)
+   ========================================= */
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* กำหนดสัดส่วน 16:9 */
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+    background: #000; /* สีพื้นหลังระหว่างรอโหลด */
+    border-radius: 8px; /* เพิ่มความมนที่มุมนิดหน่อย */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* ใส่เงาให้ดูลอยเด่น */
+    margin-bottom: 20px; /* เว้นระยะห่างด้านล่าง */
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
