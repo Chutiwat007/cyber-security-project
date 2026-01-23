@@ -192,3 +192,88 @@ document.addEventListener('DOMContentLoaded', () => {
         checkLessonScroll(); // เรียกครั้งแรกทันที
     }
 });
+// --- [Quiz System] ระบบตรวจข้อสอบ 10 ข้อ (Chapter 2 Theme) ---
+function checkQuizResult() {
+    // เฉลยคำตอบ
+    const answers = {
+        q1: 'c',  // Length is King
+        q2: 'b',  // Password Reuse -> Credential Stuffing
+        q3: 'c',  // Salting -> Prevent Rainbow Table
+        q4: 'c',  // NIST -> No Expiration
+        q5: 'c',  // Zero-Knowledge -> No Key
+        q6: 'b',  // TOTP -> Time based
+        q7: 'c',  // FIDO2 -> Anti-Phishing
+        q8: 'c',  // Biometrics -> Cannot change
+        q9: 'c',  // Backup Codes -> Offline
+        q10: 'b'  // Rainbow Table -> Pre-computed
+    };
+
+    let score = 0;
+    const total = 10;
+    const form = document.getElementById('quiz-form');
+    const resultDiv = document.getElementById('quiz-result');
+
+    // รีเซ็ตสีเก่า (ถ้ามี)
+    const allLabels = form.querySelectorAll('label');
+    allLabels.forEach(label => {
+        label.classList.remove('correct-answer', 'wrong-answer');
+        const icon = label.querySelector('i');
+        if(icon) icon.remove();
+    });
+
+    // เริ่มตรวจ
+    for (let key in answers) {
+        if(form.elements[key]) {
+            const userRadios = form.elements[key];
+            
+            for (let i = 0; i < userRadios.length; i++) {
+                const radio = userRadios[i];
+                const label = radio.parentElement;
+
+                if (radio.checked) {
+                    if (radio.value === answers[key]) {
+                        // ถูก
+                        score++;
+                        label.classList.add('correct-answer');
+                        label.innerHTML += ' <i class="fas fa-check-circle" style="margin-left:auto;"></i>';
+                    } else {
+                        // ผิด
+                        label.classList.add('wrong-answer');
+                        label.innerHTML += ' <i class="fas fa-times-circle" style="margin-left:auto;"></i>';
+                    }
+                }
+            }
+        }
+    }
+
+    // แสดงผลคะแนน (Theme สีเขียว Emerald)
+    resultDiv.style.display = 'block';
+    
+    if (score >= 8) {
+        resultDiv.innerHTML = `<i class="fas fa-shield-alt" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>ยอดเยี่ยม!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(บัญชีของคุณปลอดภัยหายห่วงแน่นอน)</span>`;
+        resultDiv.style.background = "#ecfdf5";
+        resultDiv.style.color = "#047857";
+        resultDiv.style.border = "2px solid #10b981";
+    } else if (score >= 5) {
+        resultDiv.innerHTML = `<i class="fas fa-user-shield" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>ทำได้ดี!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(ทบทวนเรื่อง 2FA อีกนิดจะสมบูรณ์แบบครับ)</span>`;
+        resultDiv.style.background = "#fffbeb";
+        resultDiv.style.color = "#b45309";
+        resultDiv.style.border = "2px solid #f59e0b";
+    } else {
+        resultDiv.innerHTML = `<i class="fas fa-lock-open" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>ต้องระวัง!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(แนะนำให้อ่านบทที่ 2 ทบทวนเพื่อความปลอดภัยครับ)</span>`;
+        resultDiv.style.background = "#fef2f2";
+        resultDiv.style.color = "#b91c1c";
+        resultDiv.style.border = "2px solid #ef4444";
+    }
+
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // ล็อกปุ่ม
+    const btn = document.querySelector('.btn-submit-quiz');
+    if(btn) {
+        btn.textContent = "ตรวจเรียบร้อยแล้ว";
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
+        btn.style.cursor = "not-allowed";
+    }
+}

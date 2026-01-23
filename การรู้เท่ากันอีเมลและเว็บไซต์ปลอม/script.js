@@ -136,3 +136,87 @@ document.addEventListener('DOMContentLoaded', () => {
         checkLessonScroll(); // เรียกครั้งแรกทันที
     }
 });
+// --- [Quiz System] ระบบตรวจข้อสอบ 10 ข้อ (Chapter 3 Theme) ---
+function checkQuizResult() {
+    // เฉลยคำตอบ
+    const answers = {
+        q1: 'b',  // Phishing คือหลอกลวง
+        q2: 'b',  // ใช้ความกลัว/เร่งด่วน
+        q3: 'a',  // Spear เจาะจง
+        q4: 'c',  // ดู domain หลัก (account-verify.net)
+        q5: 'b',  // Homograph อักษรเหมือนกัน
+        q6: 'c',  // เว็บปลอมก็มี HTTPS ได้
+        q7: 'b',  // ดู Return-Path
+        q8: 'c',  // Whaling ล่าผู้บริหาร
+        q9: 'a',  // VirusTotal
+        q10: 'c'  // ตั้งสติ เช็คลิงก์ก่อนกด
+    };
+
+    let score = 0;
+    const total = 10;
+    const form = document.getElementById('quiz-form');
+    const resultDiv = document.getElementById('quiz-result');
+
+    // รีเซ็ตสีเก่า
+    const allLabels = form.querySelectorAll('label');
+    allLabels.forEach(label => {
+        label.classList.remove('correct-answer', 'wrong-answer');
+    });
+
+    // เริ่มตรวจ
+    for (let key in answers) {
+        if(form.elements[key]) {
+            const userRadios = form.elements[key];
+            
+            for (let i = 0; i < userRadios.length; i++) {
+                const radio = userRadios[i];
+                const label = radio.parentElement;
+
+                if (radio.checked) {
+                    if (radio.value === answers[key]) {
+                        // ถูก
+                        score++;
+                        label.classList.add('correct-answer');
+                        label.innerHTML += ' <i class="fas fa-check-circle" style="margin-left:auto;"></i>';
+                    } else {
+                        // ผิด
+                        label.classList.add('wrong-answer');
+                        label.innerHTML += ' <i class="fas fa-times-circle" style="margin-left:auto;"></i>';
+                    }
+                }
+            }
+        }
+    }
+
+    // แสดงผลคะแนน (ใช้ Theme สีส้ม/Amber ของบทที่ 3)
+    resultDiv.style.display = 'block';
+    
+    if (score >= 8) {
+        resultDiv.innerHTML = `<i class="fas fa-trophy" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>สุดยอดนักสืบ!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(คุณมีสายตาที่เฉียบคม แยกแยะของจริงของปลอมได้แม่นยำ)</span>`;
+        resultDiv.style.background = "#fffbeb";
+        resultDiv.style.color = "#d97706";
+        resultDiv.style.border = "2px solid #f59e0b";
+    } else if (score >= 5) {
+        resultDiv.innerHTML = `<i class="fas fa-search" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>ทำได้ดี!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(ระวังเรื่องการดู URL อีกนิด ก็ปลอดภัยแล้วครับ)</span>`;
+        resultDiv.style.background = "#fff7ed";
+        resultDiv.style.color = "#ea580c";
+        resultDiv.style.border = "2px solid #f97316";
+    } else {
+        resultDiv.innerHTML = `<i class="fas fa-exclamation-triangle" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>ระวังตัวด้วย!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(แนะนำให้ทบทวนบทเรียนเรื่อง URL และจุดสังเกตใหม่นะครับ)</span>`;
+        resultDiv.style.background = "#fef2f2";
+        resultDiv.style.color = "#dc2626";
+        resultDiv.style.border = "2px solid #ef4444";
+    }
+
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    const btn = document.querySelector('.btn-submit-quiz');
+    if(btn) {
+        btn.textContent = "ตรวจเรียบร้อยแล้ว";
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
+        btn.style.cursor = "not-allowed";
+        btn.style.background = "#94a3b8";
+        btn.style.boxShadow = "none";
+    }
+}

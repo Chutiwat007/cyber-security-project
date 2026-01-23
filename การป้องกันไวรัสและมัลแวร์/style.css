@@ -454,92 +454,170 @@ footer {
     .footer-right { text-align: center; }
     .footer-socials { justify-content: center; }
 }
-/* --- Quiz Styles --- */
+/* =========================================
+   UNIVERSAL QUIZ STYLES (มาตรฐานเดียวกันทุกบท)
+   (รองรับการเปลี่ยนสีอัตโนมัติตาม var(--accent) ของแต่ละบท)
+   ========================================= */
+
 .quiz-container {
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); /* เงาฟุ้งสวยงาม */
     border: 1px solid #e2e8f0;
+    margin-top: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ตกแต่งเส้นคาดด้านบน (ให้รู้ว่าเป็นสีธีมอะไร) */
+.quiz-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 5px;
+    background: var(--accent); /* สีเปลี่ยนตามบท */
 }
 
 .quiz-item {
-    margin-bottom: 25px;
-    border-bottom: 1px solid #f1f5f9;
-    padding-bottom: 20px;
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 1px dashed #cbd5e1;
 }
-.quiz-item h4 {
-    margin-bottom: 15px;
+
+.quiz-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.quiz-item h3 {
+    font-size: 1.25rem;
     color: var(--primary);
+    margin-bottom: 20px;
+    font-weight: 700;
+    line-height: 1.6;
 }
 
-.options label {
-    display: block;
-    padding: 10px 15px;
-    background: #f8fafc;
-    border-radius: 8px;
-    margin-bottom: 8px;
+/* --- ตัวเลือกแบบการ์ด (Card Style) --- */
+.quiz-item label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    background: #f8fafc;       /* พื้นหลังเทาอ่อน */
+    border: 2px solid #e2e8f0; /* ขอบสีจาง */
+    border-radius: 12px;
     cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1rem;
+    color: var(--text-main);
+    font-weight: 500;
+}
+
+/* เอฟเฟกต์ตอนชี้ (Hover) */
+.quiz-item label:hover {
+    background: var(--accent-light); /* สีพื้นหลังตามธีม (จางๆ) */
+    border-color: var(--accent);     /* ขอบสีตามธีม */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* ซ่อน Radio เดิม แล้วแต่งใหม่ */
+.quiz-item input[type="radio"] {
+    appearance: none; /* ลบปุ่มเดิม */
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cbd5e1;
+    border-radius: 50%;
+    margin-right: 15px;
+    position: relative;
     transition: 0.2s;
-    border: 1px solid transparent;
-}
-.options label:hover {
-    background: #e2e8f0;
-}
-.options input { margin-right: 10px; }
-
-/* เฉดสีตอนเฉลย */
-.options label.correct {
-    background: #dcfce7;
-    border-color: #22c55e;
-    color: #166534;
-    font-weight: bold;
-}
-.options label.wrong {
-    background: #fee2e2;
-    border-color: #ef4444;
-    color: #991b1b;
-    opacity: 0.7;
+    flex-shrink: 0; /* ไม่ให้ปุ่มบี้เวลาข้อความยาว */
 }
 
-/* กล่องคำอธิบายเฉลย */
-.feedback {
-    margin-top: 10px;
-    padding: 15px;
-    background: #f0f9ff;
-    border-left: 4px solid #0ea5e9;
-    font-size: 0.9rem;
-    color: #0369a1;
-    border-radius: 0 5px 5px 0;
-    display: none; /* ซ่อนไว้ก่อน */
-}
-.feedback.show { display: block; animation: fadeIn 0.5s; }
-
-.btn-submit-quiz {
+/* เมื่อเลือก (Checked) */
+.quiz-item input[type="radio"]:checked {
+    border-color: var(--accent);
     background: var(--accent);
+    box-shadow: inset 0 0 0 3px #fff; /* สร้างจุดขาวตรงกลาง */
+}
+
+/* เปลี่ยนสีกล่องเมื่อเลือก */
+.quiz-item label:has(input:checked) {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ปุ่มส่งคำตอบ */
+.btn-submit-quiz {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 40px auto 0;
+    
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
     color: white;
     border: none;
-    padding: 12px 30px;
+    padding: 16px 50px;
+    font-size: 1.1rem;
+    font-weight: 800;
     border-radius: 50px;
-    font-size: 1rem;
-    font-weight: bold;
     cursor: pointer;
-    transition: 0.3s;
-    display: block;
-    width: 100%;
-    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2); /* เงาปุ่ม */
+    letter-spacing: 0.5px;
 }
-.btn-submit-quiz:hover { background: var(--accent-hover); transform: translateY(-2px); }
 
-.quiz-result {
-    text-align: center;
-    margin-top: 30px;
-    padding: 20px;
-    border-radius: 10px;
-    background: #f8fafc;
-    border: 2px solid var(--primary);
+.btn-submit-quiz:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.1);
 }
-.quiz-result h3 { font-size: 1.5rem; color: var(--primary); }
+
+.btn-submit-quiz:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* --- กล่องเฉลย (Result Box) --- */
+.quiz-result {
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    display: none;
+    animation: slideUpFade 0.5s ease-out;
+}
+
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- สถานะเฉลย (JS จะเติม Class พวกนี้ให้) --- */
+
+/* ถูก (เขียวเสมอ ไม่เปลี่ยนตามธีม) */
+.quiz-item label.correct-answer {
+    background: #dcfce7 !important;
+    border-color: #22c55e !important;
+    color: #14532d !important;
+}
+
+/* ผิด (แดงเสมอ ไม่เปลี่ยนตามธีม) */
+.quiz-item label.wrong-answer {
+    background: #fee2e2 !important;
+    border-color: #ef4444 !important;
+    color: #991b1b !important;
+    opacity: 0.8;
+}
 /* =========================================
    [Lesson Animation] อนิเมชั่นสำหรับหน้าเนื้อหา
    ========================================= */
@@ -1218,4 +1296,290 @@ footer {
     width: 100%;
     height: 100%;
     border: 0;
+}
+/* =========================================
+   QUIZ STYLES (ตกแต่งแบบทดสอบให้สวยงาม)
+   ========================================= */
+.quiz-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); /* เงาฟุ้งๆ */
+    margin-top: 30px;
+    border: 1px solid #e2e8f0;
+}
+
+.quiz-item {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #cbd5e1; /* เส้นประคั่นแต่ละข้อ */
+}
+
+.quiz-item:last-child {
+    border-bottom: none;
+}
+
+.quiz-item h3 {
+    font-size: 1.2rem;
+    color: #0f172a; /* สีหัวข้อเข้มๆ */
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+/* จัดตัวเลือกให้เรียงลงมาเป็นบรรทัด */
+.quiz-item label {
+    display: flex; /* จัดให้ปุ่มกับข้อความอยู่แนวเดียวกัน */
+    align-items: center;
+    margin-bottom: 12px; /* เว้นระยะห่างแต่ละตัวเลือก */
+    cursor: pointer;
+    font-size: 1rem;
+    color: #334155;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.quiz-item label:hover {
+    background: #f1f5f9; /* เมาส์ชี้แล้วมีพื้นหลังจางๆ */
+}
+
+.quiz-item input[type="radio"] {
+    margin-right: 12px;
+    width: 18px;
+    height: 18px;
+    accent-color: #e11d48; /* เปลี่ยนสีปุ่มติ๊กเป็นสีแดง (ตามธีม) */
+    cursor: pointer;
+}
+
+/* ปุ่มส่งคำตอบสวยๆ */
+.btn-submit-quiz {
+    background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); /* สีไล่ระดับแดง */
+    color: #fff;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4);
+    display: block;
+    margin: 30px auto 0; /* จัดกึ่งกลาง */
+    width: fit-content;
+}
+
+.btn-submit-quiz:hover {
+    transform: translateY(-3px); /* ลอยขึ้นนิดนึง */
+    box-shadow: 0 8px 25px rgba(225, 29, 72, 0.5);
+}
+
+.btn-submit-quiz:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* กล่องผลคะแนน */
+.quiz-result {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    display: none; /* ซ่อนไว้ก่อน */
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* =========================================
+   ADD-ON: Quiz Result Highlights (ส่วนที่ขาดไป)
+   ========================================= */
+
+/* เมื่อตอบถูก (พื้นหลังเขียว) */
+.quiz-item label.correct-answer {
+    background: #dcfce7 !important; /* เขียวพาสเทล */
+    border-color: #22c55e !important; /* ขอบเขียวสด */
+    color: #14532d !important;      /* ตัวหนังสือเขียวเข้ม */
+    font-weight: bold;
+}
+
+/* เมื่อตอบผิด (พื้นหลังแดง) */
+.quiz-item label.wrong-answer {
+    background: #fee2e2 !important; /* แดงพาสเทล */
+    border-color: #ef4444 !important; /* ขอบแดงสด */
+    color: #7f1d1d !important;      /* ตัวหนังสือแดงเข้ม */
+    opacity: 0.8;
+}
+
+/* ปรับไอคอนถูก/ผิด ให้ดูดีขึ้น */
+.quiz-item label i {
+    font-size: 1.2rem;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+/* =========================================
+   FIX: แก้ไขเฉพาะ Tablet และ Mobile เท่านั้น 
+   (PC จะไม่ถูกกระทบ แสดงผลเหมือนเดิม)
+   ========================================= */
+
+@media screen and (max-width: 1024px) {
+    
+    /* 1. บังคับขนาดฟอนต์ให้อ่านง่าย (เฉพาะจอมือถือ/แท็บเล็ต) */
+    html {
+        font-size: 16px !important;
+    }
+
+    /* 2. ปรับ Container ให้เต็มจอ ไม่บีบข้าง */
+    .container, .nav-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 20px !important;
+    }
+
+    /* 3. ยกเลิก Grid ซ้าย-ขวา ให้เนื้อหาเรียงลงมาแนวตั้ง */
+    .main-layout {
+        display: block !important;
+        margin-top: 30px;
+    }
+
+    /* 4. ซ่อนแถบสารบัญด้านซ้าย (Sidebar) เพื่อไม่ให้กินที่ */
+    .sidebar-toc {
+        display: none !important;
+    }
+
+    /* 5. ขยายกล่องเนื้อหาให้เต็ม 100% */
+    .content-area {
+        width: 100% !important;
+        padding: 30px !important;
+        margin: 0 !important;
+    }
+
+    /* --- ปรับเมนูบาร์ (Navbar) ให้เป็นแบบ Mobile --- */
+    .navbar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        z-index: 9999;
+    }
+    
+    body {
+        padding-top: 70px; /* ดันเนื้อหาลงมา เพื่อไม่ให้ Navbar บัง */
+    }
+
+    /* ปุ่ม Hamburger (3 ขีด) */
+    .hamburger {
+        display: block !important;
+        z-index: 2000;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.6rem;
+        cursor: pointer;
+        color: var(--primary);
+    }
+
+    /* กล่องเมนูที่เลื่อนออกมา */
+    .nav-menu {
+        position: fixed;
+        top: 70px !important;
+        right: -100%; /* ซ่อนไว้ทางขวา */
+        left: auto;
+        width: 300px;
+        max-width: 85%;
+        height: calc(100vh - 70px) !important;
+        background: #ffffff;
+        box-shadow: -5px 0 30px rgba(0,0,0,0.15);
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 40px 30px;
+        gap: 15px;
+        transition: right 0.3s ease-in-out;
+        z-index: 1500;
+        overflow-y: auto;
+    }
+
+    .nav-menu.active {
+        right: 0 !important;
+    }
+
+    .nav-menu li {
+        width: 100%;
+        border-bottom: 1px solid #f1f5f9;
+        text-align: left;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 15px 0;
+        font-size: 1.1rem;
+        color: var(--primary);
+    }
+
+    .btn-nav-contact {
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+        color: white !important;
+    }
+
+    /* ปรับ Dropdown ให้กางออกมาเลยในเมนู */
+    .dropdown-menu {
+        position: static !important;
+        display: flex !important;
+        flex-direction: column;
+        box-shadow: none !important;
+        border: none;
+        padding-left: 20px;
+        border-left: 3px solid #f1f5f9;
+        width: 100% !important;
+        background: transparent;
+        transform: none !important;
+        margin-top: 0;
+    }
+
+    .dropdown-menu li a {
+        font-size: 0.95rem;
+        color: #64748b;
+        padding: 10px 0;
+        border: none;
+    }
+    
+    .nav-link.dropdown-toggle {
+        pointer-events: none;
+        color: #94a3b8;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        margin-bottom: -10px;
+        border: none;
+    }
+    .fa-chevron-down {
+        display: none;
+    }
+    
+    /* ปรับ Grid ของแล็บต่างๆ ให้เรียงเดี่ยว */
+    .password-sim, .generator-tool, .totp-sim, .nist-compare, .grid-2 {
+        width: 100% !important;
+        max-width: 100% !important;
+        grid-template-columns: 1fr !important;
+        margin: 20px 0 !important;
+    }
+    
+    .nist-col {
+        border-right: none !important;
+        border-bottom: 1px solid #e2e8f0;
+    }
 }

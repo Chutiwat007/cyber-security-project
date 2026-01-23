@@ -55,15 +55,15 @@
         
         <aside class="sidebar-toc">
             <div class="toc-inner">
-                <h3><i class="fas fa-list-ul"></i> หัวข้อการเรียนรู้</h3>
+                <h3><i class="fas fa-list-ul"></i> หัวข้อย่อยบทเรียนที่ 1</h3>
                 <ul id="toc-list">
-                    <li><a href="#intro" class="active">1. นิยามและผู้ก่อภัยคุกคาม</a></li>
-                    <li><a href="#cia">2. CIA Triad & AAA Model</a></li>
-                    <li><a href="#threats">3. ภัยคุกคามทางเทคนิค</a></li>
-                    <li><a href="#social">4. วิศวกรรมสังคม (เจาะลึก)</a></li>
-                    <li><a href="#killchain">5. Cyber Kill Chain</a></li>
-                    <li><a href="#defense">6. ยุทธวิธีป้องกัน (NIST Framework)</a></li>
-                    <li><a href="#summary">7. บทสรุป</a></li>
+                    <li><a href="#intro" class="active">1.1 ภัยไซเบอร์และผู้ก่อเหตุ</a></li>
+                    <li><a href="#cia">1.2 เสาหลักความปลอดภัย</a></li>
+                    <li><a href="#threats">1.3 ภัยคุกคามทางเทคนิค</a></li>
+                    <li><a href="#social">1.4 ภัยคุกคามทางจิตวิทยา</a></li>
+                    <li><a href="#killchain">1.5 วงจรการโจมตี</a></li>
+                    <li><a href="#defense">1.6 วิธีป้องกัน (NIST Framework)</a></li>
+                    <li><a href="#summary">1.7 บทสรุป</a></li>
                 </ul>
             </div>
         </aside>
@@ -71,7 +71,7 @@
         <article class="content-area">
             
             <section id="intro" class="chapter">
-                <h2><span class="chapter-number">1</span> ภัยไซเบอร์และผู้ก่อเหตุ (The Threat Landscape)</h2>
+                <h2><span class="chapter-number">1.1</span> ภัยไซเบอร์และผู้ก่อเหตุ (The Threat Landscape)</h2>
                 <p><strong>ภัยคุกคามทางไซเบอร์ (Cyber Threat)</strong> ในบริบทความมั่นคงปลอดภัยสารสนเทศ หมายถึง เหตุการณ์หรือการกระทำใดๆ ที่มีศักยภาพในการก่อให้เกิดความเสียหายต่อระบบคอมพิวเตอร์ เครือข่าย หรือข้อมูล ทั้งในเชิงกายภาพและเชิงตรรกะ โดยผู้ไม่ประสงค์ดี (Threat Actors)</p>
                 
                 <figure class="img-block large">
@@ -130,7 +130,7 @@
             <hr class="divider">
 
             <section id="cia" class="chapter">
-                <h2><span class="chapter-number">2</span> เสาหลักความปลอดภัย (CIA Triad & AAA Model)</h2>
+                <h2><span class="chapter-number">1.2</span> เสาหลักความปลอดภัย (CIA Triad & AAA Model)</h2>
                 <p>โมเดล <strong>CIA Triad</strong> คือเสาหลัก 3 ประการที่ใช้ประเมินสถานะความปลอดภัยของระบบ หากส่วนใดส่วนหนึ่งถูกโจมตี ระบบจะเข้าสู่ภาวะ "ไม่ปลอดภัย"</p>
 
                 <figure class="img-block medium">
@@ -177,7 +177,7 @@
             <hr class="divider">
 
             <section id="threats" class="chapter">
-                <h2><span class="chapter-number">3</span> เจาะลึกภัยคุกคามทางเทคนิค (Technical Threats)</h2>
+                <h2><span class="chapter-number">1.3</span> เจาะลึกภัยคุกคามทางเทคนิค (Technical Threats)</h2>
                 <p>ในหัวข้อนี้เราจะลงลึกถึงกลไกการทำงานของภัยคุกคามประเภทต่างๆ ที่ซับซ้อนยิ่งขึ้น</p>
 
                 <h3>3.1 มัลแวร์ (Malware Taxonomy)</h3>
@@ -221,7 +221,7 @@
             <hr class="divider">
 
             <section id="social" class="chapter">
-                <h2><span class="chapter-number">4</span> ภัยคุกคามทางจิตวิทยา (Advanced Social Engineering)</h2>
+                <h2><span class="chapter-number">1.4</span> ภัยคุกคามทางจิตวิทยา (Advanced Social Engineering)</h2>
                 <p>การโจมตีจุดอ่อนที่ยิ่งใหญ่ที่สุดของระบบความปลอดภัย นั่นคือ <strong>"มนุษย์"</strong> โดยใช้หลักจิตวิทยา <em>(ความกลัว, ความโลภ, ความเร่งรีบ, ความอยากรู้อยากเห็น)</em></p>
 
                 <figure class="img-block medium">
@@ -252,7 +252,7 @@
             <hr class="divider">
 
             <section id="killchain" class="chapter">
-                <h2><span class="chapter-number">5</span> วงจรการโจมตี (Cyber Kill Chain)</h2>
+                <h2><span class="chapter-number">1.5</span> วงจรการโจมตี (Cyber Kill Chain)</h2>
                 <p>โมเดล <strong>Cyber Kill Chain</strong> (พัฒนาโดย Lockheed Martin) อธิบาย 7 ขั้นตอนที่แฮกเกอร์ต้องทำเพื่อโจมตีสำเร็จ หากเราตัดวงจรได้ขั้นตอนใดขั้นตอนหนึ่ง การโจมตีจะล้มเหลว</p>
                 
                 <figure class="img-block large">
@@ -274,7 +274,7 @@
             <hr class="divider">
 
             <section id="defense" class="chapter">
-                <h2><span class="chapter-number">6</span> ยุทธวิธีป้องกัน (NIST Framework & Defense in Depth)</h2>
+                <h2><span class="chapter-number">1.6</span> วิธีป้องกัน (NIST Framework & Defense in Depth)</h2>
                 <p>การป้องกันที่มีประสิทธิภาพต้องใช้หลักการ <strong>Defense in Depth (การป้องกันหลายชั้น)</strong> และกรอบมาตรฐานระดับโลกอย่าง <strong>NIST Cybersecurity Framework</strong></p>
 
                 <figure class="img-block medium">
@@ -329,10 +329,103 @@
                 </div>
             </section>
 
-            <hr class="divider">
+           <hr class="divider">
+
+            <section id="quiz" class="chapter">
+                <h2>แบบทดสอบหลังเรียนบทที่ 1</h2>
+                <p>ทดสอบความเข้าใจเรื่องพื้นฐานภัยคุกคามและหลักการความปลอดภัย (10 คะแนน)</p>
+
+                <div class="quiz-container">
+                    <form id="quiz-form">
+                        <div class="quiz-item">
+                            <h3>1. ผู้ก่อภัยคุกคามประเภทใดที่มีเป้าหมายหลักเพื่อการจารกรรมข้อมูลความมั่นคงหรือทำสงครามไซเบอร์ โดยมักได้รับการสนับสนุนจากรัฐบาล?</h3>
+                            <label><input type="radio" name="q1" value="a"> a) Script Kiddies</label>
+                            <label><input type="radio" name="q1" value="b"> b) Cybercriminals (อาชญากรไซเบอร์)</label>
+                            <label><input type="radio" name="q1" value="c"> c) State-Sponsored (แฮกเกอร์ระดับชาติ)</label>
+                            <label><input type="radio" name="q1" value="d"> d) Insider Threats (ภัยคนใน)</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>2. หากหน้าเว็บไซต์ขององค์กรถูกแฮกเกอร์เปลี่ยนรูปภาพหน้าแรก (Web Defacement) เหตุการณ์นี้ส่งผลกระทบต่อเสาหลักความปลอดภัยข้อใดมากที่สุด?</h3>
+                            <label><input type="radio" name="q2" value="a"> a) Confidentiality (การรักษาความลับ)</label>
+                            <label><input type="radio" name="q2" value="b"> b) Integrity (ความถูกต้องครบถ้วน)</label>
+                            <label><input type="radio" name="q2" value="c"> c) Availability (ความพร้อมใช้งาน)</label>
+                            <label><input type="radio" name="q2" value="d"> d) Authentication (การยืนยันตัวตน)</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>3. ในโมเดล AAA ขั้นตอนใดทำหน้าที่ตรวจสอบว่า "ผู้ใช้งานคนนี้มีสิทธิ์ทำอะไรได้บ้าง" (เช่น ดูได้อย่างเดียว แต่แก้ไขไม่ได้)?</h3>
+                            <label><input type="radio" name="q3" value="a"> a) Authentication (การยืนยันตัวตน)</label>
+                            <label><input type="radio" name="q3" value="b"> b) Authorization (การกำหนดสิทธิ์)</label>
+                            <label><input type="radio" name="q3" value="c"> c) Accounting (การตรวจสอบ)</label>
+                            <label><input type="radio" name="q3" value="d"> d) Access Control (การควบคุมการเข้าถึง)</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>4. มัลแวร์ชนิดใดที่มีความสามารถในการ "แพร่กระจายตัวเอง" ไปยังเครื่องอื่นในเครือข่ายได้โดยอัตโนมัติ โดยไม่ต้องรอมนุษย์กดเปิดไฟล์?</h3>
+                            <label><input type="radio" name="q4" value="a"> a) Trojan (ม้าโทรจัน)</label>
+                            <label><input type="radio" name="q4" value="b"> b) Ransomware (เรียกค่าไถ่)</label>
+                            <label><input type="radio" name="q4" value="c"> c) Virus (ไวรัส)</label>
+                            <label><input type="radio" name="q4" value="d"> d) Worm (หนอนคอมพิวเตอร์)</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>5. การโจมตีแบบ "Baiting" (การล่อเหยื่อ) มักใช้วิธีการใด?</h3>
+                            <label><input type="radio" name="q5" value="a"> a) ส่งอีเมลปลอมแจ้งว่าบัญชีธนาคารมีปัญหา</label>
+                            <label><input type="radio" name="q5" value="b"> b) โทรศัพท์ไปหลอกถามรหัสผ่าน</label>
+                            <label><input type="radio" name="q5" value="c"> c) ทิ้ง USB Drive ที่ติดมัลแวร์ไว้ในที่สาธารณะเพื่อให้คนเก็บไปเสียบ</label>
+                            <label><input type="radio" name="q5" value="d"> d) แอบเดินตามพนักงานเข้าไปในประตูสำนักงาน</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>6. ในวงจร Cyber Kill Chain ขั้นตอนใดคือการที่แฮกเกอร์เริ่ม "สร้างไฟล์มัลแวร์" หรือเตรียมเครื่องมือที่ออกแบบมาเจาะช่องโหว่เฉพาะ?</h3>
+                            <label><input type="radio" name="q6" value="a"> a) Reconnaissance (ลาดตระเวน)</label>
+                            <label><input type="radio" name="q6" value="b"> b) Weaponization (เตรียมอาวุธ)</label>
+                            <label><input type="radio" name="q6" value="c"> c) Delivery (ส่งมอบ)</label>
+                            <label><input type="radio" name="q6" value="d"> d) Exploitation (เจาะระบบ)</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>7. "Zero-Day Exploit" หมายถึงภัยคุกคามลักษณะใด?</h3>
+                            <label><input type="radio" name="q7" value="a"> a) การโจมตีที่เกิดขึ้นเฉพาะวันหยุด</label>
+                            <label><input type="radio" name="q7" value="b"> b) ไวรัสที่ลบข้อมูลทั้งหมดภายใน 0 วินาที</label>
+                            <label><input type="radio" name="q7" value="c"> c) การโจมตีช่องโหว่ใหม่ที่ผู้พัฒนายังไม่รู้และยังไม่มีแพตช์แก้ไข</label>
+                            <label><input type="radio" name="q7" value="d"> d) การโจมตีเครื่องคอมพิวเตอร์ที่ไม่มี Antivirus</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>8. ตามมาตรฐาน NIST Cybersecurity Framework ขั้นตอนใดเกี่ยวข้องกับการ "กู้คืนระบบจาก Backup"?</h3>
+                            <label><input type="radio" name="q8" value="a"> a) Identify (ระบุ)</label>
+                            <label><input type="radio" name="q8" value="b"> b) Protect (ป้องกัน)</label>
+                            <label><input type="radio" name="q8" value="c"> c) Respond (รับมือ)</label>
+                            <label><input type="radio" name="q8" value="d"> d) Recover (ฟื้นฟู)</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>9. ในโมเดล Defense in Depth การเขียนโค้ดให้ปลอดภัย (Secure Coding) จัดเป็นการป้องกันในระดับชั้นใด?</h3>
+                            <label><input type="radio" name="q9" value="a"> a) Layer 1: User Security</label>
+                            <label><input type="radio" name="q9" value="b"> b) Layer 3: Network Security</label>
+                            <label><input type="radio" name="q9" value="c"> c) Layer 4: Application Security</label>
+                            <label><input type="radio" name="q9" value="d"> d) Layer 5: Data Security</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>10. Fileless Malware แตกต่างจากมัลแวร์ทั่วไปอย่างไร?</h3>
+                            <label><input type="radio" name="q10" value="a"> a) เป็นมัลแวร์ที่ไม่มีอันตราย</label>
+                            <label><input type="radio" name="q10" value="b"> b) ไม่สร้างไฟล์ลงใน Harddisk แต่รันในหน่วยความจำ (RAM)</label>
+                            <label><input type="radio" name="q10" value="c"> c) โจมตีเฉพาะไฟล์เอกสารเท่านั้น</label>
+                            <label><input type="radio" name="q10" value="d"> d) ต้องมากับไฟล์แนบอีเมลเท่านั้น</label>
+                        </div>
+                    </form>
+
+                    <button type="button" class="btn-submit-quiz" onclick="checkQuizResult()">ตรวจคำตอบ</button>
+                    
+                    <div id="quiz-result" class="quiz-result"></div>
+                </div>
+            </section>
 
             <section id="summary" class="chapter">
-                <h2><span class="chapter-number">7</span> บทสรุป</h2>
+                <h2><span class="chapter-number">1.7</span> บทสรุป</h2>
                 <p>ความปลอดภัยไซเบอร์ไม่ใช่เรื่องไกลตัว และไม่ใช่หน้าที่ของฝ่ายไอทีเพียงอย่างเดียว แต่เป็นความรับผิดชอบของทุกคน การเข้าใจพื้นฐานเหล่านี้คือก้าวแรกที่สำคัญที่สุดในการสร้าง <strong>"ภูมิคุ้มกันทางดิจิทัล"</strong> ให้กับตัวคุณเองและองค์กร</p>
                 
                 <div class="next-chapter-box">

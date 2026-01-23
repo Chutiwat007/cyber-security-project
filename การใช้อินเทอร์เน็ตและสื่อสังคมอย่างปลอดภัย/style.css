@@ -1131,3 +1131,276 @@ footer {
     height: 100%;
     border: 0;
 }
+/* =========================================
+   IMPROVED QUIZ STYLES (Chapter 4 Theme)
+   ========================================= */
+.quiz-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(79, 70, 229, 0.1); /* เงาสีม่วงจางๆ */
+    border: 1px solid #e0e7ff;
+    margin-top: 30px;
+}
+
+.quiz-item {
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.quiz-item h3 {
+    font-size: 1.25rem;
+    color: #1e1b4b; /* สีกรมท่าเข้ม */
+    margin-bottom: 20px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+/* ปรับตัวเลือกให้เป็น "การ์ด" กดง่ายๆ */
+.quiz-item label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    color: #475569;
+}
+
+/* เอฟเฟกต์ตอนเอาเมาส์ชี้ */
+.quiz-item label:hover {
+    background: #eef2ff;
+    border-color: #818cf8; /* สีม่วงอ่อน */
+    transform: translateX(5px);
+}
+
+/* ซ่อนปุ่ม Radio เดิม แล้วสร้างใหม่ (Optional: หรือจะปล่อยไว้ก็ได้ แต่จัดให้สวย) */
+.quiz-item input[type="radio"] {
+    margin-right: 15px;
+    transform: scale(1.5);
+    accent-color: #4f46e5; /* เปลี่ยนสีปุ่มติ๊กเป็นสีม่วง */
+}
+
+/* เมื่อเลือกข้อนั้น ให้เปลี่ยนสีพื้นหลัง */
+.quiz-item label:has(input:checked) {
+    background: #e0e7ff;
+    border-color: #4f46e5;
+    color: #312e81;
+    font-weight: 600;
+}
+
+/* --- เฉพาะตอนเฉลย (JS จะเติม Class พวกนี้ให้) --- */
+.quiz-item label.correct-answer {
+    background: #dcfce7 !important; /* พื้นเขียว */
+    border-color: #22c55e !important;
+    color: #14532d !important;
+}
+
+.quiz-item label.wrong-answer {
+    background: #fee2e2 !important; /* พื้นแดง */
+    border-color: #ef4444 !important;
+    color: #7f1d1d !important;
+    opacity: 0.7;
+}
+
+/* ปุ่มส่งคำตอบ */
+.btn-submit-quiz {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%); /* ไล่สีม่วง */
+    color: #fff;
+    border: none;
+    padding: 18px 50px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
+    display: block;
+    margin: 40px auto 0;
+    width: fit-content;
+    letter-spacing: 1px;
+}
+
+.btn-submit-quiz:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 35px rgba(79, 70, 229, 0.5);
+}
+
+/* กล่องผลคะแนน */
+.quiz-result {
+    margin-top: 40px;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    font-size: 1.4rem;
+    line-height: 1.8;
+    display: none;
+    animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popUp {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+/* =========================================
+   FIX: แก้ไขเฉพาะ Tablet และ Mobile เท่านั้น 
+   (PC จะไม่ถูกกระทบ แสดงผลเหมือนเดิม)
+   ========================================= */
+
+@media screen and (max-width: 1024px) {
+    
+    /* 1. บังคับขนาดฟอนต์ให้อ่านง่าย (เฉพาะจอมือถือ/แท็บเล็ต) */
+    html {
+        font-size: 16px !important;
+    }
+
+    /* 2. ปรับ Container ให้เต็มจอ ไม่บีบข้าง */
+    .container, .nav-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 20px !important;
+    }
+
+    /* 3. ยกเลิก Grid ซ้าย-ขวา ให้เนื้อหาเรียงลงมาแนวตั้ง */
+    .main-layout {
+        display: block !important;
+        margin-top: 30px;
+    }
+
+    /* 4. ซ่อนแถบสารบัญด้านซ้าย (Sidebar) เพื่อไม่ให้กินที่ */
+    .sidebar-toc {
+        display: none !important;
+    }
+
+    /* 5. ขยายกล่องเนื้อหาให้เต็ม 100% */
+    .content-area {
+        width: 100% !important;
+        padding: 30px !important;
+        margin: 0 !important;
+    }
+
+    /* --- ปรับเมนูบาร์ (Navbar) ให้เป็นแบบ Mobile --- */
+    .navbar {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        z-index: 9999;
+    }
+    
+    body {
+        padding-top: 70px; /* ดันเนื้อหาลงมา เพื่อไม่ให้ Navbar บัง */
+    }
+
+    /* ปุ่ม Hamburger (3 ขีด) */
+    .hamburger {
+        display: block !important;
+        z-index: 2000;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1.6rem;
+        cursor: pointer;
+        color: var(--primary);
+    }
+
+    /* กล่องเมนูที่เลื่อนออกมา */
+    .nav-menu {
+        position: fixed;
+        top: 70px !important;
+        right: -100%; /* ซ่อนไว้ทางขวา */
+        left: auto;
+        width: 300px;
+        max-width: 85%;
+        height: calc(100vh - 70px) !important;
+        background: #ffffff;
+        box-shadow: -5px 0 30px rgba(0,0,0,0.15);
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 40px 30px;
+        gap: 15px;
+        transition: right 0.3s ease-in-out;
+        z-index: 1500;
+        overflow-y: auto;
+    }
+
+    .nav-menu.active {
+        right: 0 !important;
+    }
+
+    .nav-menu li {
+        width: 100%;
+        border-bottom: 1px solid #f1f5f9;
+        text-align: left;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 15px 0;
+        font-size: 1.1rem;
+        color: var(--primary);
+    }
+
+    .btn-nav-contact {
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+        color: white !important;
+    }
+
+    /* ปรับ Dropdown ให้กางออกมาเลยในเมนู */
+    .dropdown-menu {
+        position: static !important;
+        display: flex !important;
+        flex-direction: column;
+        box-shadow: none !important;
+        border: none;
+        padding-left: 20px;
+        border-left: 3px solid #f1f5f9;
+        width: 100% !important;
+        background: transparent;
+        transform: none !important;
+        margin-top: 0;
+    }
+
+    .dropdown-menu li a {
+        font-size: 0.95rem;
+        color: #64748b;
+        padding: 10px 0;
+        border: none;
+    }
+    
+    .nav-link.dropdown-toggle {
+        pointer-events: none;
+        color: #94a3b8;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        margin-bottom: -10px;
+        border: none;
+    }
+    .fa-chevron-down {
+        display: none;
+    }
+    
+    /* ปรับ Grid ของแล็บต่างๆ ให้เรียงเดี่ยว */
+    .password-sim, .generator-tool, .totp-sim, .nist-compare, .grid-2 {
+        width: 100% !important;
+        max-width: 100% !important;
+        grid-template-columns: 1fr !important;
+        margin: 20px 0 !important;
+    }
+    
+    .nist-col {
+        border-right: none !important;
+        border-bottom: 1px solid #e2e8f0;
+    }
+}

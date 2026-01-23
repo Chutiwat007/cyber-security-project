@@ -113,11 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
-// --- [Lesson Animation] ระบบอนิเมชั่นหน้าบทเรียนอัตโนมัติ ---
-document.addEventListener('DOMContentLoaded', () => {
-    // เลือกองค์ประกอบในหน้าบทเรียนที่จะให้ขยับ (ย่อหน้า, รูป, หัวข้อ, รายการ, วิดีโอ)
-    // หมายเหตุ: เราเจาะจงเฉพาะใน .content-area เพื่อไม่ให้กระทบเมนู
+
+    // --- [Lesson Animation] ระบบอนิเมชั่นหน้าบทเรียนอัตโนมัติ ---
     const lessonItems = document.querySelectorAll('.content-area p, .content-area h2, .content-area h3, .content-area li, .content-area img, .video-wrapper, .quiz-item');
 
     if (lessonItems.length > 0) {
@@ -144,3 +141,86 @@ document.addEventListener('DOMContentLoaded', () => {
         checkLessonScroll(); // เรียกครั้งแรกทันที
     }
 });
+
+// --- [Quiz System] ระบบตรวจข้อสอบ 10 ข้อ (Chapter 4 Theme) ---
+function checkQuiz() {
+    // เฉลยคำตอบ
+    const answers = {
+        q1: 'b', q2: 'b', q3: 'c', q4: 'a', q5: 'b',
+        q6: 'c', q7: 'c', q8: 'b', q9: 'b', q10: 'a'
+    };
+
+    let score = 0;
+    const total = 10;
+    const form = document.getElementById('quiz-form');
+    const resultDiv = document.getElementById('quiz-result');
+
+    // รีเซ็ตสีเก่าก่อนตรวจใหม่ (เผื่อกดซ้ำ)
+    const allLabels = form.querySelectorAll('label');
+    allLabels.forEach(label => {
+        label.classList.remove('correct-answer', 'wrong-answer');
+    });
+
+    // เริ่มตรวจ
+    for (let key in answers) {
+        if(form.elements[key]) {
+            const userRadios = form.elements[key];
+            let answered = false;
+
+            // วนลูปเช็คแต่ละตัวเลือกในข้อนั้น
+            for (let i = 0; i < userRadios.length; i++) {
+                const radio = userRadios[i];
+                const label = radio.parentElement; // จับตัว Label ที่หุ้มอยู่
+
+                if (radio.checked) {
+                    answered = true;
+                    if (radio.value === answers[key]) {
+                        // ตอบถูก: ได้คะแนน + สีเขียว
+                        score++;
+                        label.classList.add('correct-answer');
+                        label.innerHTML += ' <i class="fas fa-check-circle" style="margin-left:auto;"></i>';
+                    } else {
+                        // ตอบผิด: สีแดง
+                        label.classList.add('wrong-answer');
+                        label.innerHTML += ' <i class="fas fa-times-circle" style="margin-left:auto;"></i>';
+                    }
+                }
+            }
+        }
+    }
+
+    // แสดงผลคะแนน
+    resultDiv.style.display = 'block';
+    
+    // ข้อความตามคะแนน
+    if (score >= 8) {
+        resultDiv.innerHTML = `<i class="fas fa-trophy" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>สุดยอด!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(คุณคือผู้เชี่ยวชาญด้านความปลอดภัยตัวจริง)</span>`;
+        resultDiv.style.background = "#dcfce7";
+        resultDiv.style.color = "#166534";
+        resultDiv.style.border = "2px solid #22c55e";
+    } else if (score >= 5) {
+        resultDiv.innerHTML = `<i class="fas fa-thumbs-up" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>ผ่านเกณฑ์!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(ทบทวนอีกนิดรับรองเป๊ะแน่นอน)</span>`;
+        resultDiv.style.background = "#fffbeb";
+        resultDiv.style.color = "#92400e";
+        resultDiv.style.border = "2px solid #f59e0b";
+    } else {
+        resultDiv.innerHTML = `<i class="fas fa-book-reader" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>พยายามอีกนิด!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(ลองกลับไปอ่านบทที่ 4 ใหม่อีกรอบนะครับ)</span>`;
+        resultDiv.style.background = "#fef2f2";
+        resultDiv.style.color = "#991b1b";
+        resultDiv.style.border = "2px solid #ef4444";
+    }
+
+    // Scroll ไปหาผลคะแนน (เพื่อให้เห็นทันที)
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // ล็อกปุ่มส่ง
+    const btn = document.querySelector('.btn-submit-quiz');
+    if(btn) {
+        btn.textContent = "ตรวจเรียบร้อยแล้ว";
+        btn.disabled = true;
+        btn.style.opacity = "0.7";
+        btn.style.cursor = "not-allowed";
+        btn.style.background = "#94a3b8"; // สีเทา
+        btn.style.boxShadow = "none";
+    }
+}

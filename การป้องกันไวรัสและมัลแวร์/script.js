@@ -151,120 +151,82 @@ function restoreFiles() {
         if(btnRestore) btnRestore.textContent = "💾 กู้คืนจาก Backup (Offline)";
     }, 2000);
 }
-// --- Quiz System Logic (20 ข้อ) ---
+// --- [Quiz System] ระบบตรวจข้อสอบ 10 ข้อ (Chapter 5 : Card Style) ---
 function checkQuiz() {
-    // 1. เฉลยและคำอธิบาย
+    // เฉลยคำตอบ
     const answers = {
-        q1: { correct: 'b', explain: "✅ ถูกต้อง! CIA คือ Confidentiality (ความลับ), Integrity (ความถูกต้อง), Availability (ความพร้อมใช้)" },
-        q2: { correct: 'c', explain: "✅ ถูกต้อง! รหัสผ่านที่ดีต้องยาว เดายาก และซับซ้อน (ผสมตัวอักษรหลายแบบ)" },
-        q3: { correct: 'b', explain: "✅ ถูกต้อง! 2FA เป็นปราการด่านที่ 2 ต่อให้รหัสผ่านหลุด แฮกเกอร์ก็เข้าไม่ได้ถ้าไม่มี OTP หรือ App ยืนยัน" },
-        q4: { correct: 'b', explain: "✅ ถูกต้อง! Phishing คือการ 'ตกเหยื่อ' ด้วยอีเมล/เว็บปลอม" },
-        q5: { correct: 'c', explain: "✅ ถูกต้อง! HTTPS หมายถึงมีการเข้ารหัสข้อมูลระหว่างเรากับเซิร์ฟเวอร์ (แต่ไม่ได้การันตีว่าเว็บนั้นไม่โกงนะ แค่ดักฟังไม่ได้)" },
-        q6: { correct: 'b', explain: "✅ ถูกต้อง! Wi-Fi สาธารณะเสี่ยงต่อการถูกดักข้อมูล (Man-in-the-Middle) ได้ง่ายมาก" },
-        q7: { correct: 'a', explain: "✅ ถูกต้อง! Digital Footprint คือร่องรอยที่เราทิ้งไว้ เช่น โพสต์ คอมเมนต์ ประวัติการค้นหา" },
-        q8: { correct: 'b', explain: "✅ ถูกต้อง! บัตรประชาชนและตั๋วเดินทางมีข้อมูลส่วนตัวสำคัญที่ใช้สวมรอยได้" },
-        q9: { correct: 'c', explain: "✅ ถูกต้อง! Ransomware จะล็อกไฟล์เราเพื่อเรียกค่าไถ่" },
-        q10: { correct: 'b', explain: "✅ ถูกต้อง! Double Extortion คือการขู่ 2 ชั้น: 1.จ่ายค่าปลดล็อก 2.จ่ายค่าปิดปาก (ไม่ให้ปล่อยข้อมูลหลุด)" },
-        q11: { correct: 'a', explain: "✅ ถูกต้อง! Rootkit ฝังตัวลึกระดับราก (Kernel) เพื่อซ่อน Process ของตัวเอง" },
-        q12: { correct: 'b', explain: "✅ ถูกต้อง! Zero Trust คือไม่เชื่อใจใครเลย ต้อง Verify ทุกครั้ง" },
-        q13: { correct: 'a', explain: "✅ ถูกต้อง! กฎ 3-2-1: 3 สำเนา, 2 สื่อจัดเก็บ, 1 ที่ต่างถิ่น (หรือ Offline)" },
-        q14: { correct: 'b', explain: "✅ ถูกต้อง! อย่าคลิกลิงก์ในอีเมล ให้โทรเช็คกับธนาคารโดยตรงเสมอ" },
-        q15: { correct: 'b', explain: "✅ ถูกต้อง! การอัปเดต (Patch) คือการปิดประตูหลังบ้านที่แฮกเกอร์อาจแอบเข้า" },
-        q16: { correct: 'b', explain: "✅ ถูกต้อง! Social Engineering คือการหลอกคน (Human Hacking) ไม่ได้แฮกที่ระบบโดยตรง" },
-        q17: { correct: 'a', explain: "✅ ถูกต้อง! แอปดูดเงินมักขอสิทธิ์ Accessibility เพื่อกดหน้าจอแทนเรา" },
-        q18: { correct: 'b', explain: "✅ ถูกต้อง! VirusTotal เป็นแหล่งรวม Antivirus ทั่วโลกไว้สแกนไฟล์/เว็บฟรี" },
-        q19: { correct: 'b', explain: "✅ ถูกต้อง! ต้อง Log out และลบ History/Cookies เพื่อไม่ให้คนมาใช้ต่อเข้าบัญชีเราได้" },
-        q20: { correct: 'b', explain: "✅ ถูกต้อง! สติและการตั้งค่า Privacy คือเกราะป้องกันที่ดีที่สุด" }
+        q1: 'b', q2: 'a', q3: 'c', q4: 'd', q5: 'b',
+        q6: 'c', q7: 'b', q8: 'b', q9: 'd', q10: 'a'
     };
 
     let score = 0;
-    const total = 20;
+    const total = 10;
+    const form = document.getElementById('quiz-form');
+    const resultDiv = document.getElementById('quiz-result');
 
-    // 2. วนลูปตรวจทีละข้อ
-    for (let i = 1; i <= total; i++) {
-        const qId = 'q' + i;
-        const selected = document.querySelector(`input[name="${qId}"]:checked`);
-        const feedback = document.querySelector(`#${qId} .feedback`);
-        const options = document.querySelectorAll(`#${qId} .options label`);
+    // 1. รีเซ็ตสีเก่าออกก่อน (เผื่อกดตรวจซ้ำ)
+    const allLabels = form.querySelectorAll('label');
+    allLabels.forEach(label => {
+        label.classList.remove('correct-answer', 'wrong-answer');
+        // ลบไอคอนเก่าออก (ถ้ามี)
+        const icon = label.querySelector('i');
+        if(icon) icon.remove();
+    });
 
-        // รีเซ็ตสีเก่า
-        options.forEach(opt => opt.className = '');
+    // 2. เริ่มตรวจคำตอบ
+    for (let key in answers) {
+        if (form.elements[key]) {
+            const userRadios = form.elements[key];
+            
+            for (let i = 0; i < userRadios.length; i++) {
+                const radio = userRadios[i];
+                const label = radio.parentElement; // จับตัวกล่อง Label
 
-        if (selected) {
-            const val = selected.value;
-            if (val === answers[qId].correct) {
-                score++;
-                selected.parentElement.classList.add('correct');
-                feedback.innerHTML = `<i class="fas fa-check-circle"></i> ${answers[qId].explain}`;
-                feedback.style.borderColor = "#22c55e"; 
-                feedback.style.backgroundColor = "#dcfce7";
-                feedback.style.color = "#166534";
-            } else {
-                selected.parentElement.classList.add('wrong');
-                // ไฮไลท์ข้อที่ถูก
-                const correctInput = document.querySelector(`input[name="${qId}"][value="${answers[qId].correct}"]`);
-                if(correctInput) correctInput.parentElement.classList.add('correct');
-                
-                feedback.innerHTML = `<i class="fas fa-times-circle"></i> <strong>ผิดครับ!</strong> คำตอบที่ถูกคือข้อ ${answers[qId].correct.toUpperCase()}<br>${answers[qId].explain}`;
-                feedback.style.borderColor = "#ef4444"; 
-                feedback.style.backgroundColor = "#fee2e2";
-                feedback.style.color = "#991b1b";
+                if (radio.checked) {
+                    if (radio.value === answers[key]) {
+                        // ตอบถูก: บวกคะแนน + ถมสีเขียว + ติ๊กถูก
+                        score++;
+                        label.classList.add('correct-answer');
+                        label.innerHTML += ' <i class="fas fa-check-circle" style="margin-left:auto; color:#15803d;"></i>';
+                    } else {
+                        // ตอบผิด: ถมสีแดง + กากบาท
+                        label.classList.add('wrong-answer');
+                        label.innerHTML += ' <i class="fas fa-times-circle" style="margin-left:auto; color:#b91c1c;"></i>';
+                    }
+                }
             }
-            feedback.classList.add('show');
         }
     }
 
     // 3. แสดงผลคะแนน
-    const resultBox = document.getElementById('quizResult');
-    const scoreText = document.getElementById('scoreText');
-    const scoreMsg = document.getElementById('scoreMsg');
-
-    resultBox.classList.remove('hidden');
-    scoreText.textContent = `${score}/${total}`;
-
-    // เกณฑ์ผ่านคือ 15/20 (75%)
-    if (score >= 15) {
-        scoreMsg.innerHTML = "🎉 สุดยอด! คุณเป็นผู้เชี่ยวชาญด้านความปลอดภัยไซเบอร์แล้ว";
-        scoreMsg.style.color = "green";
+    resultDiv.style.display = 'block';
+    
+    if (score >= 8) {
+        resultDiv.innerHTML = `<i class="fas fa-trophy" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>ยอดเยี่ยม!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(คุณคือผู้เชี่ยวชาญด้านการป้องกันมัลแวร์)</span>`;
+        resultDiv.style.background = "#dcfce7"; // พื้นเขียวอ่อน
+        resultDiv.style.color = "#166534";
+        resultDiv.style.border = "2px solid #22c55e";
+    } else if (score >= 5) {
+        resultDiv.innerHTML = `<i class="fas fa-thumbs-up" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>ทำได้ดี!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(ทบทวนอีกนิด ปลอดภัยแน่นอน)</span>`;
+        resultDiv.style.background = "#fffbeb"; // พื้นเหลืองอ่อน
+        resultDiv.style.color = "#92400e";
+        resultDiv.style.border = "2px solid #f59e0b";
     } else {
-        scoreMsg.innerHTML = "😅 ยังไม่ผ่านเกณฑ์ (ต้องได้ 15 คะแนนขึ้นไป) ลองทบทวนเนื้อหาแล้วทำใหม่อีกครั้งนะครับ";
-        scoreMsg.style.color = "red";
+        resultDiv.innerHTML = `<i class="fas fa-book-reader" style="font-size:3rem; margin-bottom:10px;"></i><br><strong>พยายามอีกนิด!</strong><br>คุณได้ ${score} / ${total} คะแนน <br><span style="font-size:1rem; opacity:0.8;">(ลองอ่านทบทวนเนื้อหาบทนี้ใหม่นะครับ)</span>`;
+        resultDiv.style.background = "#fef2f2"; // พื้นแดงอ่อน
+        resultDiv.style.color = "#991b1b";
+        resultDiv.style.border = "2px solid #ef4444";
     }
+
+    // เลื่อนหน้าจอลงมาที่ผลคะแนน
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
     // ล็อกปุ่ม
     const btn = document.querySelector('.btn-submit-quiz');
     if(btn) {
+        btn.textContent = "ตรวจเรียบร้อยแล้ว";
         btn.disabled = true;
-        btn.textContent = "ตรวจเรียบร้อย";
+        btn.style.opacity = "0.7";
+        btn.style.cursor = "not-allowed";
     }
 }
-// --- [Lesson Animation] ระบบอนิเมชั่นหน้าบทเรียนอัตโนมัติ ---
-document.addEventListener('DOMContentLoaded', () => {
-    // เลือกองค์ประกอบในหน้าบทเรียนที่จะให้ขยับ (ย่อหน้า, รูป, หัวข้อ, รายการ, วิดีโอ)
-    // หมายเหตุ: เราเจาะจงเฉพาะใน .content-area เพื่อไม่ให้กระทบเมนู
-    const lessonItems = document.querySelectorAll('.content-area p, .content-area h2, .content-area h3, .content-area li, .content-area img, .video-wrapper, .quiz-item');
-
-    if (lessonItems.length > 0) {
-        // 1. ซ่อนทุกอย่างก่อน
-        lessonItems.forEach(item => {
-            item.classList.add('lesson-fade-hidden');
-        });
-
-        // 2. ฟังก์ชันตรวจสอบการเลื่อนหน้าจอ
-        const checkLessonScroll = () => {
-            const triggerBottom = window.innerHeight * 0.9; // ให้แสดงเมื่อเลื่อนมาถึง 90% ของจอ
-
-            lessonItems.forEach(item => {
-                const itemTop = item.getBoundingClientRect().top;
-                
-                if (itemTop < triggerBottom) {
-                    item.classList.add('lesson-fade-show');
-                }
-            });
-        };
-
-        // 3. เริ่มทำงาน
-        window.addEventListener('scroll', checkLessonScroll);
-        checkLessonScroll(); // เรียกครั้งแรกทันที
-    }
-});

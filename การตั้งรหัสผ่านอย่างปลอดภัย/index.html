@@ -55,21 +55,21 @@
         
         <aside class="sidebar-toc">
             <div class="toc-inner">
-                <h3><i class="fas fa-list-ul"></i> หัวข้อการเรียนรู้</h3>
+                <h3><i class="fas fa-list-ul"></i> หัวข้อย่อยบทเรียนที่ 2</h3>
                 <ul id="toc-list">
-                    <li><a href="#sec1" class="active">1. จิตวิทยาและปัญหา</a></li>
+                    <li><a href="#sec1" class="active">2.1 จิตวิทยาและปัญหา</a></li>
                     <li><a href="#lab1" class="highlight-toc">LAB 1: ตรวจสอบ Entropy</a></li>
-                    <li><a href="#sec2">2. คณิตศาสตร์การเจาะรหัส</a></li>
-                    <li><a href="#sec3">3. เบื้องหลังการเก็บ (Hashing)</a></li>
-                    <li><a href="#sec4">4. มาตรฐาน NIST SP 800-63B</a></li>
-                    <li><a href="#sec5">5. Password Manager</a></li>
+                    <li><a href="#sec2">2.2 คณิตศาสตร์การเจาะรหัส</a></li>
+                    <li><a href="#sec3">2.3 เบื้องหลังการเก็บ (Hashing)</a></li>
+                    <li><a href="#sec4">2.4 มาตรฐาน NIST SP 800-63B</a></li>
+                    <li><a href="#sec5">2.5 Password Manager</a></li>
                     <li><a href="#lab2" class="highlight-toc">LAB 2: เครื่องมือสร้างรหัส</a></li>
-                    <li><a href="#sec6">6. ระบบ 2FA/MFA เชิงลึก</a></li>
+                    <li><a href="#sec6">2.6 ระบบ 2FA/MFA เชิงลึก</a></li>
                     <li><a href="#lab3" class="highlight-toc">LAB 3: จำลอง TOTP</a></li>
-                    <li><a href="#sec7">7. FIDO2 & WebAuthn</a></li>
-                    <li><a href="#sec8">8. Biometrics</a></li>
-                    <li><a href="#sec9">9. OAuth & SSO</a></li>
-                    <li><a href="#sec10">10. แผนกู้คืนบัญชี</a></li>
+                    <li><a href="#sec7">2.7 FIDO2 & WebAuthn</a></li>
+                    <li><a href="#sec8">2.8 Biometrics</a></li>
+                    <li><a href="#sec9">2.9 OAuth & SSO</a></li>
+                    <li><a href="#sec10">2.10 แผนกู้คืนบัญชี</a></li>
                 </ul>
             </div>
         </aside>
@@ -77,7 +77,7 @@
         <article class="content-area">
             
             <section id="sec1" class="chapter">
-                <h2><span class="chapter-number">1</span> จิตวิทยาและปัญหาของรหัสผ่าน (The Psychology of Passwords)</h2>
+                <h2><span class="chapter-number">2.1</span> จิตวิทยาและปัญหาของรหัสผ่าน (The Psychology of Passwords)</h2>
                 <p>รหัสผ่านคือกลไกการยืนยันตัวตนที่เก่าแก่และแพร่หลายที่สุด แต่กลับเป็น <strong>"จุดอ่อนที่สุด"</strong> ของระบบความปลอดภัย (Single Point of Failure) สาเหตุหลักมาจากขีดจำกัดของสมองมนุษย์ที่ไม่สามารถจดจำสิ่งที่ซับซ้อนและไม่มีความหมายได้ เราจึงมักเลือกทางลัด:</p>
                 <ul class="detail-list">
                     <li><strong>Predictability (ความน่าจะเป็น):</strong> มนุษย์ชอบใช้รูปแบบเดิมๆ เช่น <code>Password123</code>, <code>Qwerty</code>, หรือชื่อคนรักตามด้วยปีเกิด</li>
@@ -148,7 +148,7 @@
             <hr class="divider">
 
             <section id="sec2" class="chapter">
-                <h2><span class="chapter-number">2</span> คณิตศาสตร์และการโจมตี (The Math & Attack Vectors)</h2>
+                <h2><span class="chapter-number">2.2</span> คณิตศาสตร์และการโจมตี (The Math & Attack Vectors)</h2>
                 <p>ความปลอดภัยของรหัสผ่านวัดกันที่ค่า <strong>Entropy (ความยุ่งเหยิง)</strong> ซึ่งมีหน่วยเป็น Bits ยิ่งค่าสูง จำนวนครั้งที่ต้องเดาก็จะยิ่งเพิ่มขึ้นแบบทวีคูณ (Exponential)</p>
                 
                 <div class="tech-box">
@@ -184,7 +184,7 @@
             <hr class="divider">
 
             <section id="sec3" class="chapter">
-                <h2><span class="chapter-number">3</span> เบื้องหลังการเก็บรักษา: Hashing, Salting & Peppering</h2>
+                <h2><span class="chapter-number">2.3</span> เบื้องหลังการเก็บรักษา: Hashing, Salting & Peppering</h2>
                 <p>เว็บไซต์ที่ปลอดภัยจะไม่เก็บรหัสผ่านของคุณเป็นข้อความปกติ (Plain Text) แต่จะผ่านกระบวนการทางคณิตศาสตร์เพื่อแปลงสภาพ</p>
 
                 <div class="tech-box">
@@ -204,7 +204,7 @@
             <hr class="divider">
 
             <section id="sec4" class="chapter">
-                <h2><span class="chapter-number">4</span> เจาะลึกมาตรฐาน NIST SP 800-63B</h2>
+                <h2><span class="chapter-number">2.4</span> เจาะลึกมาตรฐาน NIST SP 800-63B</h2>
                 <p>สถาบันมาตรฐานและเทคโนโลยีแห่งชาติสหรัฐฯ (NIST) ได้ออกคู่มือฉบับใหม่ที่ลบล้างความเชื่อเดิมๆ ที่เราเคยเรียนมา:</p>
 
                 <div class="nist-compare">
@@ -231,7 +231,7 @@
             <hr class="divider">
 
             <section id="sec5" class="chapter">
-                <h2><span class="chapter-number">5</span> Password Manager: สถาปัตยกรรมความปลอดภัย</h2>
+                <h2><span class="chapter-number">2.5</span> Password Manager: สถาปัตยกรรมความปลอดภัย</h2>
                 <p>เมื่อสมองจำไม่ไหว เราจึงต้องใช้เครื่องมือช่วยจำ การทำงานของ Password Manager ไม่ใช่แค่การจดใส่สมุด แต่มีการเข้ารหัสขั้นสูง</p>
 
                 <figure class="img-block medium">
@@ -289,7 +289,7 @@
             <hr class="divider">
 
             <section id="sec6" class="chapter">
-                <h2><span class="chapter-number">6</span> ระบบ 2FA เชิงลึก: TOTP & HMAC</h2>
+                <h2><span class="chapter-number">2.6</span> ระบบ 2FA เชิงลึก: TOTP & HMAC</h2>
                 <p><strong>Multi-Factor Authentication (MFA)</strong> คือการเพิ่มปัจจัยยืนยันตัวตน เพื่อที่ว่าต่อให้รหัสผ่านหลุด แฮกเกอร์ก็ยังเข้าไม่ได้</p>
 
                 <h3>6.1 หลักการทำงานของ TOTP (Time-based One-Time Password)</h3>
@@ -345,7 +345,7 @@
             <hr class="divider">
 
             <section id="sec7" class="chapter">
-                <h2><span class="chapter-number">7</span> อนาคต: FIDO2, WebAuthn & Passkeys</h2>
+                <h2><span class="chapter-number">2.7</span> อนาคต: FIDO2, WebAuthn & Passkeys</h2>
                 <p>จุดอ่อนของ TOTP และ SMS คือ <strong>"Phishing"</strong> (เราอาจเผลอกรอกรหัส OTP ลงในเว็บปลอม) โลกจึงพัฒนาระบบใหม่ที่เรียกว่า <strong>FIDO2 (Fast Identity Online)</strong></p>
 
                 <figure class="img-block medium">
@@ -362,7 +362,7 @@
             <hr class="divider">
 
             <section id="sec8" class="chapter">
-                <h2><span class="chapter-number">8</span> ชีวมาตร (Biometrics): ร่างกายคือกุญแจ</h2>
+                <h2><span class="chapter-number">2.8</span> ชีวมาตร (Biometrics): ร่างกายคือกุญแจ</h2>
                 <p>การใช้ "สิ่งที่คุณเป็น" (Inherence) เช่น ลายนิ้วมือ ใบหน้า หรือม่านตา เป็นวิธีที่สะดวกที่สุด แต่ก็มีข้อควรระวัง:</p>
                 
                 <div class="grid-2">
@@ -385,7 +385,7 @@
             </section>
 
             <section id="sec9" class="chapter">
-                <h2><span class="chapter-number">9</span> OAuth และ SSO: ทางลัดที่ปลอดภัย?</h2>
+                <h2><span class="chapter-number">2.9</span> OAuth และ SSO: ทางลัดที่ปลอดภัย?</h2>
                 <p>ปุ่ม <strong>"Login with Google/Facebook"</strong> คือเทคโนโลยี OAuth ที่ช่วยให้เราไม่ต้องสมัครสมาชิกใหม่ทุกเว็บ</p>
                 <div class="tech-box">
                     <h4><i class="fas fa-network-wired"></i> Single Sign-On (SSO) ในองค์กร</h4>
@@ -394,14 +394,107 @@
             </section>
 
             <section id="sec10" class="chapter">
-                <h2><span class="chapter-number">10</span> แผนกู้คืนบัญชี (Account Recovery Plan)</h2>
+                <h2><span class="chapter-number">2.10</span> แผนกู้คืนบัญชี (Account Recovery Plan)</h2>
                 <p>เมื่อคุณทำมือถือหาย หรือลืมรหัสผ่าน สิ่งเหล่านี้คือ "ชูชีพ" ที่จะช่วยคุณได้:</p>
                 <ul class="checklist-box">
                     <li><strong>Backup Codes:</strong> รหัสฉุกเฉิน 10 ชุดที่ได้ตอนเปิด 2FA <strong>"ต้องจดเก็บไว้ในที่ปลอดภัย (Offline)"</strong> ห้ามเก็บในมือถือเด็ดขาด</li>
                     <li><strong>Trusted Contacts:</strong> ตั้งค่าเพื่อนที่ไว้ใจได้ใน Facebook/Apple ID เพื่อให้ช่วยยืนยันตัวตนเวลาเราเข้าไม่ได้</li>
                     <li><strong>Secondary Email:</strong> อีเมลสำรองควรเป็นคนละผู้ให้บริการ (เช่น หลักใช้ Gmail, สำรองใช้ Outlook) เผื่อระบบใดระบบหนึ่งล่ม</li>
                 </ul>
+<hr class="divider">
 
+            <section id="quiz" class="chapter">
+                <h2></span> แบบทดสอบหลังเรียนบทที่ 2</h2>
+                <p>ทดสอบความเข้าใจเรื่องความปลอดภัยของรหัสผ่านและการยืนยันตัวตน (10 คะแนน)</p>
+
+                <div class="quiz-container">
+                    <form id="quiz-form">
+                        <div class="quiz-item">
+                            <h3>1. ปัจจัยใดมีผลต่อความยากในการเจาะรหัสผ่าน (Entropy) มากที่สุด?</h3>
+                            <label><input type="radio" name="q1" value="a"> a) การใช้อักขระพิเศษ (Symbols)</label>
+                            <label><input type="radio" name="q1" value="b"> b) การใช้ตัวเลขผสม (Numbers)</label>
+                            <label><input type="radio" name="q1" value="c"> c) ความยาวของรหัสผ่าน (Length)</label>
+                            <label><input type="radio" name="q1" value="d"> d) การเปลี่ยนรหัสผ่านทุกเดือน</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>2. การโจมตีแบบ "Credential Stuffing" เกิดจากสาเหตุใดเป็นหลัก?</h3>
+                            <label><input type="radio" name="q2" value="a"> a) ผู้ใช้ตั้งรหัสผ่านสั้นเกินไป</label>
+                            <label><input type="radio" name="q2" value="b"> b) ผู้ใช้ใช้รหัสผ่านเดิมซ้ำกันในหลายเว็บไซต์ (Password Reuse)</label>
+                            <label><input type="radio" name="q2" value="c"> c) ระบบเซิร์ฟเวอร์ไม่ได้ติดตั้ง Firewall</label>
+                            <label><input type="radio" name="q2" value="d"> d) การใช้งาน Wi-Fi สาธารณะ</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>3. การเติมค่าสุ่ม (Salting) ในกระบวนการ Hashing มีประโยชน์อย่างไร?</h3>
+                            <label><input type="radio" name="q3" value="a"> a) ช่วยให้รหัสผ่านยาวขึ้นโดยอัตโนมัติ</label>
+                            <label><input type="radio" name="q3" value="b"> b) ทำให้สามารถกู้คืนรหัสผ่านเดิมกลับมาได้</label>
+                            <label><input type="radio" name="q3" value="c"> c) ป้องกันการโจมตีด้วย Rainbow Table และทำให้รหัสเหมือนกันมี Hash ต่างกัน</label>
+                            <label><input type="radio" name="q3" value="d"> d) ช่วยให้ระบบทำงานเร็วขึ้น</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>4. ตามมาตรฐาน NIST SP 800-63B ข้อใดเป็นคำแนะนำที่ **ถูกต้อง** ในปัจจุบัน?</h3>
+                            <label><input type="radio" name="q4" value="a"> a) ควรบังคับเปลี่ยนรหัสผ่านทุกๆ 90 วัน</label>
+                            <label><input type="radio" name="q4" value="b"> b) ต้องใช้คำถามกันลืม (Security Questions) เสมอ</label>
+                            <label><input type="radio" name="q4" value="c"> c) ไม่ควรบังคับเปลี่ยนรหัสผ่านหากไม่มีเหตุจำเป็น และเน้นที่ความยาวเป็นหลัก</label>
+                            <label><input type="radio" name="q4" value="d"> d) ห้ามใช้ฟังก์ชัน Copy/Paste ในช่องรหัสผ่าน</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>5. "Zero-Knowledge Architecture" ใน Password Manager หมายความว่าอย่างไร?</h3>
+                            <label><input type="radio" name="q5" value="a"> a) ผู้ให้บริการไม่มีความรู้เรื่องคอมพิวเตอร์</label>
+                            <label><input type="radio" name="q5" value="b"> b) ระบบไม่มีการเก็บข้อมูลใดๆ เลย</label>
+                            <label><input type="radio" name="q5" value="c"> c) ข้อมูลถูกเข้ารหัสจากเครื่องเรา และผู้ให้บริการ "ไม่มีกุญแจ" ถอดรหัสดูข้อมูลได้</label>
+                            <label><input type="radio" name="q5" value="d"> d) เป็นระบบที่ไม่ต้องใช้รหัสผ่านเลย</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>6. ระบบ TOTP (เช่น Google Authenticator) ใช้อะไรเป็นปัจจัยในการสร้างรหัส?</h3>
+                            <label><input type="radio" name="q6" value="a"> a) สัญญาณอินเทอร์เน็ต</label>
+                            <label><input type="radio" name="q6" value="b"> b) เวลาปัจจุบัน (Time) และ Secret Key</label>
+                            <label><input type="radio" name="q6" value="c"> c) ตำแหน่ง GPS ของผู้ใช้</label>
+                            <label><input type="radio" name="q6" value="d"> d) เบอร์โทรศัพท์ของผู้ใช้</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>7. ข้อดีที่สำคัญที่สุดของ FIDO2 (Hardware Key) ที่เหนือกว่า OTP ทาง SMS คืออะไร?</h3>
+                            <label><input type="radio" name="q7" value="a"> a) ราคาถูกกว่าและหาง่ายกว่า</label>
+                            <label><input type="radio" name="q7" value="b"> b) สามารถใช้ได้โดยไม่ต้องมีอุปกรณ์เสริม</label>
+                            <label><input type="radio" name="q7" value="c"> c) ป้องกันการโจมตีแบบ Phishing ได้ 100% (เพราะผูกกับ Domain Name)</label>
+                            <label><input type="radio" name="q7" value="d"> d) สามารถเปลี่ยนสีไฟได้ตามต้องการ</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>8. ข้อจำกัดสำคัญของการยืนยันตัวตนด้วยไบโอเมตริกซ์ (Biometrics) คืออะไร?</h3>
+                            <label><input type="radio" name="q8" value="a"> a) ใช้งานยากและซับซ้อน</label>
+                            <label><input type="radio" name="q8" value="b"> b) ต้องจำข้อมูลเยอะ</label>
+                            <label><input type="radio" name="q8" value="c"> c) หากข้อมูลหลุดลอกเลียนแบบ จะไม่สามารถ "เปลี่ยนใหม่" ได้เหมือนรหัสผ่าน</label>
+                            <label><input type="radio" name="q8" value="d"> d) ไม่มีความแม่นยำเลย</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>9. "Backup Codes" ของระบบ 2FA ควรถูกเก็บรักษาอย่างไรจึงจะปลอดภัยที่สุด?</h3>
+                            <label><input type="radio" name="q9" value="a"> a) ถ่ายรูปเก็บไว้ในมือถือเครื่องเดียวกับที่ใช้แอป</label>
+                            <label><input type="radio" name="q9" value="b"> b) ส่งเข้าแชท Line ของตัวเอง</label>
+                            <label><input type="radio" name="q9" value="c"> c) จดใส่กระดาษหรือบันทึกในไฟล์ที่เข้ารหัส และเก็บแบบออฟไลน์ (Offline)</label>
+                            <label><input type="radio" name="q9" value="d"> d) โพสต์ลง Facebook แบบตั้งค่า Only Me</label>
+                        </div>
+
+                        <div class="quiz-item">
+                            <h3>10. การโจมตีแบบ "Rainbow Table" ใช้วิธีการใดในการเจาะรหัสผ่าน?</h3>
+                            <label><input type="radio" name="q10" value="a"> a) เดารหัสผ่านทีละตัวตั้งแต่ A-Z</label>
+                            <label><input type="radio" name="q10" value="b"> b) ใช้ตารางค่า Hash ที่คำนวณไว้ล่วงหน้า (Pre-computed) เพื่อเทียบหาคำตอบ</label>
+                            <label><input type="radio" name="q10" value="c"> c) แอบดูผู้ใช้กดแป้นพิมพ์</label>
+                            <label><input type="radio" name="q10" value="d"> d) ส่งอีเมลหลอกถามรหัสผ่าน</label>
+                        </div>
+                    </form>
+
+                    <button type="button" class="btn-submit-quiz" onclick="checkQuizResult()">ตรวจคำตอบ</button>
+                    
+                    <div id="quiz-result" class="quiz-result"></div>
+                </div>
+            </section>
                <div class="next-chapter-card">
                     <h3><i class="fas fa-check-circle"></i> บทเรียนถัดไป</h3>
                     <p>เมื่อคุณมีเกราะป้องกันที่แข็งแกร่งแล้ว! บทต่อไปเราจะไปดูวิธีที่โจรใช้หลอกเราด้วย "อีเมลและเว็บไซต์ปลอม"</p>
